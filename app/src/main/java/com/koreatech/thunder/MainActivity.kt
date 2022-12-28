@@ -1,13 +1,50 @@
 package com.koreatech.thunder
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.koreatech.thunder.navigation.ThunderBottomBar
+import com.koreatech.thunder.navigation.ThunderDestination.CHAT
+import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
+import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
+import com.koreatech.thunder.navigation.ThunderNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContent {
+            val navController = rememberNavController()
+            Scaffold(
+                bottomBar = {
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
+                    BottomNavigation {
+                        ThunderBottomBar(navController, bottomItems, currentDestination)
+                    }
+                }
+            ) { innerPadding ->
+                ThunderNavHost(
+                    navController = navController,
+                    modifier = Modifier.padding(innerPadding)
+                )
+            }
+        }
+    }
+
+    companion object {
+        private val bottomItems = listOf(
+            THUNDER,
+            CHAT,
+            PROFILE
+        )
     }
 }
