@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.koreatech.thunder">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ThunderApplication"
         android:allowBackup="true"
