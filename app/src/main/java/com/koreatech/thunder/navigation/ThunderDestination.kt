@@ -10,17 +10,17 @@ enum class ThunderDestination(
     @StringRes val description: Int
 ) {
     THUNDER(
-        icon = R.drawable.ic_launcher_foreground,
+        icon = R.drawable.ic_thunder,
         title = R.string.bot_thunder,
         description = R.string.bot_thunder
     ),
     CHAT(
-        icon = R.drawable.ic_launcher_foreground,
+        icon = R.drawable.ic_chat,
         title = R.string.bot_chat,
         description = R.string.bot_chat
     ),
     PROFILE(
-        icon = R.drawable.ic_launcher_foreground,
+        icon = R.drawable.ic_person,
         title = R.string.bot_profile,
         description = R.string.bot_profile
     )
