@@ -30,12 +30,12 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.util.ChatState
 
 @Composable
-fun ThunderChatProfile(
+fun ThunderChatWithProfile(
     name: String,
     chats: List<String>,
     chatState: ChatState
 ) {
-    ThunderChatOtherProfileSlot(
+    ThunderChatWithProfileSlot(
         chats = chats,
         chatState = chatState,
         userProfile = {
@@ -60,7 +60,7 @@ fun ThunderChatProfile(
 }
 
 @Composable
-private fun ThunderChatOtherProfileSlot(
+private fun ThunderChatWithProfileSlot(
     chats: List<String>,
     chatState: ChatState,
     userProfile: @Composable () -> Unit,
@@ -77,9 +77,9 @@ private fun ThunderChatOtherProfileSlot(
             Box(contentAlignment = Alignment.Center) {
                 userProfile()
             }
-            ThunderChatWithProfileSlot(chats, chatState, userName)
+            ThunderChatWithNameSlot(chats, chatState, userName)
         } else {
-            ThunderChatWithProfileSlot(chats, chatState, userName)
+            ThunderChatWithNameSlot(chats, chatState, userName)
             Box(contentAlignment = Alignment.Center) {
                 userProfile()
             }
@@ -88,7 +88,7 @@ private fun ThunderChatOtherProfileSlot(
 }
 
 @Composable
-private fun ThunderChatWithProfileSlot(
+private fun ThunderChatWithNameSlot(
     chats: List<String>,
     chatState: ChatState,
     userName: @Composable (
@@ -125,7 +125,7 @@ fun ThunderChatProfilePreview() {
             .fillMaxSize()
             .background(Orange)
     ) {
-        ThunderChatProfile(
+        ThunderChatWithProfile(
             name = "KWY",
             chats = listOf("hello", "world"),
             chatState = ChatState.ME
