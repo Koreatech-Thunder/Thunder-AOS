@@ -1,8 +1,8 @@
 package com.koreatech.thunder.domain.repository
 
-import com.koreatech.thunder.domain.entity.HashTag
-import com.koreatech.thunder.domain.entity.Thunder
-import com.koreatech.thunder.domain.entity.User
+import com.koreatech.thunder.domain.model.HashTag
+import com.koreatech.thunder.domain.model.Thunder
+import com.koreatech.thunder.domain.model.User
 
 interface ThunderRepository {
     suspend fun getThunders(): Result<List<Thunder>>

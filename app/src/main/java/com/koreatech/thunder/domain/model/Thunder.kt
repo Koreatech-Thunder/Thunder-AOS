@@ -1,4 +1,4 @@
-package com.koreatech.thunder.domain.entity
+package com.koreatech.thunder.domain.model
 
 data class Thunder(
     val title: String,
