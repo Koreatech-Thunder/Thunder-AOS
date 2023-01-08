@@ -1,6 +1,6 @@
 package com.koreatech.thunder.data.model
 
-import com.koreatech.thunder.domain.model.HashTag
+import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.User
 
 data class UserResponse(
@@ -16,5 +16,5 @@ fun UserResponse.toUser(): User = User(
     name = name,
     introduction = introduction,
     temperature = temperature,
-    hashtags = hashtags.map { hashtag -> HashTag.valueOf(hashtag) }
+    hashtags = hashtags.map { hashtag -> Hashtag.valueOf(hashtag) }
 )

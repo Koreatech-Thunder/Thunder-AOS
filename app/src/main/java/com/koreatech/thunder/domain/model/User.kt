@@ -5,5 +5,5 @@ data class User(
     val name: String,
     val introduction: String,
     val temperature: Int,
-    val hashtags: List<HashTag>
+    val hashtags: List<Hashtag>
 )
