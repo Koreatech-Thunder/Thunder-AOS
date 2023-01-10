@@ -3,12 +3,13 @@ package com.koreatech.thunder.data.repository
 import com.koreatech.thunder.data.model.ThunderResponse
 import com.koreatech.thunder.data.model.UserResponse
 import com.koreatech.thunder.data.source.remote.ThunderDataSource
-import com.koreatech.thunder.data.source.remote.fake.FakeThunderDataSourceImpl
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Hashtag.SPORT
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.repository.ThunderRepository
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
@@ -63,7 +64,7 @@ class ThunderRepositoryTest {
         content = "금요일에 아바타2 보러 갈 사람",
         deadline = "2023/02/18",
         hashtags = listOf(Hashtag.MOVIE),
-        participants = listOf(user1, user2, user3),
+        participants = listOf(user3),
         host = user3,
         limitParticipantsCnt = 4
     )
@@ -114,70 +115,116 @@ class ThunderRepositoryTest {
         content = "금요일에 아바타2 보러 갈 사람",
         deadline = "2023/02/18",
         hashtags = listOf("MOVIE"),
-        participants = listOf(userResponse1, userResponse2, userResponse3),
+        participants = listOf(userResponse3),
         host = userResponse3,
         limitParticipantsCnt = 4
     )
     private lateinit var thunderDataSource: ThunderDataSource
     private lateinit var thunderRepository: ThunderRepository
 
-    private val dummyThunders = listOf(thunder1, thunder2, thunder3)
-
     @BeforeEach
     fun setUp() {
-        thunderDataSource =
-            FakeThunderDataSourceImpl(
-                mutableListOf(thunderResponse1, thunderResponse2, thunderResponse3),
-                mutableListOf(userResponse1, userResponse2, userResponse3)
-            )
+        thunderDataSource = mockk(relaxed = true)
         thunderRepository = ThunderRepositoryImpl(thunderDataSource)
     }
 
     @Test
     fun getThundersTest_network_success() = runBlocking {
-        val thunders = thunderRepository.getThunders()
-        assertEquals(thunders, Result.success(dummyThunders))
+        coEvery { thunderDataSource.getThunders() } returns
+            listOf(thunderResponse1, thunderResponse2)
+        assertEquals(
+            thunderRepository.getThunders(),
+            Result.success(listOf(thunder1, thunder2))
+        )
     }
 
     @Test
     fun getHashTaggedThundersTest_param_SPORT_network_success() = runBlocking {
-        val thunders = thunderRepository.getHashTaggedThunders(SPORT)
-        assertEquals(thunders, Result.success(listOf(thunder1)))
+        coEvery { thunderDataSource.getHashTaggedThunders("SPORT") } returns listOf(thunderResponse1)
+        assertEquals(
+            thunderRepository.getHashTaggedThunders(SPORT),
+            Result.success(listOf(thunder1))
+        )
     }
 
     @Test
     fun getUserTest_network_success() = runBlocking {
-        val user = thunderRepository.getUser("KWY")
-        assertEquals(user1, Result.success(user))
+        coEvery { thunderDataSource.getUser("KWY") } returns userResponse1
+        assertEquals(thunderRepository.getUser("KWY"), Result.success(user1))
     }
 
     @Test
     fun postThunderTest_network_success() = runBlocking {
-        val thunder = Thunder(
-            thunderId = "new_thunder",
-            title = "new",
-            content = "new",
-            deadline = "2022/02/18",
-            participants = listOf(user3),
-            hashtags = listOf(SPORT),
-            limitParticipantsCnt = 4,
-            host = user3
+        coEvery { thunderDataSource.getThunders() } returns
+            listOf(thunderResponse1, thunderResponse2)
+        assertNotEquals(
+            thunderRepository.getThunders(),
+            Result.success(listOf(thunder1, thunder2, thunder3))
         )
-        val thunders = dummyThunders.toMutableList().add(thunder)
-
-        val beforeThunders = thunderRepository.getThunders()
-        assertNotEquals(beforeThunders, Result.success(thunders))
 
         thunderRepository.postThunder(
-            title = thunder.title,
-            content = thunder.content,
-            deadline = thunder.deadline,
-            limitParticipantsCnt = thunder.limitParticipantsCnt,
-            hashtags = thunder.hashtags,
-            userId = thunder.host.userId
+            title = thunder3.title,
+            content = thunder3.content,
+            limitParticipantsCnt = thunder3.limitParticipantsCnt,
+            hashtags = thunder3.hashtags,
+            deadline = thunder3.deadline,
+            userId = thunder3.thunderId
         )
 
-        val afterThunders = thunderRepository.getThunders()
-        assertEquals(afterThunders, Result.success(thunders))
+        coEvery { thunderDataSource.getThunders() } returns
+            listOf(thunderResponse1, thunderResponse2, thunderResponse3)
+        assertEquals(
+            thunderRepository.getThunders(),
+            Result.success(listOf(thunder1, thunder2, thunder3))
+        )
+    }
+
+    @Test
+    fun enterThunderTest_network_success() = runBlocking {
+        val thunderResponse = thunderResponse1.copy(participants = listOf(userResponse1))
+        val afterThunder = thunder1.copy(participants = listOf(user1, user2))
+
+        coEvery { thunderDataSource.getHashTaggedThunders("SPORT") } returns listOf(thunderResponse)
+        assertNotEquals(
+            thunderRepository.getHashTaggedThunders(SPORT),
+            Result.success(afterThunder)
+        )
+
+        thunderRepository.enterThunder(thunder1.thunderId, user2.userId)
+
+        val afterThunderResponse =
+            thunderResponse1.copy(participants = listOf(userResponse1, userResponse2))
+        coEvery { thunderDataSource.getHashTaggedThunders("SPORT") } returns
+            listOf(afterThunderResponse)
+
+        assertEquals(
+            thunderRepository.getHashTaggedThunders(SPORT),
+            Result.success(afterThunder)
+        )
+    }
+
+    @Test
+    fun cancelThunderTest_network_success() = runBlocking {
+        val thunderResponse =
+            thunderResponse1.copy(participants = listOf(userResponse1, userResponse2))
+        val afterThunder = thunder1.copy(participants = listOf(user1))
+
+        coEvery { thunderDataSource.getHashTaggedThunders("SPORT") } returns listOf(thunderResponse)
+        assertNotEquals(
+            thunderRepository.getHashTaggedThunders(SPORT),
+            Result.success(afterThunder)
+        )
+
+        thunderRepository.cancelThunder(thunder1.thunderId, user2.userId)
+
+        val afterThunderResponse =
+            thunderResponse1.copy(participants = listOf(userResponse1))
+        coEvery { thunderDataSource.getHashTaggedThunders("SPORT") } returns
+            listOf(afterThunderResponse)
+
+        assertEquals(
+            thunderRepository.getHashTaggedThunders(SPORT),
+            Result.success(afterThunder)
+        )
     }
 }
