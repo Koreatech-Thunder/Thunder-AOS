@@ -1,6 +1,7 @@
 package com.koreatech.thunder.domain.model
 
 data class Thunder(
+    val thunderId: String,
     val title: String,
     val content: String,
     val deadline: String,

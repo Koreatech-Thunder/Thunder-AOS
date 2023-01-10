@@ -4,6 +4,7 @@ import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Thunder
 
 data class ThunderResponse(
+    val thunderId: String,
     val title: String,
     val content: String,
     val deadline: String,
@@ -14,6 +15,7 @@ data class ThunderResponse(
 )
 
 fun ThunderResponse.toThunder(): Thunder = Thunder(
+    thunderId = thunderId,
     title = title,
     content = content,
     deadline = deadline,
