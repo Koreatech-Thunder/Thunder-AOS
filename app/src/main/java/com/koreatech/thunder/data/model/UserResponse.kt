@@ -18,3 +18,27 @@ fun UserResponse.toUser(): User = User(
     temperature = temperature,
     hashtags = hashtags.map { hashtag -> Hashtag.valueOf(hashtag) }
 )
+
+val dummyUserResponses = listOf(
+    UserResponse(
+        userId = "KWY",
+        name = "KWY",
+        introduction = "컴퓨터 공학부",
+        temperature = 36,
+        hashtags = listOf("SPORT", "HEALTH")
+    ),
+    UserResponse(
+        userId = "HSE",
+        name = "HSE",
+        introduction = "컴퓨터공학부",
+        temperature = 36,
+        hashtags = listOf("MOVIE", "WALK")
+    ),
+    UserResponse(
+        userId = "MSB",
+        name = "MSB",
+        introduction = "컴퓨터공학부",
+        temperature = 36,
+        hashtags = listOf("CALLVAN", "EAT")
+    )
+)
