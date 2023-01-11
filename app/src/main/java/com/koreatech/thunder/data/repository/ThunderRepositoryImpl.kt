@@ -33,6 +33,10 @@ class ThunderRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun getHashtags(): Result<List<Hashtag>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun enterThunder(thunderId: String, userId: String): Result<Unit> {
         TODO("Not yet implemented")
     }

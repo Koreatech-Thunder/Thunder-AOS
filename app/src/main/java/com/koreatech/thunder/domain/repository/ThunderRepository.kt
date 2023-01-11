@@ -17,6 +17,8 @@ interface ThunderRepository {
         deadline: String
     ): Result<Unit>
 
+    suspend fun getHashtags(): Result<List<Hashtag>>
+
     suspend fun enterThunder(thunderId: String, userId: String): Result<Unit>
     suspend fun cancelThunder(thunderId: String, userId: String): Result<Unit>
 }

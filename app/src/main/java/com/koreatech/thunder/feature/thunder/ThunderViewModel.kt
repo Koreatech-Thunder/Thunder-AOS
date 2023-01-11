@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.feature.thunder.model.HashtagUi
 import com.koreatech.thunder.feature.thunder.model.ThunderUi
+import com.koreatech.thunder.feature.thunder.model.UserUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,11 +18,13 @@ class ThunderViewModel @Inject constructor(
 ) : ViewModel() {
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
         MutableStateFlow(ThunderUiState.Loading)
-    val thunderUiState = _thunderUiState.asStateFlow()
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
         MutableStateFlow(HashtagUiState.Loading)
-    val hashtagUiState = _hashtagUiState.asStateFlow()
+    private val _userInfo = MutableSharedFlow<UserUi>()
     private val _isError: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    val thunderUiState = _thunderUiState.asStateFlow()
+    val hashtagUiState = _hashtagUiState.asStateFlow()
+    val userInfo = _userInfo.asSharedFlow()
     val isError = _isError.asSharedFlow()
 
     fun getThunders() {
@@ -33,13 +36,13 @@ class ThunderViewModel @Inject constructor(
     fun getUser() {
     }
 
-    fun postThunder() {
+    fun enterThunder(thunderId: String, userId: String) {
     }
 
-    fun enterThunder() {
+    fun cancelThunder(thunderId: String, userId: String) {
     }
 
-    fun cancelThunder() {
+    fun getHashtags() {
     }
 }
 

@@ -1,5 +1,6 @@
 package com.koreatech.thunder.data.source.remote.fake
 
+import com.koreatech.thunder.data.model.HashtagResponse
 import com.koreatech.thunder.data.model.ThunderResponse
 import com.koreatech.thunder.data.model.UserResponse
 import com.koreatech.thunder.data.model.request.ThunderRequest
@@ -17,6 +18,10 @@ class FakeThunderDataSourceImpl(
 
     override suspend fun getUser(userId: String): UserResponse =
         users.first { it.userId == userId }
+
+    override suspend fun getHashtags(): HashtagResponse {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun postThunder(thunderRequest: ThunderRequest) {
         val user = users.first { it.userId == thunderRequest.userId }
