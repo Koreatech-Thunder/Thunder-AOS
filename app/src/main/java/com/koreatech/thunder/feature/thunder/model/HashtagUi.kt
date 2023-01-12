@@ -11,5 +11,10 @@ data class HashtagUi(
 
 val previewHashtagUis = listOf(
     HashtagUi(hashtag = Hashtag.SPORT),
-    HashtagUi(hashtag = Hashtag.CALLVAN, isSelected = true)
+    HashtagUi(hashtag = Hashtag.HEALTH, isSelected = true),
+    HashtagUi(hashtag = Hashtag.MOVIE),
+    HashtagUi(hashtag = Hashtag.WALK, isSelected = true),
+    HashtagUi(hashtag = Hashtag.CALLVAN),
+    HashtagUi(hashtag = Hashtag.EAT, isSelected = true),
+    HashtagUi(hashtag = Hashtag.STUDY)
 )

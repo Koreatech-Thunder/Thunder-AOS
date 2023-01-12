@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -22,7 +23,8 @@ fun ThunderChip(
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp))
             .background(color = if (hashtagUi.isSelected) Orange else Orange200)
-            .padding(vertical = 8.dp, horizontal = 12.dp)
+            .padding(vertical = 8.dp, horizontal = 12.dp),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = "#${hashtagUi.hashtag.name}",
