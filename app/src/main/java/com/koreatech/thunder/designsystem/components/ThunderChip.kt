@@ -25,7 +25,7 @@ fun ThunderChip(
             .padding(vertical = 8.dp, horizontal = 12.dp)
     ) {
         Text(
-            text = hashtagUi.hashtag.name,
+            text = "#${hashtagUi.hashtag.name}",
             color = Color.White
         )
     }
