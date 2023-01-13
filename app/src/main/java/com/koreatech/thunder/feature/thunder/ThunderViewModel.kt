@@ -1,7 +1,6 @@
 package com.koreatech.thunder.feature.thunder
 
 import androidx.lifecycle.ViewModel
-import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.feature.thunder.model.HashtagUi
 import com.koreatech.thunder.feature.thunder.model.ThunderUi
 import com.koreatech.thunder.feature.thunder.model.UserUi
@@ -13,9 +12,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
-class ThunderViewModel @Inject constructor(
-    private val thunderRepository: ThunderRepository
-) : ViewModel() {
+class ThunderViewModel @Inject constructor() : ViewModel() {
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
         MutableStateFlow(ThunderUiState.Loading)
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
