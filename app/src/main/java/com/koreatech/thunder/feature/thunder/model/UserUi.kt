@@ -40,5 +40,26 @@ val previewUserUis = listOf(
         introduction = "컴퓨터공학부",
         temperature = 36,
         hashtags = listOf(Hashtag.CALLVAN, Hashtag.EAT)
+    ),
+    UserUi(
+        userId = "KWY",
+        name = "KWY",
+        introduction = "컴퓨터 공학부",
+        temperature = 36,
+        hashtags = listOf(Hashtag.SPORT, Hashtag.HEALTH)
+    ),
+    UserUi(
+        userId = "HSE",
+        name = "HSE",
+        introduction = "컴퓨터공학부",
+        temperature = 36,
+        hashtags = listOf(Hashtag.MOVIE, Hashtag.WALK)
+    ),
+    UserUi(
+        userId = "MSB",
+        name = "MSB",
+        introduction = "컴퓨터공학부",
+        temperature = 36,
+        hashtags = listOf(Hashtag.CALLVAN, Hashtag.EAT)
     )
 )
