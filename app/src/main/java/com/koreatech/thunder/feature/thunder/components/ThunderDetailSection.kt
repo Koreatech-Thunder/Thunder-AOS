@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.style.Gray200
@@ -20,7 +22,8 @@ import com.koreatech.thunder.feature.thunder.model.ThunderUi
 fun ThunderDetailSection(thunderUi: ThunderUi) {
     Column(
         modifier = Modifier
-            .background(color = Gray200)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Gray200)
             .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         Text(

@@ -1,7 +1,6 @@
 package com.koreatech.thunder.feature.thunder.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
@@ -13,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderRowSpaceBetweenSlot
-import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.model.UserUi
 
@@ -24,7 +22,6 @@ fun ThunderParticipantsSection(
 ) {
     Column(
         modifier = Modifier
-            .background(color = Orange200)
             .padding(horizontal = 16.dp, vertical = 10.dp)
     ) {
         ThunderRowSpaceBetweenSlot(
