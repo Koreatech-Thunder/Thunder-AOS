@@ -22,8 +22,8 @@ import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
-import com.koreatech.thunder.feature.thunder.model.previewHashtagUis
 import com.koreatech.thunder.feature.thunder.model.previewThunderUis
 
 @Preview(showBackground = true)
@@ -61,7 +61,7 @@ fun ThunderScreen(
             style = ThunderTheme.typography.h3
         )
         BlankSpace(size = 16.dp)
-        ThunderChips(previewHashtagUis)
+        ThunderChips(Hashtag.values().toList())
         BlankSpace(size = 12.dp)
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),

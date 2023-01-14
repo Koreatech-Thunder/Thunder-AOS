@@ -10,25 +10,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.model.HashtagUi
+import com.koreatech.thunder.domain.model.Hashtag
 
 @Composable
 fun ThunderChip(
-    hashtagUi: HashtagUi
+    hashtag: Hashtag
 ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp))
-            .background(color = if (hashtagUi.isSelected) Orange else Orange200)
+            .background(color = Orange200)
             .padding(vertical = 8.dp, horizontal = 12.dp),
         contentAlignment = Alignment.Center
     ) {
         ThunderHashtagText(
             textStyle = ThunderTheme.typography.h6,
-            hashtagUi = hashtagUi,
+            hashtag = hashtag,
             color = Color.White
         )
     }

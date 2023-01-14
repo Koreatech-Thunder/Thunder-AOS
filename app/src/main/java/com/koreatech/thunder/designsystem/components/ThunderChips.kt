@@ -13,23 +13,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.koreatech.thunder.feature.thunder.model.HashtagUi
+import com.koreatech.thunder.domain.model.Hashtag
 
 @Composable
-fun ThunderChips(hashtags: List<HashtagUi>) {
+fun ThunderChips(hashtags: List<Hashtag>) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(hashtags) {
-            ThunderChip(hashtagUi = it)
+            ThunderChip(hashtag = it)
         }
     }
 }
 
 fun LazyListScope.thunderChips(
-    hashtags: List<HashtagUi>,
+    hashtags: List<Hashtag>,
     columnCount: Int = 4,
     itemDistance: Dp = 10.dp
 ) {
@@ -39,7 +39,7 @@ fun LazyListScope.thunderChips(
         modifier = Modifier,
         horizontalArrangement = Arrangement.spacedBy(itemDistance)
     ) { _, hashtag ->
-        ThunderChip(hashtagUi = hashtag)
+        ThunderChip(hashtag = hashtag)
     }
 }
 

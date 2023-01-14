@@ -8,10 +8,10 @@ import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.designsystem.components.ThunderHashtagText
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.model.HashtagUi
+import com.koreatech.thunder.domain.model.Hashtag
 
 @Composable
-fun ThunderTextHashtags(hashtags: List<HashtagUi>) {
+fun ThunderTextHashtags(hashtags: List<Hashtag>) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -19,7 +19,7 @@ fun ThunderTextHashtags(hashtags: List<HashtagUi>) {
             ThunderHashtagText(
                 textStyle = ThunderTheme.typography.h6,
                 color = Orange,
-                hashtagUi = hashtag
+                hashtag = hashtag
             )
         }
     }
