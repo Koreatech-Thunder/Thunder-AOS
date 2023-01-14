@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
+import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.model.HashtagUi
 
 @Composable
@@ -27,7 +27,7 @@ fun ThunderChip(
         contentAlignment = Alignment.Center
     ) {
         ThunderHashtagText(
-            textStyle = MaterialTheme.typography.body1,
+            textStyle = ThunderTheme.typography.h6,
             hashtagUi = hashtagUi,
             color = Color.White
         )

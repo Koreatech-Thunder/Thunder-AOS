@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,6 +16,7 @@ import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderRowSpaceBetweenSlot
 import com.koreatech.thunder.designsystem.style.Gray200
 import com.koreatech.thunder.designsystem.style.Orange
+import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.model.ThunderUi
 import com.koreatech.thunder.feature.thunder.model.previewThunderUis
 
@@ -33,7 +33,7 @@ fun ThunderItem(
         BlankSpace(10.dp)
         Text(
             text = thunderUi.deadline,
-            style = MaterialTheme.typography.body2,
+            style = ThunderTheme.typography.h5,
             color = Orange
         )
         BlankSpace(10.dp)
@@ -41,12 +41,12 @@ fun ThunderItem(
         BlankSpace(8.dp)
         Text(
             text = thunderUi.title,
-            style = MaterialTheme.typography.h6
+            style = ThunderTheme.typography.h4
         )
         BlankSpace(10.dp)
         Text(
             text = thunderUi.content,
-            style = MaterialTheme.typography.body2
+            style = ThunderTheme.typography.h5
         )
         BlankSpace(24.dp)
         ThunderRowSpaceBetweenSlot(
@@ -62,7 +62,7 @@ fun ThunderItem(
             prefixComponent = {
                 Text(
                     text = stringResource(R.string.participants),
-                    style = MaterialTheme.typography.body2
+                    style = ThunderTheme.typography.h5
                 )
             },
             postfixComponent = {

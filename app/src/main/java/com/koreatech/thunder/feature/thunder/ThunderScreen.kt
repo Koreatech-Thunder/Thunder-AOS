@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,6 +21,7 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
+import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
 import com.koreatech.thunder.feature.thunder.model.previewHashtagUis
 import com.koreatech.thunder.feature.thunder.model.previewThunderUis
@@ -29,7 +29,9 @@ import com.koreatech.thunder.feature.thunder.model.previewThunderUis
 @Preview(showBackground = true)
 @Composable
 private fun ThunderScreenPreview() {
-    ThunderScreen(navController = rememberNavController())
+    ThunderTheme {
+        ThunderScreen(navController = rememberNavController())
+    }
 }
 
 @Composable
@@ -44,7 +46,7 @@ fun ThunderScreen(
             title = {
                 Text(
                     text = stringResource(R.string.thunder_title),
-                    style = MaterialTheme.typography.h5
+                    style = ThunderTheme.typography.h1
                 )
             },
             action = {
@@ -56,7 +58,7 @@ fun ThunderScreen(
         )
         Text(
             text = stringResource(R.string.entering_thunder),
-            style = MaterialTheme.typography.h6
+            style = ThunderTheme.typography.h3
         )
         BlankSpace(size = 16.dp)
         ThunderChips(previewHashtagUis)

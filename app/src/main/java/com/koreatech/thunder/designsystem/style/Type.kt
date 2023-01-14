@@ -129,7 +129,8 @@ fun ThunderTypography(): ThunderTypography {
         h5 = TextStyle(
             fontFamily = robotoSemiBold,
             fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            lineHeight = 20.sp
         ),
         h6 = TextStyle(
             fontFamily = robotoSemiBold,

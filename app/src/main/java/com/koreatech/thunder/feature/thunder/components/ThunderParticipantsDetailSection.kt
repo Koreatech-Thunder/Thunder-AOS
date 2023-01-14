@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.R
+import com.koreatech.thunder.designsystem.style.ThunderTheme
 
 @Composable
 fun ThunderParticipantsDetailSection(
@@ -23,7 +23,7 @@ fun ThunderParticipantsDetailSection(
     ) {
         Text(
             text = "$participantsCount/$limitParticipantsCnt",
-            style = MaterialTheme.typography.body2
+            style = ThunderTheme.typography.h5
         )
         Spacer(modifier = Modifier.width(12.dp))
         Image(

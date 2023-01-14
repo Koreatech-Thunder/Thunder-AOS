@@ -34,7 +34,7 @@ val previewThunderUis = listOf(
     ThunderUi(
         thunderId = "thunder1",
         title = "농구할 사람",
-        content = "수요일에 농구 할 사람",
+        content = "수요일에 농구 할 사람\n수요일에 농구 할 사람\n수요일에 농구 할 사람",
         deadline = "2023/02/18",
         hashtags = listOf(HashtagUi(Hashtag.SPORT)),
         participants = previewUserUis,

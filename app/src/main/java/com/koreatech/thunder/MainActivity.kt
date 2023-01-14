@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.navigation.ThunderBottomBar
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
@@ -32,10 +33,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             ) { innerPadding ->
-                ThunderNavHost(
-                    navController = navController,
-                    modifier = Modifier.padding(innerPadding)
-                )
+                ThunderTheme {
+                    ThunderNavHost(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }
