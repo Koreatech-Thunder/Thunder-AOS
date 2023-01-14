@@ -1,7 +1,10 @@
 package com.koreatech.thunder.feature.thunder.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -28,9 +31,8 @@ fun ThunderItem(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .background(color = Gray200)
-            .padding(16.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
-        BlankSpace(10.dp)
         Text(
             text = thunderUi.deadline,
             style = ThunderTheme.typography.h5,
@@ -48,15 +50,13 @@ fun ThunderItem(
             text = thunderUi.content,
             style = ThunderTheme.typography.h5
         )
-        BlankSpace(24.dp)
-        ThunderRowSpaceBetweenSlot(
-            prefixComponent = {
-                ThunderUser(thunderUi.host)
-            },
-            postfixComponent = {
-                ThunderButton(thunderUi.thunderState)
-            }
-        )
+        BlankSpace(12.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            ThunderButton(thunderUi.thunderState)
+        }
         BlankSpace(20.dp)
         ThunderRowSpaceBetweenSlot(
             prefixComponent = {
@@ -74,12 +74,13 @@ fun ThunderItem(
         )
         BlankSpace(8.dp)
         ThunderParticipants(thunderUi.participants)
-        BlankSpace(16.dp)
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun ThunderPreview() {
-    ThunderItem(thunderUi = previewThunderUis[0])
+    ThunderTheme {
+        ThunderItem(thunderUi = previewThunderUis[0])
+    }
 }
