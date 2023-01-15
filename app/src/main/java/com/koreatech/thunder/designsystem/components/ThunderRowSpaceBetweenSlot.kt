@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 @Composable
 fun ThunderRowSpaceBetweenSlot(
     modifier: Modifier = Modifier,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     prefixComponent: @Composable () -> Unit,
     postfixComponent: @Composable () -> Unit
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = verticalAlignment
     ) {
         prefixComponent()
         postfixComponent()
