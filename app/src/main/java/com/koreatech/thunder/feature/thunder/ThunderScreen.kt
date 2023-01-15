@@ -62,10 +62,10 @@ fun ThunderScreen(
         )
         BlankSpace(size = 16.dp)
         ThunderChips(Hashtag.values().toList())
-        BlankSpace(size = 12.dp)
+        BlankSpace(size = 8.dp)
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(top = 8.dp)
+            contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             items(previewThunderUis) { thunder ->
                 ThunderItem(thunderUi = thunder)

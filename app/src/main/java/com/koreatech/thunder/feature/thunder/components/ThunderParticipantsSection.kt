@@ -40,6 +40,6 @@ fun ThunderParticipantsSection(
         )
         BlankSpace(8.dp)
         Image(painter = painterResource(id = R.drawable.ic_school), contentDescription = "")
-        ThunderParticipants(participants)
+        ThunderParticipants(participants, 3)
     }
 }
