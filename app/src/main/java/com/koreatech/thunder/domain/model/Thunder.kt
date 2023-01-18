@@ -8,7 +8,8 @@ data class Thunder(
     val hashtags: List<Hashtag>,
     val host: User,
     val participants: List<User>,
-    val limitParticipantsCnt: Int
+    val limitParticipantsCnt: Int,
+    val thunderState: ThunderState
 )
 
 val dummyThunders = listOf(
@@ -20,7 +21,8 @@ val dummyThunders = listOf(
         hashtags = listOf(Hashtag.SPORT),
         participants = dummyUsers,
         host = dummyUsers[0],
-        limitParticipantsCnt = 8
+        limitParticipantsCnt = 8,
+        thunderState = ThunderState.NON_MEMBER
     ),
     Thunder(
         thunderId = "thunder2",
@@ -30,7 +32,8 @@ val dummyThunders = listOf(
         hashtags = listOf(Hashtag.HEALTH),
         participants = dummyUsers,
         host = dummyUsers[1],
-        limitParticipantsCnt = 3
+        limitParticipantsCnt = 3,
+        thunderState = ThunderState.MEMBER
     ),
     Thunder(
         thunderId = "thunder3",
@@ -40,6 +43,11 @@ val dummyThunders = listOf(
         hashtags = listOf(Hashtag.MOVIE),
         participants = listOf(dummyUsers[2]),
         host = dummyUsers[2],
-        limitParticipantsCnt = 4
+        limitParticipantsCnt = 4,
+        thunderState = ThunderState.HOST
     )
 )
+
+enum class ThunderState {
+    NON_MEMBER, MEMBER, HOST
+}

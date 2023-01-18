@@ -27,12 +27,12 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.model.UserUi
-import com.koreatech.thunder.feature.thunder.model.previewUserUis
+import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.model.dummyUsers
 
 @Composable
 fun ThunderBottomSheet(
-    userUi: UserUi
+    userUi: User
 ) {
     Box(
         modifier = Modifier
@@ -82,7 +82,7 @@ fun ThunderBottomSheet(
 }
 
 @Composable
-private fun ProfileDetail(userUi: UserUi) {
+private fun ProfileDetail(userUi: User) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
@@ -113,7 +113,7 @@ private fun ProfileDetail(userUi: UserUi) {
 }
 
 @Composable
-private fun TemperatureDetail(userUi: UserUi) {
+private fun TemperatureDetail(userUi: User) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.End,
@@ -134,6 +134,6 @@ private fun TemperatureDetail(userUi: UserUi) {
 @Composable
 private fun pv1() {
     ThunderTheme {
-        ThunderBottomSheet(previewUserUis[0])
+        ThunderBottomSheet(dummyUsers[0])
     }
 }

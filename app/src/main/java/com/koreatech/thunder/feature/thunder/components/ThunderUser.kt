@@ -10,10 +10,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.model.UserUi
+import com.koreatech.thunder.domain.model.User
 
 @Composable
-fun ThunderUser(userUi: UserUi) {
+fun ThunderUser(userUi: User) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(4.dp)

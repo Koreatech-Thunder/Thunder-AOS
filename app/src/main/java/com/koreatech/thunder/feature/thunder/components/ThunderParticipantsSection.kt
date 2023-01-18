@@ -13,11 +13,11 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderRowSpaceBetweenSlot
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.model.UserUi
+import com.koreatech.thunder.domain.model.User
 
 @Composable
 fun ThunderParticipantsSection(
-    participants: List<UserUi>,
+    participants: List<User>,
     limitParticipantsCount: Int
 ) {
     Column(

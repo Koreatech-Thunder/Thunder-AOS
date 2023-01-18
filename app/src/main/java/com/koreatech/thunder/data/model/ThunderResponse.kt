@@ -2,6 +2,7 @@ package com.koreatech.thunder.data.model
 
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Thunder
+import com.koreatech.thunder.domain.model.ThunderState
 
 data class ThunderResponse(
     val thunderId: String,
@@ -11,7 +12,8 @@ data class ThunderResponse(
     val hashtags: List<String>,
     val host: UserResponse,
     val participants: List<UserResponse>,
-    val limitParticipantsCnt: Int
+    val limitParticipantsCnt: Int,
+    val thunderState: String
 )
 
 fun ThunderResponse.toThunder(): Thunder = Thunder(
@@ -22,7 +24,8 @@ fun ThunderResponse.toThunder(): Thunder = Thunder(
     hashtags = hashtags.map { hashtag -> Hashtag.valueOf(hashtag) },
     host = host.toUser(),
     participants = participants.map { participant -> participant.toUser() },
-    limitParticipantsCnt = limitParticipantsCnt
+    limitParticipantsCnt = limitParticipantsCnt,
+    thunderState = ThunderState.valueOf(thunderState)
 )
 
 val dummyThunderResponses = listOf(
@@ -34,7 +37,8 @@ val dummyThunderResponses = listOf(
         hashtags = listOf("SPORT"),
         participants = dummyUserResponses,
         host = dummyUserResponses[0],
-        limitParticipantsCnt = 8
+        limitParticipantsCnt = 8,
+        thunderState = ThunderState.NON_MEMBER.name
     ),
     ThunderResponse(
         thunderId = "thunder2",
@@ -44,7 +48,8 @@ val dummyThunderResponses = listOf(
         hashtags = listOf("HEALTH"),
         participants = dummyUserResponses,
         host = dummyUserResponses[1],
-        limitParticipantsCnt = 3
+        limitParticipantsCnt = 3,
+        thunderState = ThunderState.MEMBER.name
     ),
     ThunderResponse(
         thunderId = "thunder3",
@@ -54,6 +59,7 @@ val dummyThunderResponses = listOf(
         hashtags = listOf("MOVIE"),
         participants = listOf(dummyUserResponses[2]),
         host = dummyUserResponses[2],
-        limitParticipantsCnt = 4
+        limitParticipantsCnt = 4,
+        thunderState = ThunderState.HOST.name
     )
 )

@@ -13,7 +13,7 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.ThunderCommonButton
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.model.ThunderState
+import com.koreatech.thunder.domain.model.ThunderState
 
 @Composable
 fun ThunderButton(thunderState: ThunderState) {

@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.koreatech.thunder.feature.thunder.model.UserUi
+import com.koreatech.thunder.domain.model.User
 
 @Composable
 fun ThunderParticipants(
-    participants: List<UserUi>,
+    participants: List<User>,
     spanCount: Int
 ) {
     val size = participants.size

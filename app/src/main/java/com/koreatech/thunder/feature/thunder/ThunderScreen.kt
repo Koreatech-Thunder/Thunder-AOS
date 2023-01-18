@@ -23,8 +23,8 @@ import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
-import com.koreatech.thunder.feature.thunder.model.previewThunderUis
 
 @Preview(showBackground = true)
 @Composable
@@ -67,8 +67,8 @@ fun ThunderScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            items(previewThunderUis) { thunder ->
-                ThunderItem(thunderUi = thunder)
+            items(dummyThunders) { thunder ->
+                ThunderItem(thunder = thunder)
             }
         }
     }

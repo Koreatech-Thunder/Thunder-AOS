@@ -10,20 +10,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.model.ThunderUi
-import com.koreatech.thunder.feature.thunder.model.previewThunderUis
+import com.koreatech.thunder.domain.model.Thunder
+import com.koreatech.thunder.domain.model.dummyThunders
 
 @Composable
 fun ThunderItem(
-    thunderUi: ThunderUi
+    thunder: Thunder
 ) {
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .background(color = Orange200)
     ) {
-        ThunderDetailSection(thunderUi = thunderUi)
-        ThunderParticipantsSection(thunderUi.participants, thunderUi.limitParticipantsCnt)
+        ThunderDetailSection(thunder = thunder)
+        ThunderParticipantsSection(thunder.participants, thunder.limitParticipantsCnt)
     }
 }
 
@@ -31,6 +31,6 @@ fun ThunderItem(
 @Composable
 private fun ThunderPreview() {
     ThunderTheme {
-        ThunderItem(thunderUi = previewThunderUis[0])
+        ThunderItem(thunder = dummyThunders[0])
     }
 }
