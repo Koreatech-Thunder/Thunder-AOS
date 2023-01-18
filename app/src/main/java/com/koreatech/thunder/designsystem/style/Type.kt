@@ -13,25 +13,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.koreatech.thunder.R
 
-private val robotoBold = FontFamily(
+private val pretendardBold = FontFamily(
     Font(
-        R.font.roboto_bold,
+        R.font.pretendard_bold,
         FontWeight.Bold,
         FontStyle.Normal
     )
 )
 
-private val robotoSemiBold = FontFamily(
+private val pretendardSemiBold = FontFamily(
     Font(
-        R.font.roboto_bold,
+        R.font.pretendard_semibold,
         FontWeight.SemiBold,
         FontStyle.Normal
     )
 )
 
-private val robotoMedium = FontFamily(
+private val pretendardRegular = FontFamily(
     Font(
-        R.font.roboto_medium,
+        R.font.pretendard_regular,
         FontWeight.Medium,
         FontStyle.Normal
     )
@@ -107,58 +107,59 @@ class ThunderTypography internal constructor(
 fun ThunderTypography(): ThunderTypography {
     return ThunderTypography(
         h1 = TextStyle(
-            fontFamily = robotoBold,
+            fontFamily = pretendardBold,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold
         ),
         h2 = TextStyle(
-            fontFamily = robotoSemiBold,
+            fontFamily = pretendardSemiBold,
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold
         ),
         h3 = TextStyle(
-            fontFamily = robotoSemiBold,
+            fontFamily = pretendardSemiBold,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
         ),
         h4 = TextStyle(
-            fontFamily = robotoSemiBold,
+            fontFamily = pretendardSemiBold,
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold
         ),
         h5 = TextStyle(
-            fontFamily = robotoSemiBold,
+            fontFamily = pretendardSemiBold,
             fontSize = 14.sp,
             fontWeight = FontWeight.SemiBold,
             lineHeight = 20.sp
         ),
         h6 = TextStyle(
-            fontFamily = robotoSemiBold,
+            fontFamily = pretendardSemiBold,
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold
         ),
         b1 = TextStyle(
-            fontFamily = robotoMedium,
+            fontFamily = pretendardRegular,
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium
         ),
         b2 = TextStyle(
-            fontFamily = robotoMedium,
+            fontFamily = pretendardRegular,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium
         ),
         b3 = TextStyle(
-            fontFamily = robotoMedium,
+            fontFamily = pretendardRegular,
             fontSize = 14.sp,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
+            lineHeight = 20.sp
         ),
         b4 = TextStyle(
-            fontFamily = robotoMedium,
+            fontFamily = pretendardRegular,
             fontSize = 12.sp,
             fontWeight = FontWeight.Medium
         ),
         b5 = TextStyle(
-            fontFamily = robotoMedium,
+            fontFamily = pretendardRegular,
             fontSize = 10.sp,
             fontWeight = FontWeight.Medium
         )
