@@ -4,15 +4,18 @@ import androidx.lifecycle.ViewModel
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.repository.ThunderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
 @HiltViewModel
-class ThunderViewModel @Inject constructor() : ViewModel() {
+class ThunderViewModel @Inject constructor(
+    private val thunderRepository: ThunderRepository
+) : ViewModel() {
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
         MutableStateFlow(ThunderUiState.Loading)
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
