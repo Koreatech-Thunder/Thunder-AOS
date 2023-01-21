@@ -54,11 +54,12 @@ class ThunderViewModelTest {
     fun hashtagTest2() = runTest {
         val collectJob = launch { thunderViewModel.hashtagUiState.collect() }
         val expectedHashtags = Hashtag.values().toList()
-        val data = thunderViewModel.hashtagUiState.value
+        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
 
         thunderViewModel.getHashtags()
+        val data = thunderViewModel.hashtagUiState.value
+        
         assertIs<HashtagUiState.Success>(data)
-
         Assertions.assertEquals(data.hashtags, expectedHashtags)
         collectJob.cancel()
     }

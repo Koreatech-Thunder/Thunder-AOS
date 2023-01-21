@@ -7,7 +7,6 @@ import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -49,7 +48,11 @@ class ThunderViewModel @Inject constructor(
         viewModelScope.launch {
             thunderRepository.getHashtags()
                 .onSuccess { hashtags ->
-                    _hashtagUiState.value = HashtagUiState.Success(hashtags)
+                    if (hashtags.isEmpty()) {
+                        _hashtagUiState.value = HashtagUiState.Success(Hashtag.values().toList())
+                    } else {
+                        _hashtagUiState.value = HashtagUiState.Success(hashtags)
+                    }
                 }
                 .onFailure { }
         }
