@@ -1,15 +1,18 @@
 package com.koreatech.thunder.feature.thunder
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,6 +46,13 @@ class ThunderViewModel @Inject constructor(
     }
 
     fun getHashtags() {
+        viewModelScope.launch {
+            thunderRepository.getHashtags()
+                .onSuccess { hashtags ->
+                    _hashtagUiState.value = HashtagUiState.Success(hashtags)
+                }
+                .onFailure { }
+        }
     }
 }
 
