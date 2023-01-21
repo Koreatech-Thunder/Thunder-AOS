@@ -32,7 +32,7 @@ import com.koreatech.thunder.domain.model.dummyUsers
 
 @Composable
 fun ThunderBottomSheet(
-    userUi: User
+    user: User
 ) {
     Box(
         modifier = Modifier
@@ -44,7 +44,7 @@ fun ThunderBottomSheet(
             ThunderRowSpaceBetweenSlot(
                 verticalAlignment = Alignment.Top,
                 prefixComponent = {
-                    ProfileDetail(userUi)
+                    ProfileDetail(user)
                 },
                 postfixComponent = {
                     Text(
@@ -60,11 +60,11 @@ fun ThunderBottomSheet(
             )
             BlankSpace(size = 12.dp)
             Text(
-                text = userUi.introduction,
+                text = user.introduction,
                 style = ThunderTheme.typography.h5
             )
             BlankSpace(size = 4.dp)
-            TemperatureDetail(userUi)
+            TemperatureDetail(user)
             BlankSpace(size = 12.dp)
             RoundedLinearIndicator(
                 modifier = Modifier
@@ -76,7 +76,7 @@ fun ThunderBottomSheet(
                 backgroundColor = Orange200
             )
             BlankSpace(size = 12.dp)
-            ThunderChips(hashtags = userUi.hashtags)
+            ThunderChips(hashtags = user.hashtags)
         }
     }
 }
