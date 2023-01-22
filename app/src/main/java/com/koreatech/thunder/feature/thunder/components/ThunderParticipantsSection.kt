@@ -18,7 +18,8 @@ import com.koreatech.thunder.domain.model.User
 @Composable
 fun ThunderParticipantsSection(
     participants: List<User>,
-    limitParticipantsCount: Int
+    limitParticipantsCount: Int,
+    showBottomSheet: (User) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -40,6 +41,6 @@ fun ThunderParticipantsSection(
         )
         BlankSpace(8.dp)
         Image(painter = painterResource(id = R.drawable.ic_school), contentDescription = "")
-        ThunderParticipants(participants, 3)
+        ThunderParticipants(participants, 3, showBottomSheet)
     }
 }

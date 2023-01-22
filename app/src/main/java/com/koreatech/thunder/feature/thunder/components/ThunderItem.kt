@@ -11,11 +11,13 @@ import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.Thunder
+import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyThunders
 
 @Composable
 fun ThunderItem(
-    thunder: Thunder
+    thunder: Thunder,
+    showBottomSheet: (User) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -23,7 +25,7 @@ fun ThunderItem(
             .background(color = Orange200)
     ) {
         ThunderDetailSection(thunder = thunder)
-        ThunderParticipantsSection(thunder.participants, thunder.limitParticipantsCnt)
+        ThunderParticipantsSection(thunder.participants, thunder.limitParticipantsCnt, showBottomSheet)
     }
 }
 
@@ -31,6 +33,6 @@ fun ThunderItem(
 @Composable
 private fun ThunderPreview() {
     ThunderTheme {
-        ThunderItem(thunder = dummyThunders[0])
+        ThunderItem(thunder = dummyThunders[0], {})
     }
 }

@@ -10,14 +10,14 @@ import com.koreatech.thunder.feature.thunder.ThunderViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)
@@ -102,17 +102,9 @@ class ThunderViewModelTest {
     @DisplayName("특정 번개에서 유저를 클릭했을 때 유저의 정보를 저장한다")
     @Test
     fun userTest() = runTest {
-        coEvery { thunderRepository.getThunders() } returns Result.success(dummyThunders)
-
-        thunderViewModel.getThunders()
-        val thunderState = thunderViewModel.thunderUiState.value
-
-        assertIs<ThunderUiState.Success>(thunderState)
-        assertEquals(thunderState.thunders, dummyThunders)
-
         val expectedUser = dummyThunders[0].participants[1]
 
-        thunderViewModel.setUser(0, 1)
+        thunderViewModel.setUser(expectedUser)
 
         val data = thunderViewModel.userInfo.value
         assertEquals(data, expectedUser)

@@ -32,9 +32,10 @@ import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyThunders
-import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
+import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
@@ -53,14 +54,22 @@ fun ThunderScreen(
     val thunderUiState = thunderViewModel.thunderUiState.collectAsStateWithLifecycle()
     val hashtagUiState = thunderViewModel.hashtagUiState.collectAsStateWithLifecycle()
     val hashtagIndexState = thunderViewModel.hashtagIndexState.collectAsStateWithLifecycle()
+    val userInfo = thunderViewModel.userInfo.collectAsStateWithLifecycle()
     val bottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
 
+    val showBottomSheet: (User) -> Unit = { user ->
+        coroutineScope.launch {
+            thunderViewModel.setUser(user)
+            bottomSheetState.show()
+        }
+    }
+
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetContent = {
-            ThunderBottomSheet(user = dummyUsers[0])
+            ThunderBottomSheet(user = userInfo.value)
         }
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
@@ -93,7 +102,7 @@ fun ThunderScreen(
                 contentPadding = PaddingValues(vertical = 8.dp)
             ) {
                 items(dummyThunders) { thunder ->
-                    ThunderItem(thunder = thunder)
+                    ThunderItem(thunder = thunder, showBottomSheet)
                 }
             }
         }

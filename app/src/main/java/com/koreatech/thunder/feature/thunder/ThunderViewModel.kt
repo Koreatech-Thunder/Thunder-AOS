@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Thunder
+import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -83,9 +84,8 @@ class ThunderViewModel @Inject constructor(
         }
     }
 
-    fun setUser(thunderIndex: Int, userIndex: Int) {
-        _userInfo.value =
-            (thunderUiState.value as ThunderUiState.Success).thunders[thunderIndex].participants[userIndex]
+    fun setUser(user: User) {
+        _userInfo.value = user
     }
 }
 

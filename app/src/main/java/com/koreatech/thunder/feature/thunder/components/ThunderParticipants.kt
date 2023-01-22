@@ -13,7 +13,8 @@ import com.koreatech.thunder.domain.model.User
 @Composable
 fun ThunderParticipants(
     participants: List<User>,
-    spanCount: Int
+    spanCount: Int,
+    showBottomSheet: (User) -> Unit
 ) {
     val size = participants.size
     val columnCount = if (size == 0) 0 else 1 + (size - 1) / spanCount
@@ -31,7 +32,10 @@ fun ThunderParticipants(
                             modifier = Modifier.weight(1f, fill = true),
                             propagateMinConstraints = true
                         ) {
-                            ThunderUser(userUi = participants[itemIndex])
+                            ThunderUser(
+                                user = participants[itemIndex],
+                                showBottomSheet = showBottomSheet
+                            )
                         }
                     } else {
                         Spacer(Modifier.weight(1F, fill = true))
