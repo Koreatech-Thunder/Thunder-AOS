@@ -1,8 +1,10 @@
 package com.koreatech.thunder.feature
 
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.feature.thunder.HashtagUiState
+import com.koreatech.thunder.feature.thunder.ThunderUiState
 import com.koreatech.thunder.feature.thunder.ThunderViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
@@ -11,7 +13,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -53,6 +54,19 @@ class ThunderViewModelTest {
         val data = thunderViewModel.hashtagUiState.value
 
         assertIs<HashtagUiState.Success>(data)
-        Assertions.assertEquals(data.hashtags, expectedHashtags)
+        assertEquals(data.hashtags, expectedHashtags)
+    }
+
+    @DisplayName("메인 뷰 진입 시 현재 진행 중인 번개를 불러온다.")
+    @Test
+    fun thunder() = runTest {
+        val expectedThunders = dummyThunders
+        coEvery { thunderRepository.getThunders() } returns Result.success(expectedThunders)
+
+        thunderViewModel.getThunders()
+        val data = thunderViewModel.thunderUiState.value
+
+        assertIs<ThunderUiState.Success>(data)
+        assertEquals(data.thunders, expectedThunders)
     }
 }
