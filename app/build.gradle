@@ -64,6 +64,7 @@ dependencies {
 
     def nav_version = "2.5.3"
     implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     def composeBom = platform('androidx.compose:compose-bom:2022.12.00')
     implementation composeBom
