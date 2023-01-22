@@ -9,7 +9,6 @@ import com.koreatech.thunder.feature.thunder.ThunderUiState
 import com.koreatech.thunder.feature.thunder.ThunderViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -63,11 +62,28 @@ class ThunderViewModelTest {
     @Test
     fun hashtagTest3() = runTest {
         assertEquals(thunderViewModel.hashtagIndexState.value, HashtagIndexState.IDLE)
-        thunderViewModel.selectHashtag(0)
 
+        thunderViewModel.selectHashtag(0)
         val indexState = thunderViewModel.hashtagIndexState.value
+
         assertIs<HashtagIndexState.SELECTED>(indexState)
         assertEquals(indexState.index, 0)
+    }
+
+    @DisplayName("선택한 해시태그의 index 가 이미 선택중인 index 일 때 IDLE 상태가 된다.")
+    @Test
+    fun hashtagTest4() = runTest {
+        assertEquals(thunderViewModel.hashtagIndexState.value, HashtagIndexState.IDLE)
+
+        thunderViewModel.selectHashtag(0)
+        var indexState = thunderViewModel.hashtagIndexState.value
+
+        assertIs<HashtagIndexState.SELECTED>(indexState)
+        assertEquals(indexState.index, 0)
+
+        indexState = thunderViewModel.hashtagIndexState.value
+        thunderViewModel.selectHashtag(0)
+        assertIs<HashtagIndexState.IDLE>(indexState)
     }
 
     @DisplayName("메인 뷰 진입 시 현재 진행 중인 번개를 불러온다.")
