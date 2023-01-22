@@ -7,12 +7,12 @@ import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
@@ -74,11 +74,13 @@ class ThunderViewModel @Inject constructor(
     }
 
     fun selectHashtag(index: Int) {
-        if (hashtagIndexState.value is HashtagIndexState.SELECTED && (hashtagIndexState.value as HashtagIndexState.SELECTED).index == index) {
-            _hashtagIndexState.value = HashtagIndexState.IDLE
-            return
+        when (val state = hashtagIndexState.value) {
+            HashtagIndexState.IDLE -> _hashtagIndexState.value = HashtagIndexState.SELECTED(index)
+            is HashtagIndexState.SELECTED -> {
+                if (state.index == index) _hashtagIndexState.value = HashtagIndexState.IDLE
+                else _hashtagIndexState.value = HashtagIndexState.SELECTED(index)
+            }
         }
-        _hashtagIndexState.value = HashtagIndexState.SELECTED(index)
     }
 
     fun setUser(thunderIndex: Int, userIndex: Int) {
