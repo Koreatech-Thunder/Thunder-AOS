@@ -62,9 +62,6 @@ class ThunderViewModelTest {
     @DisplayName("해시태그를 선택하면 해당 해시태그의 index 를 저장한다")
     @Test
     fun hashtagTest3() = runTest {
-        every { thunderViewModel.hashtagUiState.value } returns
-            HashtagUiState.Success(listOf(Hashtag.SPORT, Hashtag.MOVIE, Hashtag.WALK))
-
         assertEquals(thunderViewModel.hashtagIndexState.value, HashtagIndexState.IDLE)
         thunderViewModel.selectHashtag(0)
 
