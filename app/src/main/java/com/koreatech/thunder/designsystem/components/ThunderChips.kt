@@ -1,75 +1,32 @@
 package com.koreatech.thunder.designsystem.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.feature.thunder.HashtagIndexState
 
 @Composable
-fun ThunderChips(hashtags: List<Hashtag>) {
+fun ThunderChips(
+    hashtags: List<Hashtag>,
+    hashtagIndexState: HashtagIndexState = HashtagIndexState.ACTIVE,
+    selectHashtag: (Int) -> Unit = {}
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        items(hashtags) {
-            ThunderChip(hashtag = it)
-        }
-    }
-}
-
-fun LazyListScope.thunderChips(
-    hashtags: List<Hashtag>,
-    columnCount: Int = 4,
-    itemDistance: Dp = 10.dp
-) {
-    gridItems(
-        data = hashtags,
-        columnCount = columnCount,
-        modifier = Modifier,
-        horizontalArrangement = Arrangement.spacedBy(itemDistance)
-    ) { _, hashtag ->
-        ThunderChip(hashtag = hashtag)
-    }
-}
-
-private fun <T> LazyListScope.gridItems(
-    data: List<T>,
-    columnCount: Int,
-    modifier: Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    itemContent: @Composable BoxScope.(index: Int, T) -> Unit
-) {
-    val size = data.count()
-    val rows = if (size == 0) 0 else 1 + (size - 1) / columnCount
-    items(rows, key = { it.hashCode() }) { rowIndex ->
-        Row(
-            horizontalArrangement = horizontalArrangement,
-            modifier = modifier
-        ) {
-            for (columnIndex in 0 until columnCount) {
-                val itemIndex = rowIndex * columnCount + columnIndex
-                if (itemIndex < size) {
-                    Box(
-                        modifier = Modifier.weight(1F, fill = true),
-                        propagateMinConstraints = true
-                    ) {
-                        itemContent(itemIndex, data[itemIndex])
-                    }
-                } else {
-                    Spacer(Modifier.weight(1F, fill = true))
-                }
-            }
+        itemsIndexed(hashtags) { idx, hashtag ->
+            ThunderChip(
+                index = idx,
+                hashtag = hashtag,
+                hashtagIndexState = hashtagIndexState,
+                selectHashtag
+            )
         }
     }
 }

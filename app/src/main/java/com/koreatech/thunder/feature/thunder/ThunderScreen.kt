@@ -116,14 +116,21 @@ fun ThunderScreen(
                     style = ThunderTheme.typography.h3
                 )
                 BlankSpace(size = 16.dp)
-                ThunderChips(Hashtag.values().toList())
+                ThunderChips(
+                    hashtags = Hashtag.values().toList(),
+                    hashtagIndexState = hashtagIndexState.value,
+                    selectHashtag = thunderViewModel::selectHashtag
+                )
                 BlankSpace(size = 8.dp)
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = PaddingValues(vertical = 8.dp)
                 ) {
                     items(dummyThunders) { thunder ->
-                        ThunderItem(thunder = thunder, showBottomSheet)
+                        ThunderItem(
+                            thunder = thunder,
+                            showBottomSheet = showBottomSheet
+                        )
                     }
                 }
             }
