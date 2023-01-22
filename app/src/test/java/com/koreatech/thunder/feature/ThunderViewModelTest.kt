@@ -81,8 +81,8 @@ class ThunderViewModelTest {
         assertIs<HashtagIndexState.SELECTED>(indexState)
         assertEquals(indexState.index, 0)
 
-        indexState = thunderViewModel.hashtagIndexState.value
         thunderViewModel.selectHashtag(0)
+        indexState = thunderViewModel.hashtagIndexState.value
         assertIs<HashtagIndexState.IDLE>(indexState)
     }
 

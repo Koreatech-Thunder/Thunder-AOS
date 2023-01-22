@@ -69,6 +69,10 @@ class ThunderViewModel @Inject constructor(
     }
 
     fun selectHashtag(index: Int) {
+        if (hashtagIndexState.value is HashtagIndexState.SELECTED && (hashtagIndexState.value as HashtagIndexState.SELECTED).index == index) {
+            _hashtagIndexState.value = HashtagIndexState.IDLE
+            return
+        }
         _hashtagIndexState.value = HashtagIndexState.SELECTED(index)
     }
 }
