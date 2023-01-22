@@ -7,17 +7,19 @@ import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
     private val thunderRepository: ThunderRepository
 ) : ViewModel() {
+    private val _hashtagIndexState: MutableStateFlow<HashtagIndexState> =
+        MutableStateFlow(HashtagIndexState.IDLE)
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
         MutableStateFlow(ThunderUiState.Loading)
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
@@ -26,6 +28,7 @@ class ThunderViewModel @Inject constructor(
     private val _isError: MutableSharedFlow<Boolean> = MutableSharedFlow()
     val thunderUiState = _thunderUiState.asStateFlow()
     val hashtagUiState = _hashtagUiState.asStateFlow()
+    val hashtagIndexState = _hashtagIndexState.asStateFlow()
     val userInfo = _userInfo.asSharedFlow()
     val isError = _isError.asSharedFlow()
 
@@ -64,6 +67,9 @@ class ThunderViewModel @Inject constructor(
                 .onFailure { }
         }
     }
+
+    fun selectHashtag(index: Int) {
+    }
 }
 
 sealed interface ThunderUiState {
@@ -76,4 +82,9 @@ sealed interface HashtagUiState {
     object Loading : HashtagUiState
     object Error : HashtagUiState
     data class Success(val hashtags: List<Hashtag>) : HashtagUiState
+}
+
+sealed interface HashtagIndexState {
+    object IDLE : HashtagIndexState
+    data class SELECTED(val index: Int) : HashtagIndexState
 }

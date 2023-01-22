@@ -3,11 +3,13 @@ package com.koreatech.thunder.feature
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.domain.repository.ThunderRepository
+import com.koreatech.thunder.feature.thunder.HashtagIndexState
 import com.koreatech.thunder.feature.thunder.HashtagUiState
 import com.koreatech.thunder.feature.thunder.ThunderUiState
 import com.koreatech.thunder.feature.thunder.ThunderViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -57,9 +59,23 @@ class ThunderViewModelTest {
         assertEquals(data.hashtags, expectedHashtags)
     }
 
+    @DisplayName("해시태그를 선택하면 해당 해시태그의 index 를 저장한다")
+    @Test
+    fun hashtagTest3() = runTest {
+        every { thunderViewModel.hashtagUiState.value } returns
+            HashtagUiState.Success(listOf(Hashtag.SPORT, Hashtag.MOVIE, Hashtag.WALK))
+
+        assertEquals(thunderViewModel.hashtagIndexState.value, HashtagIndexState.IDLE)
+        thunderViewModel.selectHashtag(0)
+
+        val indexState = thunderViewModel.hashtagIndexState.value
+        assertIs<HashtagIndexState.SELECTED>(indexState)
+        assertEquals(indexState.index, 0)
+    }
+
     @DisplayName("메인 뷰 진입 시 현재 진행 중인 번개를 불러온다.")
     @Test
-    fun thunder() = runTest {
+    fun thunderTest() = runTest {
         val expectedThunders = dummyThunders
         coEvery { thunderRepository.getThunders() } returns Result.success(expectedThunders)
 
