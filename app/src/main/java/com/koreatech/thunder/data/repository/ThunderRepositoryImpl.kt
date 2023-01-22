@@ -37,7 +37,7 @@ class ThunderRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun enterThunder(thunderId: String, userId: String): Result<Unit> {
+    override suspend fun enterThunder(thunderId: String): Result<Unit> {
         TODO("Not yet implemented")
     }
 

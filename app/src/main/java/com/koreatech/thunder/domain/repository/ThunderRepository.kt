@@ -19,6 +19,6 @@ interface ThunderRepository {
 
     suspend fun getHashtags(): Result<List<Hashtag>>
 
-    suspend fun enterThunder(thunderId: String, userId: String): Result<Unit>
+    suspend fun enterThunder(thunderId: String): Result<Unit>
     suspend fun cancelThunder(thunderId: String, userId: String): Result<Unit>
 }

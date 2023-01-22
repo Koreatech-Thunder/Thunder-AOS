@@ -48,7 +48,12 @@ class ThunderViewModel @Inject constructor(
     fun getUser() {
     }
 
-    fun enterThunder(thunderId: String, userId: String) {
+    fun enterThunder(thunder: Thunder) {
+        viewModelScope.launch {
+            if (thunder.participants.size < thunder.limitParticipantsCnt) {
+                thunderRepository.enterThunder(thunder.thunderId)
+            }
+        }
     }
 
     fun cancelThunder(thunderId: String, userId: String) {
