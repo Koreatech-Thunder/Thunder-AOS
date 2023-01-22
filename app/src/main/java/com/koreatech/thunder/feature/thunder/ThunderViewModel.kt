@@ -30,6 +30,13 @@ class ThunderViewModel @Inject constructor(
     val isError = _isError.asSharedFlow()
 
     fun getThunders() {
+        viewModelScope.launch {
+            thunderRepository.getThunders()
+                .onSuccess { thunders ->
+                    _thunderUiState.value = ThunderUiState.Success(thunders)
+                }
+                .onFailure { }
+        }
     }
 
     fun getHashTaggedThunders() {
