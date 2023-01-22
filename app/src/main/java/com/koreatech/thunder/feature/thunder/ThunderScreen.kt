@@ -20,6 +20,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.R
@@ -41,15 +44,19 @@ private fun ThunderScreenPreview() {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ThunderScreen(
-    navController: NavController
+    navController: NavController,
+    thunderViewModel: ThunderViewModel = hiltViewModel()
 ) {
+    val thunderUiState = thunderViewModel.thunderUiState.collectAsStateWithLifecycle()
+    val hashtagUiState = thunderViewModel.hashtagUiState.collectAsStateWithLifecycle()
+    val hashtagIndexState = thunderViewModel.hashtagIndexState.collectAsStateWithLifecycle()
     val bottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
     val coroutineScope = rememberCoroutineScope()
+
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetContent = {
