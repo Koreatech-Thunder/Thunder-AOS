@@ -98,4 +98,23 @@ class ThunderViewModelTest {
         assertIs<ThunderUiState.Success>(data)
         assertEquals(data.thunders, expectedThunders)
     }
+
+    @DisplayName("특정 번개에서 유저를 클릭했을 때 유저의 정보를 저장한다")
+    @Test
+    fun userTest() = runTest {
+        coEvery { thunderRepository.getThunders() } returns Result.success(dummyThunders)
+
+        thunderViewModel.getThunders()
+        val thunderState = thunderViewModel.thunderUiState.value
+
+        assertIs<ThunderUiState.Success>(thunderState)
+        assertEquals(thunderState.thunders, dummyThunders)
+
+        val expectedUser = dummyThunders[0].participants[1]
+
+        thunderViewModel.setUser(0, 1)
+
+        val data = thunderViewModel.userInfo.value
+        assertEquals(data, expectedUser)
+    }
 }

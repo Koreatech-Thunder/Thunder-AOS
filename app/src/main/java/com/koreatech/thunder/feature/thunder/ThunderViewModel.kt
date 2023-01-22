@@ -4,15 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Thunder
-import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
@@ -24,12 +24,12 @@ class ThunderViewModel @Inject constructor(
         MutableStateFlow(ThunderUiState.Loading)
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
         MutableStateFlow(HashtagUiState.Loading)
-    private val _userInfo = MutableSharedFlow<User>()
+    private val _userInfo = MutableStateFlow(dummyUsers[0])
     private val _isError: MutableSharedFlow<Boolean> = MutableSharedFlow()
     val thunderUiState = _thunderUiState.asStateFlow()
     val hashtagUiState = _hashtagUiState.asStateFlow()
     val hashtagIndexState = _hashtagIndexState.asStateFlow()
-    val userInfo = _userInfo.asSharedFlow()
+    val userInfo = _userInfo.asStateFlow()
     val isError = _isError.asSharedFlow()
 
     fun getThunders() {
@@ -74,6 +74,10 @@ class ThunderViewModel @Inject constructor(
             return
         }
         _hashtagIndexState.value = HashtagIndexState.SELECTED(index)
+    }
+
+    fun setUser(thunderIndex: Int, userIndex: Int) {
+        TODO("Not yet implemented")
     }
 }
 
