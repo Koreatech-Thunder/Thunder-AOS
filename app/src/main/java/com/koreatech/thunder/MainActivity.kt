@@ -37,18 +37,6 @@ class MainActivity : AppCompatActivity() {
                     BottomNavigation {
                         ThunderBottomBar(navController, bottomItems, currentDestination)
                     }
-                },
-                floatingActionButton = {
-                    FloatingActionButton(
-                        backgroundColor = Orange,
-                        contentColor = Color.White,
-                        onClick = { /*TODO*/ }
-                    ) {
-                        Icon(
-                            Icons.Filled.Add,
-                            contentDescription = null
-                        )
-                    }
                 }
             ) { innerPadding ->
                 ThunderTheme {

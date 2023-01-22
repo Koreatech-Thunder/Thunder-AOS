@@ -8,14 +8,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +35,7 @@ import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderBottomSheet
 import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
+import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.User
@@ -72,37 +78,53 @@ fun ThunderScreen(
             ThunderBottomSheet(user = userInfo.value)
         }
     ) {
-        Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
-            ThunderToolBarSlot(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp),
-                title = {
-                    Text(
-                        text = stringResource(R.string.thunder_title),
-                        style = ThunderTheme.typography.h1
-                    )
-                },
-                action = {
+        Scaffold(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            floatingActionButton = {
+                FloatingActionButton(
+                    backgroundColor = Orange,
+                    contentColor = Color.White,
+                    onClick = { /*TODO*/ }
+                ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_notifications),
-                        contentDescription = ""
+                        Icons.Filled.Add,
+                        contentDescription = null
                     )
                 }
-            )
-            Text(
-                text = stringResource(R.string.entering_thunder),
-                style = ThunderTheme.typography.h3
-            )
-            BlankSpace(size = 16.dp)
-            ThunderChips(Hashtag.values().toList())
-            BlankSpace(size = 8.dp)
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(vertical = 8.dp)
-            ) {
-                items(dummyThunders) { thunder ->
-                    ThunderItem(thunder = thunder, showBottomSheet)
+            }
+        ) { innerPadding ->
+            Column(modifier = Modifier.fillMaxWidth().padding(innerPadding)) {
+                ThunderToolBarSlot(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 20.dp),
+                    title = {
+                        Text(
+                            text = stringResource(R.string.thunder_title),
+                            style = ThunderTheme.typography.h1
+                        )
+                    },
+                    action = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_notifications),
+                            contentDescription = ""
+                        )
+                    }
+                )
+                Text(
+                    text = stringResource(R.string.entering_thunder),
+                    style = ThunderTheme.typography.h3
+                )
+                BlankSpace(size = 16.dp)
+                ThunderChips(Hashtag.values().toList())
+                BlankSpace(size = 8.dp)
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(vertical = 8.dp)
+                ) {
+                    items(dummyThunders) { thunder ->
+                        ThunderItem(thunder = thunder, showBottomSheet)
+                    }
                 }
             }
         }
