@@ -1,40 +1,41 @@
 package com.koreatech.thunder.feature
 
-import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.dummySelectableHashtag
 import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.domain.repository.ThunderRepository
-import com.koreatech.thunder.feature.thunder.HashtagIndexState
+import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.feature.thunder.HashtagUiState
 import com.koreatech.thunder.feature.thunder.ThunderUiState
 import com.koreatech.thunder.feature.thunder.ThunderViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)
 class ThunderViewModelTest {
 
     private val thunderRepository: ThunderRepository = mockk()
+    private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
     private lateinit var thunderViewModel: ThunderViewModel
 
     @BeforeEach
     fun setUp() {
-        thunderViewModel = ThunderViewModel(thunderRepository)
+        thunderViewModel = ThunderViewModel(thunderRepository, getAllSelectableHashtagUseCase)
     }
 
     @DisplayName("사용자가 하나 이상 해시태그를 설정했고 통신을 성공했다면 사용자의 해시태그를 보여준다")
     @Test
     fun hashtagTest() = runTest {
-        val expectedHashtags = listOf(Hashtag.SPORT, Hashtag.MOVIE, Hashtag.WALK)
+        val expectedHashtags = dummySelectableHashtag
         coEvery { thunderRepository.getHashtags() } returns Result.success(expectedHashtags)
 
         assertIs<HashtagUiState.Loading>(thunderViewModel.hashtagUiState.value)
@@ -48,7 +49,7 @@ class ThunderViewModelTest {
     @DisplayName("사용자가 해시태그를 설정하지 않았으면 모든 해시태그를 보여준다.")
     @Test
     fun hashtagTest2() = runTest {
-        val expectedHashtags = Hashtag.values().toList()
+        val expectedHashtags = getAllSelectableHashtagUseCase()
         coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
 
         thunderViewModel.getHashtags()
@@ -58,32 +59,47 @@ class ThunderViewModelTest {
         assertEquals(data.hashtags, expectedHashtags)
     }
 
-    @DisplayName("해시태그를 선택하면 해당 해시태그의 index 를 저장한다")
+    @DisplayName("해시태그를 선택하면 해당 해시태그의 selectable 을 변경한다")
     @Test
     fun hashtagTest3() = runTest {
-        assertEquals(thunderViewModel.hashtagIndexState.value, HashtagIndexState.IDLE)
+        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
+
+        thunderViewModel.getHashtags()
+        var data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+
+        assertEquals(data.hashtags[0].isSelected, false)
 
         thunderViewModel.selectHashtag(0)
-        val indexState = thunderViewModel.hashtagIndexState.value
 
-        assertIs<HashtagIndexState.SELECTED>(indexState)
-        assertEquals(indexState.index, 0)
+        data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+        assertEquals(data.hashtags[0].isSelected, true)
     }
 
-    @DisplayName("선택한 해시태그의 index 가 이미 선택중인 index 일 때 IDLE 상태가 된다.")
+    @DisplayName("해시태그는 최대 1개까지 선택할 수 있다")
     @Test
     fun hashtagTest4() = runTest {
-        assertEquals(thunderViewModel.hashtagIndexState.value, HashtagIndexState.IDLE)
+        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
+
+        thunderViewModel.getHashtags()
+        var data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+
+        assertEquals(data.hashtags[0].isSelected, false)
 
         thunderViewModel.selectHashtag(0)
-        var indexState = thunderViewModel.hashtagIndexState.value
 
-        assertIs<HashtagIndexState.SELECTED>(indexState)
-        assertEquals(indexState.index, 0)
+        data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+        assertEquals(data.hashtags[0].isSelected, true)
 
-        thunderViewModel.selectHashtag(0)
-        indexState = thunderViewModel.hashtagIndexState.value
-        assertIs<HashtagIndexState.IDLE>(indexState)
+        thunderViewModel.selectHashtag(1)
+
+        data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+        assertEquals(data.hashtags[0].isSelected, false)
+        assertEquals(data.hashtags[1].isSelected, true)
     }
 
     @DisplayName("메인 뷰 진입 시 현재 진행 중인 번개를 불러온다.")
