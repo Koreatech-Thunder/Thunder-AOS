@@ -2,11 +2,12 @@ package com.koreatech.thunder.feature.thunder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.ThunderRepository
+import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
-    private val thunderRepository: ThunderRepository
+    private val thunderRepository: ThunderRepository,
+    private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
 ) : ViewModel() {
     private val _hashtagIndexState: MutableStateFlow<HashtagIndexState> =
         MutableStateFlow(HashtagIndexState.IDLE)
@@ -65,7 +67,8 @@ class ThunderViewModel @Inject constructor(
             thunderRepository.getHashtags()
                 .onSuccess { hashtags ->
                     if (hashtags.isEmpty()) {
-                        _hashtagUiState.value = HashtagUiState.Success(Hashtag.values().toList())
+                        _hashtagUiState.value =
+                            HashtagUiState.Success(getAllSelectableHashtagUseCase())
                     } else {
                         _hashtagUiState.value = HashtagUiState.Success(hashtags)
                     }
@@ -75,18 +78,21 @@ class ThunderViewModel @Inject constructor(
     }
 
     fun selectHashtag(index: Int) {
-        when (val state = hashtagIndexState.value) {
-            HashtagIndexState.IDLE -> _hashtagIndexState.value = HashtagIndexState.SELECTED(index)
-            is HashtagIndexState.SELECTED -> {
-                if (state.index == index) _hashtagIndexState.value = HashtagIndexState.IDLE
-                else _hashtagIndexState.value = HashtagIndexState.SELECTED(index)
+        val afterHashtags =
+            (hashtagUiState.value as HashtagUiState.Success).hashtags.mapIndexed { idx, hashtag ->
+                if (idx == index) hashtag.copy(isSelected = true)
+                else if (hashtag.isSelected) hashtag.copy(isSelected = false)
+                else hashtag
             }
-            else -> {}
-        }
+        _hashtagUiState.value = HashtagUiState.Success(afterHashtags)
     }
 
     fun setUser(user: User) {
         _userInfo.value = user
+    }
+
+    companion object {
+        const val SELECTABLE_COUNT = 1
     }
 }
 
@@ -99,7 +105,7 @@ sealed interface ThunderUiState {
 sealed interface HashtagUiState {
     object Loading : HashtagUiState
     object Error : HashtagUiState
-    data class Success(val hashtags: List<Hashtag>) : HashtagUiState
+    data class Success(val hashtags: List<SelectableHashtag>) : HashtagUiState
 }
 
 sealed interface HashtagIndexState {

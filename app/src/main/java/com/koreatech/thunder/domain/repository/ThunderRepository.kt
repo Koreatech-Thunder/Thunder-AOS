@@ -1,6 +1,7 @@
 package com.koreatech.thunder.domain.repository
 
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
 
@@ -17,7 +18,7 @@ interface ThunderRepository {
         deadline: String
     ): Result<Unit>
 
-    suspend fun getHashtags(): Result<List<Hashtag>>
+    suspend fun getHashtags(): Result<List<SelectableHashtag>>
 
     suspend fun enterThunder(thunderId: String): Result<Unit>
     suspend fun cancelThunder(thunderId: String, userId: String): Result<Unit>

@@ -2,6 +2,7 @@ package com.koreatech.thunder.data.repository
 
 import com.koreatech.thunder.data.source.remote.ThunderDataSource
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.repository.ThunderRepository
@@ -33,7 +34,7 @@ class ThunderRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getHashtags(): Result<List<Hashtag>> {
+    override suspend fun getHashtags(): Result<List<SelectableHashtag>> {
         TODO("Not yet implemented")
     }
 
