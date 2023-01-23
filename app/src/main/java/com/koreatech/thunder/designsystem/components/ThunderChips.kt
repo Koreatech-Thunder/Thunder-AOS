@@ -6,13 +6,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import com.koreatech.thunder.domain.model.Hashtag
-import com.koreatech.thunder.feature.thunder.HashtagIndexState
+import com.koreatech.thunder.domain.model.SelectableHashtag
 
 @Composable
 fun ThunderChips(
-    hashtags: List<Hashtag>,
-    hashtagIndexState: HashtagIndexState = HashtagIndexState.ACTIVE,
+    selectableHashtags: List<SelectableHashtag>,
+    isClickable: Boolean = false,
     selectHashtag: (Int) -> Unit = {}
 ) {
     LazyVerticalGrid(
@@ -20,12 +19,12 @@ fun ThunderChips(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        itemsIndexed(hashtags) { idx, hashtag ->
+        itemsIndexed(selectableHashtags) { idx, hashtag ->
             ThunderChip(
                 index = idx,
-                hashtag = hashtag,
-                hashtagIndexState = hashtagIndexState,
-                selectHashtag
+                selectableHashtag = hashtag,
+                isClickable = isClickable,
+                selectHashtag = selectHashtag
             )
         }
     }

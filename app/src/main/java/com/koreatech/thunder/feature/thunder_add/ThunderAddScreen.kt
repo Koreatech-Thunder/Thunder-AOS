@@ -16,6 +16,7 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.dummySelectableHashtag
 
 @Composable
 fun ThunderAddScreen() {
@@ -40,7 +41,7 @@ fun ThunderAddScreen() {
             Text(text = "카테고리 선택")
             Text(text = "0/4")
         }
-        ThunderChips(hashtags = Hashtag.values().toList())
+        ThunderChips(selectableHashtags = dummySelectableHashtag)
         Text(text = "제목")
         TextField(value = "", onValueChange = {})
         Text(text = "인원")

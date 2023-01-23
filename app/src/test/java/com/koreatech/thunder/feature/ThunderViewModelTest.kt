@@ -10,14 +10,14 @@ import com.koreatech.thunder.feature.thunder.ThunderViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)

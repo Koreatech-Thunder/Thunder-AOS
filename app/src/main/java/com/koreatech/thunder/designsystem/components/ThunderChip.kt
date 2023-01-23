@@ -14,33 +14,29 @@ import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.domain.model.Hashtag
-import com.koreatech.thunder.feature.thunder.HashtagIndexState
+import com.koreatech.thunder.domain.model.SelectableHashtag
 
 @Composable
 fun ThunderChip(
     index: Int,
-    hashtag: Hashtag,
-    hashtagIndexState: HashtagIndexState,
+    selectableHashtag: SelectableHashtag,
+    isClickable: Boolean = false,
     selectHashtag: (Int) -> Unit
 ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(30.dp))
-            .clickable { selectHashtag(index) }
+            .clickable(isClickable) { selectHashtag(index) }
             .background(
-                when (hashtagIndexState) {
-                    HashtagIndexState.IDLE -> Orange200
-                    HashtagIndexState.ACTIVE -> Orange
-                    is HashtagIndexState.SELECTED -> if (hashtagIndexState.index == index) Orange else Orange200
-                }
+                if (selectableHashtag.isSelected) Orange
+                else Orange200
             )
             .padding(vertical = 8.dp, horizontal = 12.dp),
         contentAlignment = Alignment.Center
     ) {
         ThunderHashtagText(
             textStyle = ThunderTheme.typography.h6,
-            hashtag = hashtag,
+            hashtag = selectableHashtag.hashtag,
             color = Color.White
         )
     }

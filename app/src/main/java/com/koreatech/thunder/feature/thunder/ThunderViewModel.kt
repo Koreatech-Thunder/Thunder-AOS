@@ -9,29 +9,26 @@ import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
     private val thunderRepository: ThunderRepository,
     private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
 ) : ViewModel() {
-    private val _hashtagIndexState: MutableStateFlow<HashtagIndexState> =
-        MutableStateFlow(HashtagIndexState.IDLE)
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
         MutableStateFlow(ThunderUiState.Loading)
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
-        MutableStateFlow(HashtagUiState.Loading)
+        MutableStateFlow(HashtagUiState.Success(getAllSelectableHashtagUseCase()))
     private val _userInfo = MutableStateFlow(dummyUsers[0])
     private val _isError: MutableSharedFlow<Boolean> = MutableSharedFlow()
     val thunderUiState = _thunderUiState.asStateFlow()
     val hashtagUiState = _hashtagUiState.asStateFlow()
-    val hashtagIndexState = _hashtagIndexState.asStateFlow()
     val userInfo = _userInfo.asStateFlow()
     val isError = _isError.asSharedFlow()
 
@@ -106,10 +103,4 @@ sealed interface HashtagUiState {
     object Loading : HashtagUiState
     object Error : HashtagUiState
     data class Success(val hashtags: List<SelectableHashtag>) : HashtagUiState
-}
-
-sealed interface HashtagIndexState {
-    object IDLE : HashtagIndexState
-    object ACTIVE : HashtagIndexState
-    data class SELECTED(val index: Int) : HashtagIndexState
 }

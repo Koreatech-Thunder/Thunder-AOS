@@ -37,7 +37,6 @@ import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
@@ -59,7 +58,6 @@ fun ThunderScreen(
 ) {
     val thunderUiState = thunderViewModel.thunderUiState.collectAsStateWithLifecycle()
     val hashtagUiState = thunderViewModel.hashtagUiState.collectAsStateWithLifecycle()
-    val hashtagIndexState = thunderViewModel.hashtagIndexState.collectAsStateWithLifecycle()
     val userInfo = thunderViewModel.userInfo.collectAsStateWithLifecycle()
     val bottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -116,11 +114,17 @@ fun ThunderScreen(
                     style = ThunderTheme.typography.h3
                 )
                 BlankSpace(size = 16.dp)
-                ThunderChips(
-                    hashtags = Hashtag.values().toList(),
-                    hashtagIndexState = hashtagIndexState.value,
-                    selectHashtag = thunderViewModel::selectHashtag
-                )
+                when (val state = hashtagUiState.value) {
+                    HashtagUiState.Error -> TODO()
+                    HashtagUiState.Loading -> TODO()
+                    is HashtagUiState.Success -> {
+                        ThunderChips(
+                            selectableHashtags = state.hashtags,
+                            selectHashtag = thunderViewModel::selectHashtag,
+                            isClickable = true
+                        )
+                    }
+                }
                 BlankSpace(size = 8.dp)
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(12.dp),

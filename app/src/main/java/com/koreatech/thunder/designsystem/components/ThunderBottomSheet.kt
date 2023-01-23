@@ -76,7 +76,7 @@ fun ThunderBottomSheet(
                 backgroundColor = Orange200
             )
             BlankSpace(size = 12.dp)
-            ThunderChips(hashtags = user.hashtags)
+            ThunderChips(selectableHashtags = user.hashtags)
         }
     }
 }
