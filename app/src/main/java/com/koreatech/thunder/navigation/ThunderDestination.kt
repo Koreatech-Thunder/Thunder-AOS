@@ -5,9 +5,9 @@ import androidx.annotation.StringRes
 import com.koreatech.thunder.R
 
 enum class ThunderDestination(
-    @DrawableRes val icon: Int,
-    @StringRes val title: Int,
-    @StringRes val description: Int
+    @DrawableRes val icon: Int = 0,
+    @StringRes val title: Int = 0,
+    @StringRes val description: Int = 0
 ) {
     THUNDER(
         icon = R.drawable.ic_thunder,
@@ -24,9 +24,5 @@ enum class ThunderDestination(
         title = R.string.bot_profile,
         description = R.string.bot_profile
     ),
-    ADD(
-        icon = 0,
-        title = R.string.add_thunder,
-        description = R.string.add_thunder
-    )
+    ADD
 }
