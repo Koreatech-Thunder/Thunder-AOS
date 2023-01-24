@@ -77,7 +77,7 @@ class ThunderViewModel @Inject constructor(
     fun selectHashtag(index: Int) {
         val afterHashtags =
             (hashtagUiState.value as HashtagUiState.Success).hashtags.mapIndexed { idx, hashtag ->
-                if (idx == index) hashtag.copy(isSelected = true)
+                if (idx == index) hashtag.copy(isSelected = !hashtag.isSelected)
                 else if (hashtag.isSelected) hashtag.copy(isSelected = false)
                 else hashtag
             }

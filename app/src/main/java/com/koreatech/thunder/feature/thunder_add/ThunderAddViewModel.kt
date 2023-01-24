@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
 
 @HiltViewModel
 class ThunderAddViewModel @Inject constructor(
@@ -29,5 +29,14 @@ class ThunderAddViewModel @Inject constructor(
         if (limitParticipantsCnt.value > 2) {
             _limitParticipantsCnt.value = _limitParticipantsCnt.value - 1
         }
+    }
+
+    fun selectHashtag(selectIndex: Int) {
+        val afterHashtags =
+            hashtags.value.mapIndexed { index, selectableHashtag ->
+                if (index == selectIndex) selectableHashtag.copy(isSelected = !selectableHashtag.isSelected)
+                else selectableHashtag
+            }
+        _hashtags.value = afterHashtags
     }
 }
