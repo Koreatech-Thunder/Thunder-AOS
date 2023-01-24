@@ -15,9 +15,13 @@ class ThunderAddViewModel @Inject constructor(
     private val _selectedHashtagCount = MutableStateFlow(0)
     private val _hashtags: MutableStateFlow<List<SelectableHashtag>> = MutableStateFlow(emptyList())
     private val _limitParticipantsCnt = MutableStateFlow(2)
+    private val _titleText = MutableStateFlow("")
+    private val _contentText = MutableStateFlow("")
     val limitParticipantsCnt = _limitParticipantsCnt.asStateFlow()
     val hashtags = _hashtags.asStateFlow()
     val selectedHashtagCount = _selectedHashtagCount.asStateFlow()
+    val titleText = _titleText.asStateFlow()
+    val contentText = _contentText.asStateFlow()
 
     init {
         _hashtags.value = getAllSelectableHashtagUseCase()
@@ -45,6 +49,14 @@ class ThunderAddViewModel @Inject constructor(
                 }
             _hashtags.value = afterHashtags
         }
+    }
+
+    fun writeTitle(title: String) {
+        _titleText.value = title
+    }
+
+    fun writeContent(content: String) {
+        _contentText.value = content
     }
 
     companion object {

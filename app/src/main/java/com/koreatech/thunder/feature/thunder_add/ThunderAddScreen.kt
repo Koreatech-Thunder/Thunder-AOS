@@ -4,12 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderChips
+import com.koreatech.thunder.designsystem.components.ThunderTextField
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
@@ -34,12 +35,16 @@ import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 fun ThunderAddScreen(
     thunderAddViewModel: ThunderAddViewModel = hiltViewModel()
 ) {
+    val titleText = thunderAddViewModel.titleText.collectAsStateWithLifecycle()
+    val contentText = thunderAddViewModel.titleText.collectAsStateWithLifecycle()
     val hashtags = thunderAddViewModel.hashtags.collectAsStateWithLifecycle()
     val selectedHashtagCount =
         thunderAddViewModel.selectedHashtagCount.collectAsStateWithLifecycle()
     val limitParticipantsCnt =
         thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
-    Column {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         ThunderToolBarSlot(
             modifier = Modifier
                 .fillMaxWidth()
@@ -93,8 +98,14 @@ fun ThunderAddScreen(
                 style = ThunderTheme.typography.h4
             )
             BlankSpace(size = 12.dp)
-            TextField(value = "", onValueChange = {})
-            BlankSpace(size = 24.dp)
+            ThunderTextField(
+                text = titleText.value,
+                hint = "제목을 입력하세요",
+                isLimitTextCount = true,
+                limitTextCount = 20,
+                onTextChange = thunderAddViewModel::writeTitle
+            )
+            BlankSpace(size = 8.dp)
             Text(
                 text = "인원",
                 style = ThunderTheme.typography.h4
@@ -155,7 +166,13 @@ fun ThunderAddScreen(
                 style = ThunderTheme.typography.h4
             )
             BlankSpace(size = 12.dp)
-            TextField(value = "", onValueChange = {})
+            ThunderTextField(
+                text = contentText.value,
+                hint = "장소, 만나서 할 활동에 대한 내용을 입력하세요",
+                isLimitTextCount = true,
+                limitTextCount = 150,
+                onTextChange = thunderAddViewModel::writeContent
+            )
         }
     }
 }
