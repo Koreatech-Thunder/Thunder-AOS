@@ -3,6 +3,7 @@
     <string name="bot_profile">프로필</string>
     <string name="bot_chat">채팅</string>
     <string name="bot_thunder">번개</string>
+    <string name="add_thunder">추가하기</string>
     <string name="participants">참여인원</string>
     <string name="enter_thunder">참여하기</string>
     <string name="cancel_thunder">취소하기</string>

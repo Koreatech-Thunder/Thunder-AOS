@@ -40,6 +40,7 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
+import com.koreatech.thunder.navigation.ThunderDestination
 import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
@@ -82,7 +83,9 @@ fun ThunderScreen(
                 FloatingActionButton(
                     backgroundColor = Orange,
                     contentColor = Color.White,
-                    onClick = { /*TODO*/ }
+                    onClick = {
+                        navController.navigate(route = ThunderDestination.ADD.name)
+                    }
                 ) {
                     Icon(
                         Icons.Filled.Add,

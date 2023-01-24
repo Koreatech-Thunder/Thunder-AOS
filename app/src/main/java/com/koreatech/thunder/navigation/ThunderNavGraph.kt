@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import com.koreatech.thunder.feature.chat.ChatScreen
 import com.koreatech.thunder.feature.profile.ProfileScreen
 import com.koreatech.thunder.feature.thunder.ThunderScreen
+import com.koreatech.thunder.feature.thunder_add.ThunderAddScreen
+import com.koreatech.thunder.navigation.ThunderDestination.ADD
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
 import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
@@ -26,5 +28,6 @@ fun ThunderNavHost(
         composable(THUNDER.name) { ThunderScreen(navController = navController) }
         composable(CHAT.name) { ChatScreen(navController = navController) }
         composable(PROFILE.name) { ProfileScreen(navController = navController) }
+        composable(ADD.name) { ThunderAddScreen(navController = navController) }
     }
 }

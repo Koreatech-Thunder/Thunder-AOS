@@ -23,5 +23,10 @@ enum class ThunderDestination(
         icon = R.drawable.ic_person,
         title = R.string.bot_profile,
         description = R.string.bot_profile
+    ),
+    ADD(
+        icon = 0,
+        title = R.string.add_thunder,
+        description = R.string.add_thunder
     )
 }

@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderChips
@@ -33,10 +35,11 @@ import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ThunderAddScreen(
+    navController: NavController = rememberNavController(),
     thunderAddViewModel: ThunderAddViewModel = hiltViewModel()
 ) {
     val titleText = thunderAddViewModel.titleText.collectAsStateWithLifecycle()
-    val contentText = thunderAddViewModel.titleText.collectAsStateWithLifecycle()
+    val contentText = thunderAddViewModel.contentText.collectAsStateWithLifecycle()
     val hashtags = thunderAddViewModel.hashtags.collectAsStateWithLifecycle()
     val selectedHashtagCount =
         thunderAddViewModel.selectedHashtagCount.collectAsStateWithLifecycle()
@@ -51,6 +54,8 @@ fun ThunderAddScreen(
                 .padding(top = 16.dp, bottom = 16.dp, start = 12.dp, end = 26.dp),
             navigationIcon = {
                 Image(
+                    modifier = Modifier
+                        .noRippleClickable { navController.popBackStack() },
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = ""
                 )
@@ -103,7 +108,7 @@ fun ThunderAddScreen(
                 hint = "제목을 입력하세요",
                 isLimitTextCount = true,
                 limitTextCount = 20,
-                onTextChange = thunderAddViewModel::writeTitle
+                onTextChange = { text -> thunderAddViewModel.writeTitle(text) }
             )
             BlankSpace(size = 8.dp)
             Text(
@@ -171,7 +176,7 @@ fun ThunderAddScreen(
                 hint = "장소, 만나서 할 활동에 대한 내용을 입력하세요",
                 isLimitTextCount = true,
                 limitTextCount = 150,
-                onTextChange = thunderAddViewModel::writeContent
+                onTextChange = { text -> thunderAddViewModel.writeContent(text) }
             )
         }
     }
