@@ -102,6 +102,30 @@ class ThunderViewModelTest {
         assertEquals(data.hashtags[1].isSelected, true)
     }
 
+    @DisplayName("선택했던 해시태그를 클릭할 시 true 에서 false 로 변경한다.")
+    @Test
+    fun hashtagTest5() = runTest {
+        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
+
+        thunderViewModel.getHashtags()
+        var data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+
+        assertEquals(data.hashtags[0].isSelected, false)
+
+        thunderViewModel.selectHashtag(0)
+
+        data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+        assertEquals(data.hashtags[0].isSelected, true)
+
+        thunderViewModel.selectHashtag(0)
+
+        data = thunderViewModel.hashtagUiState.value
+        assertIs<HashtagUiState.Success>(data)
+        assertEquals(data.hashtags[0].isSelected, false)
+    }
+
     @DisplayName("메인 뷰 진입 시 현재 진행 중인 번개를 불러온다.")
     @Test
     fun thunderTest() = runTest {
