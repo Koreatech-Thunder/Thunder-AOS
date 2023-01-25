@@ -38,7 +38,7 @@ fun ThunderTextField(
 ) {
     BasicTextField(
         value = text,
-        onValueChange = { onTextChange(it) },
+        onValueChange = { if (it.length <= limitTextCount) onTextChange(it) },
         textStyle = ThunderTheme.typography.b3,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
