@@ -1,12 +1,16 @@
 package com.koreatech.thunder.feature.thunder_add
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 @HiltViewModel
 class ThunderAddViewModel @Inject constructor(
@@ -17,14 +21,38 @@ class ThunderAddViewModel @Inject constructor(
     private val _limitParticipantsCnt = MutableStateFlow(2)
     private val _titleText = MutableStateFlow("")
     private val _contentText = MutableStateFlow("")
+    private val _dateText = MutableStateFlow("")
+    private val _timeText = MutableStateFlow("")
     val limitParticipantsCnt = _limitParticipantsCnt.asStateFlow()
     val hashtags = _hashtags.asStateFlow()
     val selectedHashtagCount = _selectedHashtagCount.asStateFlow()
     val titleText = _titleText.asStateFlow()
     val contentText = _contentText.asStateFlow()
+    val dateText = _dateText.asStateFlow()
+    val timeText = _timeText.asStateFlow()
+    val buttonState =
+        combine(
+            titleText,
+            contentText,
+            dateText,
+            timeText
+        ) { title, content, date, time ->
+            title.isNotEmpty() && content.isNotEmpty() && date.isNotEmpty() && time.isNotEmpty() && isSelectHashtags()
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = false
+        )
 
     init {
         _hashtags.value = getAllSelectableHashtagUseCase()
+    }
+
+    private fun isSelectHashtags(): Boolean {
+        hashtags.value.forEach { selectableHashtag ->
+            if (selectableHashtag.isSelected) return true
+        }
+        return false
     }
 
     fun plusLimitParticipantsCnt() {
@@ -57,6 +85,14 @@ class ThunderAddViewModel @Inject constructor(
 
     fun writeContent(content: String) {
         _contentText.value = content
+    }
+
+    fun setDate(date: String) {
+        _dateText.value = date
+    }
+
+    fun setTime(time: String) {
+        _timeText.value = time
     }
 
     companion object {
