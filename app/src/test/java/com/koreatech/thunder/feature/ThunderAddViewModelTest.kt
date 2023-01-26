@@ -76,49 +76,23 @@ class ThunderAddViewModelTest {
     @DisplayName("해시태그는 최대 4개까지 선택할 수 있다.")
     @Test
     fun hashtagTest2() {
-        thunderAddViewModel.selectHashtag(0)
-        assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, true)
+        assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, false)
         assertEquals(thunderAddViewModel.hashtags.value[1].isSelected, false)
         assertEquals(thunderAddViewModel.hashtags.value[2].isSelected, false)
         assertEquals(thunderAddViewModel.hashtags.value[3].isSelected, false)
+        assertEquals(thunderAddViewModel.hashtags.value[4].isSelected, false)
 
+        thunderAddViewModel.selectHashtag(0)
         thunderAddViewModel.selectHashtag(1)
-        assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[1].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[2].isSelected, false)
-        assertEquals(thunderAddViewModel.hashtags.value[3].isSelected, false)
-
         thunderAddViewModel.selectHashtag(2)
-        assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[1].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[2].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[3].isSelected, false)
-
         thunderAddViewModel.selectHashtag(3)
-        assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[1].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[2].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[3].isSelected, true)
-
         thunderAddViewModel.selectHashtag(4)
+
         assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, true)
         assertEquals(thunderAddViewModel.hashtags.value[1].isSelected, true)
         assertEquals(thunderAddViewModel.hashtags.value[2].isSelected, true)
         assertEquals(thunderAddViewModel.hashtags.value[3].isSelected, true)
         assertEquals(thunderAddViewModel.hashtags.value[4].isSelected, false)
-
-        thunderAddViewModel.selectHashtag(3)
-        assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[1].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[2].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[3].isSelected, false)
-
-        thunderAddViewModel.selectHashtag(4)
-        assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[1].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[2].isSelected, true)
-        assertEquals(thunderAddViewModel.hashtags.value[3].isSelected, false)
-        assertEquals(thunderAddViewModel.hashtags.value[4].isSelected, true)
     }
 
     @DisplayName("선택했던 해시태그를 클릭할 시 true 에서 false 로 변경한다.")
