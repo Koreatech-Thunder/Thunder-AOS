@@ -4,11 +4,20 @@ import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.feature.thunder_add.ThunderAddViewModel
+import com.koreatech.thunder.util.CoroutinesTestExtension
 import kotlin.test.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@OptIn(ExperimentalCoroutinesApi::class)
+@ExtendWith(CoroutinesTestExtension::class)
 class ThunderAddViewModelTest {
     private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
     private lateinit var thunderAddViewModel: ThunderAddViewModel
@@ -103,5 +112,23 @@ class ThunderAddViewModelTest {
 
         thunderAddViewModel.selectHashtag(0)
         assertEquals(thunderAddViewModel.hashtags.value[0].isSelected, false)
+    }
+
+    @DisplayName("해시태그, 제목, 날짜, 시간, 내용을 전부 입력해야 완료 버튼이 활성화 된다.")
+    @Test
+    fun buttonStateTest() = runTest {
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { thunderAddViewModel.buttonState.collect() }
+        assertEquals(thunderAddViewModel.buttonState.value, false)
+
+        thunderAddViewModel.selectHashtag(0)
+        thunderAddViewModel.writeTitle("test")
+        thunderAddViewModel.writeContent("test")
+        thunderAddViewModel.setDate("12.05 목요일")
+        thunderAddViewModel.setTime("오전 9:00")
+
+        assertEquals(thunderAddViewModel.buttonState.value, true)
+
+        collectJob.cancel()
     }
 }
