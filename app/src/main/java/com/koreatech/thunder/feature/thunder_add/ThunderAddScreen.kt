@@ -1,6 +1,7 @@
 package com.koreatech.thunder.feature.thunder_add
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -49,6 +50,7 @@ fun ThunderAddScreen(
         thunderAddViewModel.selectedHashtagCount.collectAsStateWithLifecycle()
     val limitParticipantsCnt =
         thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
+    val buttonState = thunderAddViewModel.buttonState.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -72,9 +74,11 @@ fun ThunderAddScreen(
             },
             action = {
                 Text(
+                    modifier = Modifier
+                        .clickable { /* 번개 추가하기 */ },
                     text = "완료",
                     style = ThunderTheme.typography.h5,
-                    color = Orange
+                    color = if (buttonState.value) Orange else Gray
                 )
             }
         )
