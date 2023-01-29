@@ -65,11 +65,16 @@ fun ThunderAddScreen(
             .value
             .split(":")
             .map { it.toInt() }
+    val (year, month, dayOfMonth) =
+        thunderAddViewModel.formattedText.collectAsStateWithLifecycle()
+            .value
+            .split("/")
+            .map { it.toInt() }
     val calendar = Calendar.getInstance()
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
-        { _, year, month, dayOfMonth ->
-            thunderAddViewModel.setDate(year, month + 1, dayOfMonth)
+        { view, _year, _month, _dayOfMonth ->
+            thunderAddViewModel.setDate(_year, _month + 1, _dayOfMonth)
         },
         calendar.get(Calendar.YEAR),
         calendar.get(Calendar.MONTH),
@@ -196,7 +201,10 @@ fun ThunderAddScreen(
                     BlankSpace(size = 12.dp)
                     Text(
                         modifier = Modifier
-                            .noRippleClickable { datePickerDialog.show() },
+                            .noRippleClickable {
+                                datePickerDialog.updateDate(year, month - 1, dayOfMonth)
+                                datePickerDialog.show()
+                            },
                         text = dateUiText.value,
                         style = ThunderTheme.typography.h4,
                         color = Orange
