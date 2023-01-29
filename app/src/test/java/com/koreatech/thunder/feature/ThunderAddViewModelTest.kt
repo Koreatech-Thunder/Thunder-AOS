@@ -5,6 +5,9 @@ import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.feature.thunder_add.ThunderAddViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
+import com.koreatech.thunder.util.callPrivateFunc
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -130,5 +133,27 @@ class ThunderAddViewModelTest {
         assertEquals(thunderAddViewModel.buttonState.value, true)
 
         collectJob.cancel()
+    }
+
+    @DisplayName("`21:00`형식인 24시간 기준으로 시간이 들어올 때 `오후 9:00`이런 형태로 바꿀 수 있다.")
+    @Test
+    fun timeTextTest() {
+        val testTime = "21:00"
+        val expectedTime = "오후 9:00"
+
+        thunderAddViewModel.callPrivateFunc("changeToUiTime", testTime)
+
+        assertEquals(thunderAddViewModel.timeUiText.value, expectedTime)
+    }
+
+    @DisplayName("번개 생성하기 진입 시 현재 시각으로 초기화 되어 있다.")
+    @Test
+    fun timeTextTest2() {
+        val compareViewModel = ThunderAddViewModel(getAllSelectableHashtagUseCase)
+        val currentTime: LocalTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES)
+
+        compareViewModel.callPrivateFunc("changeToUiTime", currentTime.toString())
+
+        assertEquals(thunderAddViewModel.timeUiText.value, compareViewModel.timeUiText.value)
     }
 }
