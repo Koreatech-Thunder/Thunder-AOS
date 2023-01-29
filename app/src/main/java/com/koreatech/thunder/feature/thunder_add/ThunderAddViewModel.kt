@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,20 +24,21 @@ class ThunderAddViewModel @Inject constructor(
     private val _titleText = MutableStateFlow("")
     private val _contentText = MutableStateFlow("")
     private val _dateText = MutableStateFlow("")
-    private val _timeText = MutableStateFlow("")
+    private val _timeUiText = MutableStateFlow("")
+    private val hour24FormatTime = MutableStateFlow("")
     val limitParticipantsCnt = _limitParticipantsCnt.asStateFlow()
     val hashtags = _hashtags.asStateFlow()
     val selectedHashtagCount = _selectedHashtagCount.asStateFlow()
     val titleText = _titleText.asStateFlow()
     val contentText = _contentText.asStateFlow()
     val dateText = _dateText.asStateFlow()
-    val timeText = _timeText.asStateFlow()
+    val timeUiText = _timeUiText.asStateFlow()
     val buttonState =
         combine(
             titleText,
             contentText,
             dateText,
-            timeText
+            timeUiText
         ) { title, content, date, time ->
             title.isNotEmpty() && content.isNotEmpty() && date.isNotEmpty() && time.isNotEmpty() && isSelectHashtags()
         }.stateIn(
@@ -46,6 +49,8 @@ class ThunderAddViewModel @Inject constructor(
 
     init {
         _hashtags.value = getAllSelectableHashtagUseCase()
+        val currentTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES)
+        setTime(currentTime.toString())
     }
 
     private fun isSelectHashtags(): Boolean {
@@ -92,7 +97,17 @@ class ThunderAddViewModel @Inject constructor(
     }
 
     fun setTime(time: String) {
-        _timeText.value = time
+        hour24FormatTime.value = time
+        changeToUiTime(time)
+    }
+
+    private fun changeToUiTime(changeTime: String) {
+        val (time, minute) = changeTime.split(":")
+        if (time.toInt() > 12) {
+            _timeUiText.value = "오후 ${time.toInt() - 12}:$minute"
+        } else {
+            _timeUiText.value = "오전 $changeTime"
+        }
     }
 
     companion object {

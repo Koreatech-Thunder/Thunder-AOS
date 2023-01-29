@@ -54,7 +54,7 @@ fun ThunderAddScreen(
         thunderAddViewModel.selectedHashtagCount.collectAsStateWithLifecycle()
     val limitParticipantsCnt =
         thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
-    val timeText = thunderAddViewModel.timeText.collectAsStateWithLifecycle()
+    val timeUiText = thunderAddViewModel.timeUiText.collectAsStateWithLifecycle()
     val buttonState = thunderAddViewModel.buttonState.collectAsStateWithLifecycle()
     var isDateVisible by remember { mutableStateOf(false) }
     if (isDateVisible) {
@@ -187,7 +187,7 @@ fun ThunderAddScreen(
                     Text(
                         modifier = Modifier
                             .noRippleClickable { isDateVisible = true },
-                        text = timeText.value,
+                        text = timeUiText.value,
                         style = ThunderTheme.typography.h4,
                         color = Orange
                     )
