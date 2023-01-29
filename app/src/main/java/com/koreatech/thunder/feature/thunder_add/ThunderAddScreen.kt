@@ -13,6 +13,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -50,7 +54,15 @@ fun ThunderAddScreen(
         thunderAddViewModel.selectedHashtagCount.collectAsStateWithLifecycle()
     val limitParticipantsCnt =
         thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
+    val timeText = thunderAddViewModel.timeText.collectAsStateWithLifecycle()
     val buttonState = thunderAddViewModel.buttonState.collectAsStateWithLifecycle()
+    var isDateVisible by remember { mutableStateOf(false) }
+    if (isDateVisible) {
+        ThunderTimePicker(
+            setTime = thunderAddViewModel::setTime,
+            onDismissRequest = { isDateVisible = false }
+        )
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -173,7 +185,9 @@ fun ThunderAddScreen(
                     )
                     BlankSpace(size = 12.dp)
                     Text(
-                        text = "오전 9:00",
+                        modifier = Modifier
+                            .noRippleClickable { isDateVisible = true },
+                        text = timeText.value,
                         style = ThunderTheme.typography.h4,
                         color = Orange
                     )

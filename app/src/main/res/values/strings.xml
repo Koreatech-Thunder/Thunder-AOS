@@ -11,4 +11,7 @@
     <string name="entering_thunder">진행중인 번개</string>
     <string name="thunder_title">HanBun</string>
     <string name="user_report">신고하기</string>
+    <string name="thunder_cancel">취소</string>
+    <string name="thunder_confirm">확인</string>
+    <string name="thunder_time">시간</string>
 </resources>
