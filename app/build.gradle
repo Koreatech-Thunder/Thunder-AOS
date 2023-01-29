@@ -50,6 +50,8 @@ android {
 }
 
 dependencies {
+    // kotlin reflection
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.20"
     // time picker
     implementation 'com.github.commandiron:WheelPickerCompose:1.1.9'
     // coroutine test
