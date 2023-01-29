@@ -58,7 +58,7 @@ fun ThunderAddScreen(
     val limitParticipantsCnt =
         thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
     val timeUiText = thunderAddViewModel.timeUiText.collectAsStateWithLifecycle()
-    val dateUiText = thunderAddViewModel.dateText.collectAsStateWithLifecycle()
+    val dateUiText = thunderAddViewModel.dateUiText.collectAsStateWithLifecycle()
     val buttonState = thunderAddViewModel.buttonState.collectAsStateWithLifecycle()
     val (hour, minute) =
         thunderAddViewModel.hour24FormatTime.collectAsStateWithLifecycle()
@@ -69,7 +69,7 @@ fun ThunderAddScreen(
     val datePickerDialog = DatePickerDialog(
         LocalContext.current,
         { _, year, month, dayOfMonth ->
-            thunderAddViewModel.setDate(year, month+1, dayOfMonth)
+            thunderAddViewModel.setDate(year, month + 1, dayOfMonth)
         },
         calendar.get(Calendar.YEAR),
         calendar.get(Calendar.MONTH),

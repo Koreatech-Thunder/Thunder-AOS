@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -23,7 +26,8 @@ class ThunderAddViewModel @Inject constructor(
     private val _limitParticipantsCnt = MutableStateFlow(2)
     private val _titleText = MutableStateFlow("")
     private val _contentText = MutableStateFlow("")
-    private val _dateText = MutableStateFlow("")
+    private val _dateUiText = MutableStateFlow("")
+    private val _formattedDate = MutableStateFlow("")
     private val _timeUiText = MutableStateFlow("")
     private val _hour24FormatTime = MutableStateFlow("")
     val limitParticipantsCnt = _limitParticipantsCnt.asStateFlow()
@@ -31,14 +35,15 @@ class ThunderAddViewModel @Inject constructor(
     val selectedHashtagCount = _selectedHashtagCount.asStateFlow()
     val titleText = _titleText.asStateFlow()
     val contentText = _contentText.asStateFlow()
-    val dateText = _dateText.asStateFlow()
+    val dateUiText = _dateUiText.asStateFlow()
+    val formattedText = _formattedDate.asStateFlow()
     val timeUiText = _timeUiText.asStateFlow()
     val hour24FormatTime = _hour24FormatTime.asStateFlow()
     val buttonState =
         combine(
             titleText,
             contentText,
-            dateText,
+            dateUiText,
             timeUiText
         ) { title, content, date, time ->
             title.isNotEmpty() && content.isNotEmpty() && date.isNotEmpty() && time.isNotEmpty() && isSelectHashtags()
@@ -51,7 +56,9 @@ class ThunderAddViewModel @Inject constructor(
     init {
         _hashtags.value = getAllSelectableHashtagUseCase()
         val currentTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES)
+        val currentDate = LocalDateTime.now()
         setTime(currentTime.toString())
+        setDate(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
     }
 
     private fun isSelectHashtags(): Boolean {
@@ -94,7 +101,8 @@ class ThunderAddViewModel @Inject constructor(
     }
 
     fun setDate(year: Int, month: Int, dayOfMonth: Int) {
-        _dateText.value = "$year/$month/$dayOfMonth"
+        changeToUiDate(year, month, dayOfMonth)
+        _formattedDate.value = "$year/$month/$dayOfMonth"
     }
 
     fun setTime(time: String) {
@@ -109,6 +117,19 @@ class ThunderAddViewModel @Inject constructor(
         } else {
             _timeUiText.value = "오전 $changeTime"
         }
+    }
+
+    private fun changeToUiDate(year: Int, month: Int, dayOfMonth: Int) {
+        val dayOfWeek = when (LocalDate.of(year, month, dayOfMonth).dayOfWeek) {
+            DayOfWeek.MONDAY -> "월요일"
+            DayOfWeek.TUESDAY -> "화요일"
+            DayOfWeek.WEDNESDAY -> "수요일"
+            DayOfWeek.THURSDAY -> "목요일"
+            DayOfWeek.FRIDAY -> "금요일"
+            DayOfWeek.SATURDAY -> "토요일"
+            DayOfWeek.SUNDAY -> "일요일"
+        }
+        _dateUiText.value = "$month.$dayOfMonth $dayOfWeek"
     }
 
     companion object {
