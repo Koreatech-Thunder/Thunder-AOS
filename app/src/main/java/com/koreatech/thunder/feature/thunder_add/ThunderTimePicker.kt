@@ -29,9 +29,12 @@ import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
+import java.time.LocalTime
 
 @Composable
 fun ThunderTimePicker(
+    hour: Int,
+    minute: Int,
     setTime: (String) -> Unit,
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties()
@@ -58,6 +61,7 @@ fun ThunderTimePicker(
                     style = ThunderTheme.typography.h3
                 )
                 WheelTimePicker(
+                    startTime = LocalTime.of(hour, minute),
                     modifier = Modifier.padding(horizontal = 64.dp),
                     timeFormat = TimeFormat.AM_PM
                 ) { snappedTime ->

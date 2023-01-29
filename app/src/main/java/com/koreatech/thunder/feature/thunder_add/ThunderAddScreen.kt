@@ -56,9 +56,17 @@ fun ThunderAddScreen(
         thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
     val timeUiText = thunderAddViewModel.timeUiText.collectAsStateWithLifecycle()
     val buttonState = thunderAddViewModel.buttonState.collectAsStateWithLifecycle()
+    val (hour, minute) =
+        thunderAddViewModel.hour24FormatTime.collectAsStateWithLifecycle()
+            .value
+            .split(":")
+            .map { it.toInt() }
     var isDateVisible by remember { mutableStateOf(false) }
+
     if (isDateVisible) {
         ThunderTimePicker(
+            hour = hour,
+            minute = minute,
             setTime = thunderAddViewModel::setTime,
             onDismissRequest = { isDateVisible = false }
         )

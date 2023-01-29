@@ -25,7 +25,7 @@ class ThunderAddViewModel @Inject constructor(
     private val _contentText = MutableStateFlow("")
     private val _dateText = MutableStateFlow("")
     private val _timeUiText = MutableStateFlow("")
-    private val hour24FormatTime = MutableStateFlow("")
+    private val _hour24FormatTime = MutableStateFlow("")
     val limitParticipantsCnt = _limitParticipantsCnt.asStateFlow()
     val hashtags = _hashtags.asStateFlow()
     val selectedHashtagCount = _selectedHashtagCount.asStateFlow()
@@ -33,6 +33,7 @@ class ThunderAddViewModel @Inject constructor(
     val contentText = _contentText.asStateFlow()
     val dateText = _dateText.asStateFlow()
     val timeUiText = _timeUiText.asStateFlow()
+    val hour24FormatTime = _hour24FormatTime.asStateFlow()
     val buttonState =
         combine(
             titleText,
@@ -97,7 +98,7 @@ class ThunderAddViewModel @Inject constructor(
     }
 
     fun setTime(time: String) {
-        hour24FormatTime.value = time
+        _hour24FormatTime.value = time
         changeToUiTime(time)
     }
 
