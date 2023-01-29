@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalTime
-import java.time.temporal.ChronoUnit
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit
+import javax.inject.Inject
 
 @HiltViewModel
 class ThunderAddViewModel @Inject constructor(
@@ -93,8 +93,8 @@ class ThunderAddViewModel @Inject constructor(
         _contentText.value = content
     }
 
-    fun setDate(date: String) {
-        _dateText.value = date
+    fun setDate(year: Int, month: Int, dayOfMonth: Int) {
+        _dateText.value = "$year/$month/$dayOfMonth"
     }
 
     fun setTime(time: String) {

@@ -1,5 +1,6 @@
 package com.koreatech.thunder.feature.thunder_add
 
+import android.app.DatePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -40,6 +42,7 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
+import java.util.Calendar
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -55,12 +58,23 @@ fun ThunderAddScreen(
     val limitParticipantsCnt =
         thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
     val timeUiText = thunderAddViewModel.timeUiText.collectAsStateWithLifecycle()
+    val dateUiText = thunderAddViewModel.dateText.collectAsStateWithLifecycle()
     val buttonState = thunderAddViewModel.buttonState.collectAsStateWithLifecycle()
     val (hour, minute) =
         thunderAddViewModel.hour24FormatTime.collectAsStateWithLifecycle()
             .value
             .split(":")
             .map { it.toInt() }
+    val calendar = Calendar.getInstance()
+    val datePickerDialog = DatePickerDialog(
+        LocalContext.current,
+        { _, year, month, dayOfMonth ->
+            thunderAddViewModel.setDate(year, month+1, dayOfMonth)
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
     var isDateVisible by remember { mutableStateOf(false) }
 
     if (isDateVisible) {
@@ -181,7 +195,9 @@ fun ThunderAddScreen(
                     )
                     BlankSpace(size = 12.dp)
                     Text(
-                        text = "12.05 목요일",
+                        modifier = Modifier
+                            .noRippleClickable { datePickerDialog.show() },
+                        text = dateUiText.value,
                         style = ThunderTheme.typography.h4,
                         color = Orange
                     )
