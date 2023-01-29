@@ -6,6 +6,7 @@ import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.feature.thunder_add.ThunderAddViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import com.koreatech.thunder.util.callPrivateFunc
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import kotlin.test.assertEquals
@@ -127,7 +128,7 @@ class ThunderAddViewModelTest {
         thunderAddViewModel.selectHashtag(0)
         thunderAddViewModel.writeTitle("test")
         thunderAddViewModel.writeContent("test")
-        thunderAddViewModel.setDate("12.05 목요일")
+        thunderAddViewModel.setDate(2023, 2, 18)
         thunderAddViewModel.setTime("오전 9:00")
 
         assertEquals(thunderAddViewModel.buttonState.value, true)
@@ -155,5 +156,26 @@ class ThunderAddViewModelTest {
         compareViewModel.callPrivateFunc("changeToUiTime", currentTime.toString())
 
         assertEquals(thunderAddViewModel.timeUiText.value, compareViewModel.timeUiText.value)
+    }
+
+    @DisplayName("년도, 월, 요일이 들어오면 `12.05 목요일`형식으로 바꿀 수 있다")
+    @Test
+    fun dateTextTest() {
+        val expectedDate = "2.18 토요일"
+
+        thunderAddViewModel.callPrivateFunc("changeToUiDate", 2023, 2, 18)
+
+        assertEquals(thunderAddViewModel.dateUiText.value, expectedDate)
+    }
+
+    @DisplayName("번개 생성하기 진입 시 현재 날짜로 초기화 되어 있다.")
+    @Test
+    fun dateTextTest2() {
+        val compareViewModel = ThunderAddViewModel(getAllSelectableHashtagUseCase)
+        val currentDate = LocalDateTime.now()
+
+        compareViewModel.setDate(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
+
+        assertEquals(thunderAddViewModel.dateUiText.value, compareViewModel.dateUiText.value)
     }
 }
