@@ -24,4 +24,11 @@
     <string name="thunder_report_title">신고완료</string>
     <string name="thunder_report_complete">완료</string>
     <string name="thunder_report_content">해당 사용자를 신고하였습니다.\n신고하신 내용은 충분한 검토 후  결과를 알려드리도록 하겠습니다.</string>
+    <string name="thunder_report_5">낚시/도배</string>
+    <string name="thunder_report_4">음란물/불건전한 게시글</string>
+    <string name="thunder_report_3">사기/허위/사칭</string>
+    <string name="thunder_report_2">욕설/비하</string>
+    <string name="thunder_report_1">스팸/광고성</string>
+    <string name="thunder_report_dialog_title">신고 사유 선택</string>
+    <string name="thunder_report_dialog_content">신고하기 전, 글 내용을 다시 한 번 확인해 주신 후\n신중하게 신고해 주시길 바랍니다.</string>
 </resources>
