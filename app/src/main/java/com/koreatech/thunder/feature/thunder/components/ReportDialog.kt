@@ -16,6 +16,7 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 
 @Composable
 fun ReportDialog(
+    reportUser: (Int) -> Unit,
     onDismissRequest: () -> Unit
 ) {
     ThunderDialogSlot(
@@ -40,27 +41,42 @@ fun ReportDialog(
                 style = ThunderTheme.typography.h5
             )
             Text(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable {
+                    reportUser(0)
+                    onDismissRequest()
+                },
                 text = stringResource(R.string.thunder_report_1),
                 style = ThunderTheme.typography.b3
             )
             Text(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable {
+                    reportUser(1)
+                    onDismissRequest()
+                },
                 text = stringResource(R.string.thunder_report_2),
                 style = ThunderTheme.typography.b3
             )
             Text(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable {
+                    reportUser(2)
+                    onDismissRequest()
+                },
                 text = stringResource(R.string.thunder_report_3),
                 style = ThunderTheme.typography.b3
             )
             Text(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable {
+                    reportUser(3)
+                    onDismissRequest()
+                },
                 text = stringResource(R.string.thunder_report_4),
                 style = ThunderTheme.typography.b3
             )
             Text(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable {
+                    reportUser(4)
+                    onDismissRequest()
+                },
                 text = stringResource(R.string.thunder_report_5),
                 style = ThunderTheme.typography.b3
             )

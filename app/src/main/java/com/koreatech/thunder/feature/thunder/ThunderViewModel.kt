@@ -88,6 +88,10 @@ class ThunderViewModel @Inject constructor(
         _userInfo.value = user
     }
 
+    fun reportUser(reportCategory: Int) {
+        /* userInfo.value.userId, reportCategory */
+    }
+
     companion object {
         const val SELECTABLE_COUNT = 1
     }

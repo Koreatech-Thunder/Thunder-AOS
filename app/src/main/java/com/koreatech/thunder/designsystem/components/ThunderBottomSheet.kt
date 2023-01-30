@@ -32,7 +32,8 @@ import com.koreatech.thunder.domain.model.dummyUsers
 
 @Composable
 fun ThunderBottomSheet(
-    user: User
+    user: User,
+    showReportDialog: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -49,7 +50,9 @@ fun ThunderBottomSheet(
                 postfixComponent = {
                     Text(
                         modifier = Modifier
-                            .clickable { /* 신고하기 다이얼로그 호출 */ }
+                            .clickable {
+                                showReportDialog()
+                            }
                             .padding(4.dp),
                         text = stringResource(R.string.user_report),
                         style = ThunderTheme.typography.b5,
@@ -134,6 +137,6 @@ private fun TemperatureDetail(userUi: User) {
 @Composable
 private fun pv1() {
     ThunderTheme {
-        ThunderBottomSheet(dummyUsers[0])
+        ThunderBottomSheet(dummyUsers[0], {})
     }
 }

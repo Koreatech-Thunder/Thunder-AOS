@@ -18,7 +18,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -39,6 +43,7 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyThunders
+import com.koreatech.thunder.feature.thunder.components.ReportDialog
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
 import com.koreatech.thunder.navigation.ThunderDestination
 import kotlinx.coroutines.launch
@@ -60,6 +65,7 @@ fun ThunderScreen(
     val thunderUiState = thunderViewModel.thunderUiState.collectAsStateWithLifecycle()
     val hashtagUiState = thunderViewModel.hashtagUiState.collectAsStateWithLifecycle()
     val userInfo = thunderViewModel.userInfo.collectAsStateWithLifecycle()
+    var isReportDialogVisible by remember { mutableStateOf(false) }
     val bottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
@@ -71,10 +77,20 @@ fun ThunderScreen(
         }
     }
 
+    if (isReportDialogVisible) {
+        ReportDialog(
+            onDismissRequest = { isReportDialogVisible = false },
+            reportUser = thunderViewModel::reportUser
+        )
+    }
+
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetContent = {
-            ThunderBottomSheet(user = userInfo.value)
+            ThunderBottomSheet(
+                user = userInfo.value,
+                showReportDialog = { isReportDialogVisible = true }
+            )
         }
     ) {
         Scaffold(
