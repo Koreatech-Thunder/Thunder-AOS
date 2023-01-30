@@ -53,6 +53,7 @@ fun ThunderAlterDialogSlot(
             if (!isSingle) {
                 Text(
                     modifier = Modifier
+                        .padding(end = 24.dp)
                         .clickable { onDismissRequest() },
                     text = dismissButtonText,
                     color = Gray,
