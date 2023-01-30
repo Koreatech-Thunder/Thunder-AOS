@@ -12,5 +12,20 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
         <!-- Customize your theme here. -->
+        <item name="android:datePickerDialogTheme">@style/ThunderDatePickerDialogTheme</item>
+    </style>
+
+    <style name="ThunderDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/ThunderDatePickerStyle</item>
+        <item name="android:colorAccent">#FF7F00</item>
+        <item name="android:buttonBarButtonStyle">@style/ThunderDatePickerButtonStyle</item>
+    </style>
+
+    <style name="ThunderDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">#FF7F00</item>
+    </style>
+
+    <style name="ThunderDatePickerButtonStyle" parent="android:Widget.Material.Button.Borderless">
+        <item name="android:textColor">#FF7F00</item>
     </style>
 </resources>
