@@ -1,15 +1,17 @@
 package com.koreatech.thunder.feature.thunder.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.ThunderAlterDialogSlot
 
 @Composable
 fun ReportAlertDialog() {
     ThunderAlterDialogSlot(
         isSingle = true,
-        titleText = "신고완료",
-        contentText = "해당 사용자를 신고하였습니다.\n신고하신 내용은 충분한 검토 후  결과를 알려드리도록 하겠습니다.",
-        confirmButtonText = "완료",
+        titleText = stringResource(R.string.thunder_report_title),
+        contentText = stringResource(R.string.thunder_report_content),
+        confirmButtonText = stringResource(R.string.thunder_report_complete),
         onDismissRequest = { }
     )
 }

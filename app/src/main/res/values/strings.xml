@@ -17,4 +17,11 @@
     <string name="thunder_create_title">채팅방이 생겼어요!</string>
     <string name="thunder_create_subtitle">이 채팅방은 번개가 끝난 후\n하루 뒤에 없어 진다는 점 명심해 주세요~</string>
     <string name="thunder_create_content">금전적 거래는 번개 채팅방에서 자제!\n채팅방에서는 서로에게 매너 있는 모습!\n채팅방이 종료된 후, 서로에 대한 매너 평가까지!</string>
+    <string name="thunder_logout_title">정말 로그아웃 하시겠어요?</string>
+    <string name="thunder_logout_content">재로그인 시 현재 정보를 유지할 수 있어요.</string>
+    <string name="thunder_logout_confirm">로그아웃</string>
+    <string name="thunder_logout_cancel">취소하기</string>
+    <string name="thunder_report_title">신고완료</string>
+    <string name="thunder_report_complete">완료</string>
+    <string name="thunder_report_content">해당 사용자를 신고하였습니다.\n신고하신 내용은 충분한 검토 후  결과를 알려드리도록 하겠습니다.</string>
 </resources>
