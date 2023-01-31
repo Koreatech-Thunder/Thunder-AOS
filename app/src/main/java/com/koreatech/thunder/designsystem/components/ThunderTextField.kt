@@ -27,6 +27,7 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 
 @Composable
 fun ThunderTextField(
+    modifier: Modifier,
     text: String,
     hint: String,
     isLimitTextCount: Boolean = false,
@@ -37,6 +38,7 @@ fun ThunderTextField(
     onTextChange: (String) -> Unit
 ) {
     BasicTextField(
+        modifier = modifier,
         value = text,
         onValueChange = { if (it.length <= limitTextCount) onTextChange(it) },
         textStyle = ThunderTheme.typography.b3,
@@ -85,6 +87,7 @@ private fun ThunderTextFieldPreview() {
     val changeText: (input: String) -> Unit = { text = it }
     ThunderTheme {
         ThunderTextField(
+            modifier = Modifier,
             text = text,
             hint = "제목을 입력하세요",
             onTextChange = changeText,

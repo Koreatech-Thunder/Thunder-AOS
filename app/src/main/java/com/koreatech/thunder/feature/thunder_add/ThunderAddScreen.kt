@@ -163,6 +163,7 @@ fun ThunderAddScreen(
             )
             BlankSpace(size = 12.dp)
             ThunderTextField(
+                modifier = Modifier,
                 text = titleText.value,
                 hint = stringResource(R.string.thunder_add_title_hint),
                 isLimitTextCount = true,
@@ -244,6 +245,7 @@ fun ThunderAddScreen(
             )
             BlankSpace(size = 12.dp)
             ThunderTextField(
+                modifier = Modifier,
                 text = contentText.value,
                 hint = stringResource(R.string.thunder_add_content_hint),
                 isLimitTextCount = true,
