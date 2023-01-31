@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -174,7 +175,10 @@ fun ThunderAddScreen(
                     autoCorrect = true,
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
-                )
+                ),
+                keyboardActions = KeyboardActions(onDone = {
+                    localFocusManager.clearFocus()
+                })
             )
             BlankSpace(size = 8.dp)
             Text(
