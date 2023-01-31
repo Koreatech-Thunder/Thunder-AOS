@@ -31,4 +31,13 @@
     <string name="thunder_report_1">스팸/광고성</string>
     <string name="thunder_report_dialog_title">신고 사유 선택</string>
     <string name="thunder_report_dialog_content">신고하기 전, 글 내용을 다시 한 번 확인해 주신 후\n신중하게 신고해 주시길 바랍니다.</string>
+    <string name="thunder_add_title">번개 생성하기</string>
+    <string name="thunder_add_hashtag_select">카테고리 선택</string>
+    <string name="thunder_add_subtitle">제목</string>
+    <string name="thunder_add_title_hint">제목을 입력하세요</string>
+    <string name="thunder_add_members_cnt">인원</string>
+    <string name="thunder_add_date">날짜</string>
+    <string name="thunder_add_time">시간</string>
+    <string name="thunder_add_content">내용</string>
+    <string name="thunder_add_content_hint">장소, 만나서 할 활동에 대한 내용을 입력하세요</string>
 </resources>

@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -107,7 +108,7 @@ fun ThunderAddScreen(
             },
             title = {
                 Text(
-                    text = "번개 생성하기",
+                    text = stringResource(R.string.thunder_add_title),
                     style = ThunderTheme.typography.h3
                 )
             },
@@ -115,7 +116,7 @@ fun ThunderAddScreen(
                 Text(
                     modifier = Modifier
                         .clickable { /* 번개 추가하기 */ },
-                    text = "완료",
+                    text = stringResource(R.string.thunder_report_complete),
                     style = ThunderTheme.typography.h5,
                     color = if (buttonState.value) Orange else Gray
                 )
@@ -129,7 +130,7 @@ fun ThunderAddScreen(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Text(
-                    text = "카테고리 선택",
+                    text = stringResource(R.string.thunder_add_hashtag_select),
                     style = ThunderTheme.typography.h4
                 )
                 Text(
@@ -146,13 +147,13 @@ fun ThunderAddScreen(
             )
             BlankSpace(size = 28.dp)
             Text(
-                text = "제목",
+                text = stringResource(R.string.thunder_add_subtitle),
                 style = ThunderTheme.typography.h4
             )
             BlankSpace(size = 12.dp)
             ThunderTextField(
                 text = titleText.value,
-                hint = "제목을 입력하세요",
+                hint = stringResource(R.string.thunder_add_title_hint),
                 isLimitTextCount = true,
                 limitTextCount = 20,
                 onTextChange = { text -> thunderAddViewModel.writeTitle(text) },
@@ -165,7 +166,7 @@ fun ThunderAddScreen(
             )
             BlankSpace(size = 8.dp)
             Text(
-                text = "인원",
+                text = stringResource(R.string.thunder_add_members_cnt),
                 style = ThunderTheme.typography.h4
             )
             BlankSpace(size = 12.dp)
@@ -195,7 +196,7 @@ fun ThunderAddScreen(
             ) {
                 Column {
                     Text(
-                        text = "날짜",
+                        text = stringResource(R.string.thunder_add_date),
                         style = ThunderTheme.typography.h4
                     )
                     BlankSpace(size = 12.dp)
@@ -212,7 +213,7 @@ fun ThunderAddScreen(
                 }
                 Column {
                     Text(
-                        text = "시간",
+                        text = stringResource(R.string.thunder_add_time),
                         style = ThunderTheme.typography.h4
                     )
                     BlankSpace(size = 12.dp)
@@ -227,13 +228,13 @@ fun ThunderAddScreen(
             }
             BlankSpace(size = 20.dp)
             Text(
-                text = "내용",
+                text = stringResource(R.string.thunder_add_content),
                 style = ThunderTheme.typography.h4
             )
             BlankSpace(size = 12.dp)
             ThunderTextField(
                 text = contentText.value,
-                hint = "장소, 만나서 할 활동에 대한 내용을 입력하세요",
+                hint = stringResource(R.string.thunder_add_content_hint),
                 isLimitTextCount = true,
                 limitTextCount = 150,
                 onTextChange = { text -> thunderAddViewModel.writeContent(text) }
