@@ -3,6 +3,7 @@ package com.koreatech.thunder.feature.thunder_add
 import android.app.DatePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +21,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -49,7 +53,8 @@ import java.util.Calendar
 @Composable
 fun ThunderAddScreen(
     navController: NavController = rememberNavController(),
-    thunderAddViewModel: ThunderAddViewModel = hiltViewModel()
+    thunderAddViewModel: ThunderAddViewModel = hiltViewModel(),
+    localFocusManager: FocusManager = LocalFocusManager.current
 ) {
     val titleText = thunderAddViewModel.titleText.collectAsStateWithLifecycle()
     val contentText = thunderAddViewModel.contentText.collectAsStateWithLifecycle()
@@ -92,7 +97,13 @@ fun ThunderAddScreen(
         )
     }
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = {
+                    localFocusManager.clearFocus()
+                })
+            }
     ) {
         ThunderToolBarSlot(
             modifier = Modifier
