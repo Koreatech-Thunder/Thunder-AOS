@@ -41,4 +41,11 @@
     <string name="thunder_add_content">내용</string>
     <string name="thunder_add_content_hint">장소, 만나서 할 활동에 대한 내용을 입력하세요</string>
     <string name="kakao_login">카카오톡으로 계속하기</string>
+    <string name="profile_title">프로필 수정</string>
+    <string name="profile_edit_btn">저장</string>
+    <string name="profile_nickname">닉네임</string>
+    <string name="profile_nickname_hint">Hanbun에서 사용할 이름을 입력해주세요.</string>
+    <string name="profile_introduce">자기소개</string>
+    <string name="profile_introduce_hint">자신을 표현할 수 있는 문구를 적어주세요!</string>
+    <string name="profile_hashtag_title">해시태그</string>
 </resources>

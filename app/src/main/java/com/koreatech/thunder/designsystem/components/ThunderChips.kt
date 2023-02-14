@@ -12,6 +12,7 @@ import com.koreatech.thunder.domain.model.SelectableHashtag
 
 @Composable
 fun ThunderChips(
+    modifier: Modifier = Modifier,
     selectableHashtags: List<SelectableHashtag>,
     isClickable: Boolean = false,
     spanCount: Int = 4,
@@ -20,6 +21,7 @@ fun ThunderChips(
     val size = selectableHashtags.size
     val columnCount = if (size == 0) 0 else 1 + (size - 1) / spanCount
     Column(
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         repeat(columnCount) { colIndex ->
