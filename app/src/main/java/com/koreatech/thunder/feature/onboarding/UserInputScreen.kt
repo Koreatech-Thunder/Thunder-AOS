@@ -1,11 +1,15 @@
 package com.koreatech.thunder.feature.onboarding
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -13,7 +17,10 @@ import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderChips
+import com.koreatech.thunder.designsystem.components.ThunderCommonButton
 import com.koreatech.thunder.designsystem.components.ThunderTextField
+import com.koreatech.thunder.designsystem.style.Gray
+import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 
 @Composable
@@ -24,7 +31,7 @@ fun UserInputScreen(
         modifier = Modifier.padding(horizontal = 18.dp)
     ) {
         Text(
-            text = "회원 정보 입력",
+            text = stringResource(R.string.user_input_title),
             style = ThunderTheme.typography.h3
         )
         BlankSpace(size = 88.dp)
@@ -49,7 +56,7 @@ fun UserInputScreen(
         )
         BlankSpace(size = 8.dp)
         Text(
-            text = "관심 있는 카테고리를 선택해 주세요!",
+            text = stringResource(R.string.user_input_hashtag),
             style = ThunderTheme.typography.h3
         )
         BlankSpace(size = 16.dp)
@@ -58,11 +65,19 @@ fun UserInputScreen(
             selectableHashtags = emptyList(),
             selectHashtag = {}
         )
-        
-        Box(
+
+        ThunderCommonButton(
             modifier = Modifier
-        ) {
-            Text(text = "다음으로")
-        }
+                .clickable { }
+                .clip(RoundedCornerShape(8.dp))
+                .background(if (true) Orange else Gray),
+            buttonText = {
+                Text(
+                    text = stringResource(R.string.user_input_btn),
+                    style = ThunderTheme.typography.h4,
+                    color = Color.White
+                )
+            }
+        )
     }
 }

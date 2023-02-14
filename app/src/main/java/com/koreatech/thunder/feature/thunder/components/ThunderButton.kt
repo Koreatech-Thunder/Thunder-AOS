@@ -2,8 +2,8 @@ package com.koreatech.thunder.feature.thunder.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,13 +27,16 @@ fun ThunderButton(thunderState: ThunderState) {
                 }
             }
             .clip(RoundedCornerShape(8.dp))
-            .background(Orange)
-            .padding(vertical = 8.dp, horizontal = 18.dp),
-        textStyle = ThunderTheme.typography.h6,
-        text = when (thunderState) {
-            ThunderState.NON_MEMBER -> stringResource(R.string.enter_thunder)
-            ThunderState.MEMBER -> stringResource(R.string.cancel_thunder)
-            ThunderState.HOST -> stringResource(R.string.edit_thunder)
+            .background(Orange),
+        buttonText = {
+            Text(
+                text = when (thunderState) {
+                    ThunderState.NON_MEMBER -> stringResource(R.string.enter_thunder)
+                    ThunderState.MEMBER -> stringResource(R.string.cancel_thunder)
+                    ThunderState.HOST -> stringResource(R.string.edit_thunder)
+                },
+                style = ThunderTheme.typography.h6
+            )
         }
     )
 }

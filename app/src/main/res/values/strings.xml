@@ -48,4 +48,7 @@
     <string name="profile_introduce">자기소개</string>
     <string name="profile_introduce_hint">자신을 표현할 수 있는 문구를 적어주세요!</string>
     <string name="profile_hashtag_title">해시태그</string>
+    <string name="user_input_btn">다음으로</string>
+    <string name="user_input_hashtag">관심 있는 해시태그를 선택해 주세요!</string>
+    <string name="user_input_title">회원 정보 입력</string>
 </resources>
