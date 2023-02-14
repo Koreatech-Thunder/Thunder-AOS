@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Thunder</string>
+    <string name="app_name">Hanbun</string>
     <string name="bot_profile">프로필</string>
     <string name="bot_chat">채팅</string>
     <string name="bot_thunder">번개</string>
@@ -40,4 +40,5 @@
     <string name="thunder_add_time">시간</string>
     <string name="thunder_add_content">내용</string>
     <string name="thunder_add_content_hint">장소, 만나서 할 활동에 대한 내용을 입력하세요</string>
+    <string name="kakao_login">카카오톡으로 계속하기</string>
 </resources>
