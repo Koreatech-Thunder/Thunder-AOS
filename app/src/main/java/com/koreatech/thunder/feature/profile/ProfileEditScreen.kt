@@ -64,7 +64,7 @@ fun ProfileEditScreen(
         )
         BlankSpace(size = 16.dp)
         ThunderTextField(
-            modifier = Modifier,
+            modifier = Modifier.padding(horizontal = 18.dp),
             text = "",
             hint = stringResource(R.string.profile_nickname_hint),
             limitTextCount = 120,
@@ -79,7 +79,7 @@ fun ProfileEditScreen(
         )
         BlankSpace(size = 16.dp)
         ThunderTextField(
-            modifier = Modifier,
+            modifier = Modifier.padding(horizontal = 18.dp),
             text = "",
             hint = stringResource(R.string.profile_introduce_hint),
             limitTextCount = 120,

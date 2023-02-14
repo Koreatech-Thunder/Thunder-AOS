@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.R
@@ -35,6 +36,7 @@ fun ThunderButton(thunderState: ThunderState) {
                     ThunderState.MEMBER -> stringResource(R.string.cancel_thunder)
                     ThunderState.HOST -> stringResource(R.string.edit_thunder)
                 },
+                color = Color.White,
                 style = ThunderTheme.typography.h6
             )
         }

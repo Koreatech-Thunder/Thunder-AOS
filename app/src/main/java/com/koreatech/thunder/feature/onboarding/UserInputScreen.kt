@@ -3,6 +3,7 @@ package com.koreatech.thunder.feature.onboarding
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -28,7 +29,7 @@ fun UserInputScreen(
     navController: NavController = rememberNavController()
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 18.dp)
+        modifier = Modifier.padding(horizontal = 18.dp, vertical = 24.dp)
     ) {
         Text(
             text = stringResource(R.string.user_input_title),
@@ -57,6 +58,7 @@ fun UserInputScreen(
         BlankSpace(size = 8.dp)
         Text(
             text = stringResource(R.string.user_input_hashtag),
+            color = Gray,
             style = ThunderTheme.typography.h3
         )
         BlankSpace(size = 16.dp)
@@ -68,6 +70,7 @@ fun UserInputScreen(
 
         ThunderCommonButton(
             modifier = Modifier
+                .fillMaxWidth()
                 .clickable { }
                 .clip(RoundedCornerShape(8.dp))
                 .background(if (true) Orange else Gray),
