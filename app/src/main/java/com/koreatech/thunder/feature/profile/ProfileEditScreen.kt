@@ -1,4 +1,4 @@
-package com.koreatech.thunder.feature.onboarding
+package com.koreatech.thunder.feature.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -24,7 +24,7 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 
 @Composable
-fun UserProfileScreen(
+fun ProfileEditScreen(
     navController: NavController = rememberNavController()
 ) {
     Column {
