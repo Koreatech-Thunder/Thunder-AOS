@@ -27,6 +27,7 @@ import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 fun ProfileEditScreen(
     navController: NavController = rememberNavController()
 ) {
+    // test
     Column {
         ThunderToolBarSlot(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 18.dp),
