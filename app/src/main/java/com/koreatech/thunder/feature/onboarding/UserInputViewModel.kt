@@ -13,7 +13,9 @@ class UserInputViewModel @Inject constructor(
     private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
 ) : ViewModel() {
     private val _hashtags: MutableStateFlow<List<SelectableHashtag>> = MutableStateFlow(emptyList())
+    private val _nickname: MutableStateFlow<String> = MutableStateFlow("")
     val hashtags = _hashtags.asStateFlow()
+    val nickname = _nickname.asStateFlow()
 
     init {
         _hashtags.value = getAllSelectableHashtagUseCase()
@@ -24,5 +26,9 @@ class UserInputViewModel @Inject constructor(
             if (idx == index) selectableHashtag.copy(isSelected = !selectableHashtag.isSelected)
             else selectableHashtag
         }
+    }
+
+    fun writeNickname(nickname: String) {
+        _nickname.value = nickname
     }
 }
