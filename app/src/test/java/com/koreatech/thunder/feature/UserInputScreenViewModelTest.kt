@@ -5,6 +5,7 @@ import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.feature.onboarding.UserInputViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
+import com.koreatech.thunder.util.callPrivateFunc
 import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.BeforeEach
@@ -46,5 +47,20 @@ class UserInputScreenViewModelTest {
         userInputViewModel.selectHashtag(0)
 
         assertEquals(userInputViewModel.hashtags.value[0].isSelected, false)
+    }
+
+    @DisplayName("isSelected 값이 true 인 해시태그 name 들이 담겨있는 리스트를 반환한다.")
+    @Test
+    fun hashtagTest3() {
+        val expectedHashtags = listOf(
+            userInputViewModel.hashtags.value[0].hashtag.name,
+            userInputViewModel.hashtags.value[1].hashtag.name
+        )
+
+        userInputViewModel.selectHashtag(0)
+        userInputViewModel.selectHashtag(1)
+        val actualHashtags = userInputViewModel.callPrivateFunc("selectedHashtags")
+
+        assertEquals(actualHashtags, expectedHashtags)
     }
 }
