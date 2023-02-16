@@ -11,14 +11,17 @@ import com.koreatech.thunder.util.CoroutinesTestExtension
 import com.koreatech.thunder.util.getPrivateProperty
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import kotlin.test.assertEquals
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)
@@ -77,7 +80,8 @@ class ProfileEditViewModelTest {
 
         profileEditViewModel.getUserProfile()
 
-        val cacheUser = profileEditViewModel.getPrivateProperty<ProfileEditViewModel,MutableStateFlow<User>>("cacheUser")
+        val cacheUser =
+            profileEditViewModel.getPrivateProperty<ProfileEditViewModel, MutableStateFlow<User>>("cacheUser")
 
         assertEquals("KWY", cacheUser?.value!!.name)
         assertEquals("컴퓨터 공학부", cacheUser.value.introduction)
@@ -87,5 +91,23 @@ class ProfileEditViewModelTest {
         assertEquals(true, cacheUser.value.hashtags[1].isSelected)
         assertEquals(false, cacheUser.value.hashtags[2].isSelected)
         assertEquals(false, cacheUser.value.hashtags[3].isSelected)
+    }
+
+    @DisplayName("유저의 정보가 하나라도 변경될 때 버튼이 활성화 된다.")
+    @Test
+    fun buttonStateTest() = runTest {
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { profileEditViewModel.buttonState.collect() }
+        coEvery { userRepository.getUserProfile() } returns Result.success(dummyUsers[0])
+        profileEditViewModel.getUserProfile()
+
+        assertEquals(profileEditViewModel.buttonState.value, false)
+        profileEditViewModel.selectHashtag(0)
+        assertEquals(profileEditViewModel.buttonState.value, true)
+
+        profileEditViewModel.selectHashtag(0)
+        assertEquals(profileEditViewModel.buttonState.value, false)
+
+        collectJob.cancel()
     }
 }
