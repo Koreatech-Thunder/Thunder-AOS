@@ -27,6 +27,9 @@ class ProfileEditViewModel @Inject constructor(
             hashtags = emptyList()
         )
     )
+    private val cacheUser: MutableStateFlow<User> = MutableStateFlow(
+        _user.value.copy()
+    )
     val user = _user.asStateFlow()
 
     fun getUserProfile() {
@@ -40,6 +43,7 @@ class ProfileEditViewModel @Inject constructor(
                         temperature = user.temperature,
                         hashtags = getAllSelectableHashtagUseCase(user.hashtags)
                     )
+                    cacheUser.value = _user.value.copy()
                 }
                 .onFailure { Timber.e("error ${it.message}") }
         }
