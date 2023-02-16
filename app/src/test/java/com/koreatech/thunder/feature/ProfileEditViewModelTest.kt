@@ -1,21 +1,24 @@
 package com.koreatech.thunder.feature
 
 import com.koreatech.thunder.domain.model.Hashtag
+import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.UserRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
 import com.koreatech.thunder.feature.profile.ProfileEditViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
+import com.koreatech.thunder.util.getPrivateProperty
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.test.assertEquals
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)
@@ -65,5 +68,24 @@ class ProfileEditViewModelTest {
         assertEquals(true, profileEditViewModel.user.value.hashtags[1].isSelected)
         assertEquals(false, profileEditViewModel.user.value.hashtags[2].isSelected)
         assertEquals(false, profileEditViewModel.user.value.hashtags[3].isSelected)
+    }
+
+    @DisplayName("처음 유저의 프로필 정보를 저장하고 있다.")
+    @Test
+    fun profileTest2() {
+        coEvery { userRepository.getUserProfile() } returns Result.success(dummyUsers[0])
+
+        profileEditViewModel.getUserProfile()
+
+        val cacheUser = profileEditViewModel.getPrivateProperty<ProfileEditViewModel,MutableStateFlow<User>>("cacheUser")
+
+        assertEquals("KWY", cacheUser?.value!!.name)
+        assertEquals("컴퓨터 공학부", cacheUser.value.introduction)
+        assertEquals(36, cacheUser.value.temperature)
+        assertEquals(Hashtag.values().size, cacheUser.value.hashtags.size)
+        assertEquals(true, cacheUser.value.hashtags[0].isSelected)
+        assertEquals(true, cacheUser.value.hashtags[1].isSelected)
+        assertEquals(false, cacheUser.value.hashtags[2].isSelected)
+        assertEquals(false, cacheUser.value.hashtags[3].isSelected)
     }
 }
