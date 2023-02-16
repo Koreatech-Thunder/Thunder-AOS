@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.R
@@ -23,11 +26,14 @@ import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ProfileEditScreen(
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    profileEditViewModel: ProfileEditViewModel = hiltViewModel()
 ) {
-    // test
+    val user = profileEditViewModel.user.collectAsStateWithLifecycle()
+
     Column {
         ThunderToolBarSlot(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 18.dp),
@@ -66,10 +72,9 @@ fun ProfileEditScreen(
         BlankSpace(size = 16.dp)
         ThunderTextField(
             modifier = Modifier.padding(horizontal = 18.dp),
-            text = "",
+            text = user.value.name,
             hint = stringResource(R.string.profile_nickname_hint),
-            limitTextCount = 120,
-            onTextChange = {}
+            onTextChange = profileEditViewModel::writeNickname
         )
         BlankSpace(size = 42.dp)
 
@@ -81,10 +86,11 @@ fun ProfileEditScreen(
         BlankSpace(size = 16.dp)
         ThunderTextField(
             modifier = Modifier.padding(horizontal = 18.dp),
-            text = "",
+            text = user.value.introduction,
             hint = stringResource(R.string.profile_introduce_hint),
             limitTextCount = 120,
-            onTextChange = {}
+            isLimitTextCount = true,
+            onTextChange = profileEditViewModel::writeIntroduction
         )
         BlankSpace(size = 20.dp)
 
@@ -96,8 +102,8 @@ fun ProfileEditScreen(
         BlankSpace(size = 12.dp)
         ThunderChips(
             modifier = Modifier.padding(horizontal = 18.dp),
-            selectableHashtags = emptyList(),
-            selectHashtag = {}
+            selectableHashtags = user.value.hashtags,
+            selectHashtag = profileEditViewModel::selectHashtag
         )
     }
 }
