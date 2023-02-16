@@ -5,6 +5,13 @@ data class SelectableHashtag(
     val isSelected: Boolean = false
 )
 
+fun List<SelectableHashtag>.isContains(otherHashtag: SelectableHashtag): Boolean {
+    this.forEach { selectableHashtag ->
+        if (selectableHashtag.hashtag == otherHashtag.hashtag) return true
+    }
+    return false
+}
+
 val dummySelectableHashtag = listOf(
     SelectableHashtag(
         Hashtag.SPORT
