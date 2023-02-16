@@ -1,6 +1,7 @@
 package com.koreatech.thunder.feature.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -33,14 +34,14 @@ fun ProfileEditScreen(
     profileEditViewModel: ProfileEditViewModel = hiltViewModel()
 ) {
     val user = profileEditViewModel.user.collectAsStateWithLifecycle()
+    val buttonState = profileEditViewModel.buttonState.collectAsStateWithLifecycle()
 
     Column {
         ThunderToolBarSlot(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 18.dp),
             navigationIcon = {
                 Image(
-                    modifier = Modifier
-                        .noRippleClickable { navController.popBackStack() },
+                    modifier = Modifier.noRippleClickable { navController.popBackStack() },
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = ""
                 )
@@ -53,11 +54,12 @@ fun ProfileEditScreen(
             },
             action = {
                 Text(
-                    modifier = Modifier
-                        .noRippleClickable { /* edit profile */ },
+                    modifier = Modifier.clickable(buttonState.value) {
+                        /* edit profile */
+                    },
                     text = stringResource(R.string.profile_edit_btn),
                     style = ThunderTheme.typography.h5,
-                    color = if (true) Orange200 else Orange
+                    color = if (buttonState.value) Orange200 else Orange
                 )
             }
         )
