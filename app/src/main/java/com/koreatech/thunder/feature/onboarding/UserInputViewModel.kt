@@ -31,4 +31,13 @@ class UserInputViewModel @Inject constructor(
     fun writeNickname(nickname: String) {
         _nickname.value = nickname
     }
+
+    private fun selectedHashtags(): List<String> =
+        mutableListOf<String>().apply {
+            hashtags.value.forEach { selectedHashtag ->
+                if (selectedHashtag.isSelected) add(
+                    selectedHashtag.hashtag.name
+                )
+            }
+        }
 }
