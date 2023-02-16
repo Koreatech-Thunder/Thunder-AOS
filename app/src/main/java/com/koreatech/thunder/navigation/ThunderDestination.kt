@@ -25,5 +25,6 @@ enum class ThunderDestination(
         description = R.string.bot_profile
     ),
     ADD,
-    USERINPUT
+    USERINPUT,
+    ONBOARDING
 }

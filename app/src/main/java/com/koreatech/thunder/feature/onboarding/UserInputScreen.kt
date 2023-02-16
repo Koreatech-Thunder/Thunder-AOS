@@ -33,6 +33,7 @@ import com.koreatech.thunder.designsystem.components.ThunderTextField
 import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.navigation.ThunderDestination
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -96,7 +97,10 @@ fun UserInputScreen(
         ThunderCommonButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { }
+                .clickable {
+                    /* 통신 API 성공 이후에 */
+                    navController.navigate(ThunderDestination.ONBOARDING.name)
+                }
                 .clip(RoundedCornerShape(8.dp))
                 .background(if (nickname.value.isNotEmpty()) Orange else Gray),
             buttonText = {
