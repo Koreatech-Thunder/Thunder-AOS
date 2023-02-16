@@ -6,13 +6,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.R
@@ -24,10 +34,16 @@ import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun UserInputScreen(
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    userInputViewModel: UserInputViewModel = hiltViewModel(),
+    localFocusManager: FocusManager = LocalFocusManager.current
 ) {
+    val hashtags = userInputViewModel.hashtags.collectAsStateWithLifecycle()
+    val nickname = userInputViewModel.nickname.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier.padding(horizontal = 18.dp, vertical = 24.dp)
     ) {
@@ -35,7 +51,7 @@ fun UserInputScreen(
             text = stringResource(R.string.user_input_title),
             style = ThunderTheme.typography.h3
         )
-        BlankSpace(size = 88.dp)
+        BlankSpace(size = 64.dp)
 
         Text(
             text = stringResource(R.string.profile_nickname),
@@ -44,10 +60,18 @@ fun UserInputScreen(
         BlankSpace(size = 24.dp)
         ThunderTextField(
             modifier = Modifier,
-            text = "",
+            text = nickname.value,
             hint = stringResource(R.string.profile_nickname_hint),
-            limitTextCount = 120,
-            onTextChange = {}
+            onTextChange = userInputViewModel::writeNickname,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                capitalization = KeyboardCapitalization.Sentences,
+                autoCorrect = true,
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { localFocusManager.clearFocus() }
+            )
         )
         BlankSpace(size = 30.dp)
 
@@ -59,13 +83,14 @@ fun UserInputScreen(
         Text(
             text = stringResource(R.string.user_input_hashtag),
             color = Gray,
-            style = ThunderTheme.typography.h3
+            style = ThunderTheme.typography.b3
         )
         BlankSpace(size = 16.dp)
         ThunderChips(
             modifier = Modifier.weight(1f),
-            selectableHashtags = emptyList(),
-            selectHashtag = {}
+            selectableHashtags = hashtags.value,
+            isClickable = true,
+            selectHashtag = userInputViewModel::selectHashtag
         )
 
         ThunderCommonButton(
@@ -73,7 +98,7 @@ fun UserInputScreen(
                 .fillMaxWidth()
                 .clickable { }
                 .clip(RoundedCornerShape(8.dp))
-                .background(if (true) Orange else Gray),
+                .background(if (nickname.value.isNotEmpty()) Orange else Gray),
             buttonText = {
                 Text(
                     text = stringResource(R.string.user_input_btn),
