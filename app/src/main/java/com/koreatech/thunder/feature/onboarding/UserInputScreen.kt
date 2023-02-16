@@ -99,7 +99,7 @@ fun UserInputScreen(
                 .fillMaxWidth()
                 .clickable {
                     /* 통신 API 성공 이후에 */
-                    navController.navigate(ThunderDestination.ONBOARDING.name)
+                    navController.navigate(ThunderDestination.ON_BOARDING.name)
                 }
                 .clip(RoundedCornerShape(8.dp))
                 .background(if (nickname.value.isNotEmpty()) Orange else Gray),

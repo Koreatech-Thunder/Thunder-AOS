@@ -8,15 +8,17 @@ import androidx.navigation.compose.composable
 import com.koreatech.thunder.feature.chat.ChatScreen
 import com.koreatech.thunder.feature.onboarding.OnBoardingScreen
 import com.koreatech.thunder.feature.onboarding.UserInputScreen
+import com.koreatech.thunder.feature.profile.ProfileEditScreen
 import com.koreatech.thunder.feature.profile.ProfileScreen
 import com.koreatech.thunder.feature.thunder.ThunderScreen
 import com.koreatech.thunder.feature.thunder_add.ThunderAddScreen
 import com.koreatech.thunder.navigation.ThunderDestination.ADD
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT
-import com.koreatech.thunder.navigation.ThunderDestination.ONBOARDING
+import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
+import com.koreatech.thunder.navigation.ThunderDestination.PROFILE_EDIT
 import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
-import com.koreatech.thunder.navigation.ThunderDestination.USERINPUT
+import com.koreatech.thunder.navigation.ThunderDestination.USER_INPUT
 
 @Composable
 fun ThunderNavHost(
@@ -33,7 +35,8 @@ fun ThunderNavHost(
         composable(CHAT.name) { ChatScreen(navController = navController) }
         composable(PROFILE.name) { ProfileScreen(navController = navController) }
         composable(ADD.name) { ThunderAddScreen(navController = navController) }
-        composable(USERINPUT.name) { UserInputScreen(navController = navController) }
-        composable(ONBOARDING.name) { OnBoardingScreen(navController = navController) }
+        composable(USER_INPUT.name) { UserInputScreen(navController = navController) }
+        composable(ON_BOARDING.name) { OnBoardingScreen(navController = navController) }
+        composable(PROFILE_EDIT.name) { ProfileEditScreen(navController = navController) }
     }
 }
