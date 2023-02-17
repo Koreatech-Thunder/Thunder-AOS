@@ -51,4 +51,13 @@
     <string name="user_input_btn">다음으로</string>
     <string name="user_input_hashtag">관심 있는 해시태그를 선택해 주세요!</string>
     <string name="user_input_title">회원 정보 입력</string>
+    <string name="profile_logout">로그아웃</string>
+    <string name="profile_withdraw">회원 탈퇴</string>
+    <string name="profile_tool_bar">내 프로필</string>
+    <string name="profile_service_setting_title">서비스 설정</string>
+    <string name="profile_alarm_setting">알림 설정</string>
+    <string name="profile_participated_thunders">참여한 번개방 목록</string>
+    <string name="profile_service_manage">서비스 관리</string>
+    <string name="profile_feedback">피드백 보내기</string>
+    <string name="profile_app_information">앱 정보</string>
 </resources>
