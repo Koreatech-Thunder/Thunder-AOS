@@ -15,6 +15,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +27,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
@@ -36,21 +43,31 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.User
-import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import com.koreatech.thunder.navigation.ThunderDestination
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ProfileScreen(
-    navController: NavController
+    navController: NavController,
+    profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val user = profileViewModel.user.collectAsStateWithLifecycle()
+    var isLogOutDialogVisible by remember { mutableStateOf(false) }
+
+    if (isLogOutDialogVisible) {
+        LogoutAlertDialog(
+            onConfirmRequest = {},
+            onDismissRequest = { isLogOutDialogVisible = false }
+        )
+    }
     Column(
         verticalArrangement = Arrangement.Center
     ) {
         ProfileToolBar()
         BlankSpace(size = 12.dp)
         UserDetail(
-            user = dummyUsers[0],
+            user = user.value,
             toProfileEdit = { navController.navigate(ThunderDestination.PROFILE_EDIT.name) }
         )
         BlankSpace(size = 20.dp)
@@ -60,7 +77,9 @@ fun ProfileScreen(
         Text(
             modifier = Modifier
                 .padding(start = 16.dp)
-                .noRippleClickable { },
+                .noRippleClickable {
+                    isLogOutDialogVisible = true
+                },
             text = stringResource(R.string.profile_logout),
             style = ThunderTheme.typography.b2
         )

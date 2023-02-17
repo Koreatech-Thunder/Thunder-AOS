@@ -6,11 +6,16 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.ThunderAlterDialogSlot
 
 @Composable
-fun LogoutAlertDialog() {
+fun LogoutAlertDialog(
+    onConfirmRequest: () -> Unit,
+    onDismissRequest: () -> Unit
+) {
     ThunderAlterDialogSlot(
         titleText = stringResource(R.string.thunder_logout_title),
         contentText = stringResource(R.string.thunder_logout_content),
         confirmButtonText = stringResource(R.string.thunder_logout_confirm),
-        dismissButtonText = stringResource(R.string.thunder_logout_cancel)
+        dismissButtonText = stringResource(R.string.thunder_logout_cancel),
+        onConfirmRequest = onConfirmRequest,
+        onDismissRequest = onDismissRequest
     )
 }
