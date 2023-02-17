@@ -78,7 +78,10 @@ fun ProfileScreen(
             toProfileEdit = { navController.navigate(ThunderDestination.PROFILE_EDIT.name) }
         )
         BlankSpace(size = 20.dp)
-        ServiceSettings()
+        ServiceSettings(
+            toAlarmSetting = { navController.navigate(ThunderDestination.ALARM_SETTING.name) },
+            toThunderRecord = { navController.navigate(ThunderDestination.THUNDER_RECORD.name) }
+        )
         ServiceManages()
         BlankSpace(size = 20.dp)
         Text(
@@ -213,20 +216,27 @@ private fun ProfileDetail(userUi: User) {
 }
 
 @Composable
-private fun ServiceSettings() {
+private fun ServiceSettings(
+    toAlarmSetting: () -> Unit,
+    toThunderRecord: () -> Unit
+) {
     SettingItemSlot(
         settingTitle = stringResource(R.string.profile_service_setting_title),
         firstSetting = {
             SettingTextItem(
                 modifier = Modifier
-                    .noRippleClickable { },
+                    .noRippleClickable {
+                        toAlarmSetting()
+                    },
                 settingText = stringResource(R.string.profile_alarm_setting)
             )
         },
         secondSetting = {
             SettingTextItem(
                 modifier = Modifier
-                    .noRippleClickable { },
+                    .noRippleClickable {
+                        toThunderRecord()
+                    },
                 settingText = stringResource(R.string.profile_participated_thunders)
             )
         }

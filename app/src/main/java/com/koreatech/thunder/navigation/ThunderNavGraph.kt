@@ -8,16 +8,20 @@ import androidx.navigation.compose.composable
 import com.koreatech.thunder.feature.chat.ChatScreen
 import com.koreatech.thunder.feature.onboarding.OnBoardingScreen
 import com.koreatech.thunder.feature.onboarding.UserInputScreen
+import com.koreatech.thunder.feature.profile.AlarmSettingScreen
 import com.koreatech.thunder.feature.profile.ProfileEditScreen
 import com.koreatech.thunder.feature.profile.ProfileScreen
+import com.koreatech.thunder.feature.profile.ThunderRecordScreen
 import com.koreatech.thunder.feature.thunder.ThunderScreen
 import com.koreatech.thunder.feature.thunder_add.ThunderAddScreen
 import com.koreatech.thunder.navigation.ThunderDestination.ADD
+import com.koreatech.thunder.navigation.ThunderDestination.ALARM_SETTING
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT
 import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE_EDIT
 import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
+import com.koreatech.thunder.navigation.ThunderDestination.THUNDER_RECORD
 import com.koreatech.thunder.navigation.ThunderDestination.USER_INPUT
 
 @Composable
@@ -38,5 +42,7 @@ fun ThunderNavHost(
         composable(USER_INPUT.name) { UserInputScreen(navController = navController) }
         composable(ON_BOARDING.name) { OnBoardingScreen(navController = navController) }
         composable(PROFILE_EDIT.name) { ProfileEditScreen(navController = navController) }
+        composable(THUNDER_RECORD.name) { ThunderRecordScreen(navController = navController) }
+        composable(ALARM_SETTING.name) { AlarmSettingScreen(navController = navController) }
     }
 }

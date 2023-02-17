@@ -60,4 +60,5 @@
     <string name="profile_service_manage">서비스 관리</string>
     <string name="profile_feedback">피드백 보내기</string>
     <string name="profile_app_information">앱 정보</string>
+    <string name="thunder_record_title">참여한 번개 목록</string>
 </resources>

@@ -27,5 +27,7 @@ enum class ThunderDestination(
     ADD,
     USER_INPUT,
     ON_BOARDING,
-    PROFILE_EDIT
+    PROFILE_EDIT,
+    THUNDER_RECORD,
+    ALARM_SETTING
 }
