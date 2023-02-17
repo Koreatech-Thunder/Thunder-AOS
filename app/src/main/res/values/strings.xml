@@ -61,4 +61,8 @@
     <string name="profile_feedback">피드백 보내기</string>
     <string name="profile_app_information">앱 정보</string>
     <string name="thunder_record_title">참여한 번개 목록</string>
+    <string name="alarm_setting_title">알림 설정</string>
+    <string name="chat_alarm">채팅 알림 받기</string>
+    <string name="evaluation_alarm">평가 알림 받기</string>
+    <string name="thunder_alarm">해시태그 별 번개방 알림 받기</string>
 </resources>
