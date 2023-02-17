@@ -54,11 +54,18 @@ fun ProfileScreen(
 ) {
     val user = profileViewModel.user.collectAsStateWithLifecycle()
     var isLogOutDialogVisible by remember { mutableStateOf(false) }
+    var isWithDrawDialogVisible by remember { mutableStateOf(false) }
 
     if (isLogOutDialogVisible) {
         LogoutAlertDialog(
             onConfirmRequest = {},
             onDismissRequest = { isLogOutDialogVisible = false }
+        )
+    }
+    if (isWithDrawDialogVisible) {
+        WithDrawDialog(
+            userName = user.value.name,
+            onDismissRequest = { isWithDrawDialogVisible = false }
         )
     }
     Column(
@@ -87,7 +94,9 @@ fun ProfileScreen(
         Text(
             modifier = Modifier
                 .padding(start = 16.dp)
-                .noRippleClickable { },
+                .noRippleClickable {
+                    isWithDrawDialogVisible = true
+                },
             text = stringResource(R.string.profile_withdraw),
             textDecoration = TextDecoration.Underline,
             color = Gray,
