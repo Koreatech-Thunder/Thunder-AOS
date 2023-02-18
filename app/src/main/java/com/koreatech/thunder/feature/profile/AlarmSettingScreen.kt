@@ -57,7 +57,7 @@ fun AlarmSettingScreen(
         AlarmSettingItem(
             alarmText = stringResource(R.string.thunder_alarm),
             isChecked = alarms.value[1],
-            onClick = { alarmSettingViewModel.clickAlarm(1) }
+            onClick = { alarmSettingViewModel.clickAlarm(0) }
         )
         Divider(modifier = Modifier.height(1.dp))
         AlarmSettingItem(
