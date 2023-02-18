@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -35,7 +34,6 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.navigation.ThunderDestination
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun UserInputScreen(
     navController: NavController = rememberNavController(),

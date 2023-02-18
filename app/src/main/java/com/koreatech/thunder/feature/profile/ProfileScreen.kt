@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
@@ -46,7 +45,6 @@ import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import com.koreatech.thunder.navigation.ThunderDestination
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,

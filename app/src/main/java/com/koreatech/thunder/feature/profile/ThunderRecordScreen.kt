@@ -17,7 +17,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
@@ -28,7 +27,7 @@ import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.feature.thunder.components.ThunderTextHashtags
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
+
 @Composable
 fun ThunderRecordScreen(
     navController: NavController,
