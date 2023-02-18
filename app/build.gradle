@@ -53,6 +53,10 @@ android {
 }
 
 dependencies {
+    // view pager
+    implementation "com.google.accompanist:accompanist-pager:0.29.1-alpha"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.29.1-alpha"
+
     // kakao
     implementation "com.kakao.sdk:v2-user:2.12.1"
     // kotlin reflection

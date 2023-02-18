@@ -65,4 +65,5 @@
     <string name="chat_alarm">채팅 알림 받기</string>
     <string name="evaluation_alarm">평가 알림 받기</string>
     <string name="thunder_alarm">해시태그 별 번개방 알림 받기</string>
+    <string name="on_boarding_next">다음으로</string>
 </resources>
