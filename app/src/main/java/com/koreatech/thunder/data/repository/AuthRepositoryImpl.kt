@@ -5,13 +5,17 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.koreatech.thunder.data.source.local.AuthLocalDataSource
+import com.koreatech.thunder.domain.model.SplashState
+import com.koreatech.thunder.domain.repository.AuthRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import timber.log.Timber
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context
-) {
+    @ApplicationContext private val context: Context,
+    private val authLocalDataSource: AuthLocalDataSource
+) : AuthRepository {
     fun kakaoLogin(
         callback: (OAuthToken?, Throwable?) -> Unit
     ) {
@@ -37,4 +41,11 @@ class AuthRepositoryImpl @Inject constructor(
             UserApiClient.instance.loginWithKakaoAccount(context, callback = callback)
         }
     }
+
+    override fun setSplashState(splashState: SplashState) {
+        authLocalDataSource.splashState = splashState.toString()
+    }
+
+    override fun getSplashState(): SplashState =
+        SplashState.valueOf(authLocalDataSource.splashState)
 }
