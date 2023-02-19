@@ -3,6 +3,7 @@ package com.koreatech.thunder.feature.onboarding
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,11 +39,16 @@ import com.koreatech.thunder.designsystem.components.ThunderCommonButton
 import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.domain.model.SplashState
+import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
+import com.koreatech.thunder.navigation.ThunderDestination
+import com.koreatech.thunder.navigation.popAndMoveTo
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun OnBoardingScreen(
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    setSplashStateUseCase: SetSplashStateUseCase
 ) {
     val onBoardings = listOf(
         OnBoarding(
@@ -86,7 +92,11 @@ fun OnBoardingScreen(
             totalDots = 4,
             selectedIndex = state.currentPage,
             selectedColor = Orange,
-            unSelectedColor = Gray
+            unSelectedColor = Gray,
+            toMainScreen = {
+                setSplashStateUseCase(SplashState.MAIN)
+                navController.popAndMoveTo(ThunderDestination.THUNDER)
+            }
         )
     }
 }
@@ -133,7 +143,8 @@ fun DotsIndicator(
     totalDots: Int,
     selectedIndex: Int,
     selectedColor: Color,
-    unSelectedColor: Color
+    unSelectedColor: Color,
+    toMainScreen: () -> Unit
 ) {
     if (selectedIndex != totalDots - 1) {
         LazyRow(
@@ -169,6 +180,9 @@ fun DotsIndicator(
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(Orange)
+                .clickable {
+                    toMainScreen()
+                }
         ) {
             Text(
                 text = stringResource(R.string.on_boarding_next),

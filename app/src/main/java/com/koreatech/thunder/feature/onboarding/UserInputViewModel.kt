@@ -2,7 +2,9 @@ package com.koreatech.thunder.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import com.koreatech.thunder.domain.model.SelectableHashtag
+import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class UserInputViewModel @Inject constructor(
-    private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
+    private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase,
+    private val setSplashStateUseCase: SetSplashStateUseCase
 ) : ViewModel() {
     private val _hashtags: MutableStateFlow<List<SelectableHashtag>> = MutableStateFlow(emptyList())
     private val _nickname: MutableStateFlow<String> = MutableStateFlow("")
@@ -40,4 +43,8 @@ class UserInputViewModel @Inject constructor(
                 )
             }
         }
+
+    fun setSplashState(splashState: SplashState) {
+        setSplashStateUseCase(splashState)
+    }
 }

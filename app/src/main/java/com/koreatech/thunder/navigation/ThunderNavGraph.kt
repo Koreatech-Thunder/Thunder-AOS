@@ -2,9 +2,12 @@ package com.koreatech.thunder.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
+import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.feature.chat.ChatScreen
 import com.koreatech.thunder.feature.onboarding.LoginScreen
 import com.koreatech.thunder.feature.onboarding.OnBoardingScreen
@@ -32,7 +35,9 @@ import com.koreatech.thunder.navigation.ThunderDestination.USER_INPUT
 fun ThunderNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = SPLASH.name
+    startDestination: String = SPLASH.name,
+    getSplashStateUseCase: GetSplashStateUseCase,
+    setSplashStateUseCase: SetSplashStateUseCase
 ) {
     NavHost(
         navController = navController,
@@ -44,11 +49,29 @@ fun ThunderNavHost(
         composable(PROFILE.name) { ProfileScreen(navController = navController) }
         composable(ADD.name) { ThunderAddScreen(navController = navController) }
         composable(USER_INPUT.name) { UserInputScreen(navController = navController) }
-        composable(ON_BOARDING.name) { OnBoardingScreen(navController = navController) }
+        composable(ON_BOARDING.name) {
+            OnBoardingScreen(
+                navController = navController,
+                setSplashStateUseCase = setSplashStateUseCase
+            )
+        }
         composable(PROFILE_EDIT.name) { ProfileEditScreen(navController = navController) }
         composable(THUNDER_RECORD.name) { ThunderRecordScreen(navController = navController) }
         composable(ALARM_SETTING.name) { AlarmSettingScreen(navController = navController) }
-        composable(SPLASH.name) { SplashScreen(navController = navController) }
+        composable(SPLASH.name) {
+            SplashScreen(
+                navController = navController,
+                getSplashStateUseCase = getSplashStateUseCase
+            )
+        }
         composable(LOGIN.name) { LoginScreen(navController = navController) }
+    }
+}
+
+fun NavController.popAndMoveTo(thunderDestination: ThunderDestination) {
+    navigate(thunderDestination.name) {
+        popUpTo(this@popAndMoveTo.graph.id) {
+            inclusive = true
+        }
     }
 }

@@ -8,27 +8,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.koreatech.thunder.domain.model.SplashState
+import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
 import com.koreatech.thunder.navigation.ThunderDestination.LOGIN
 import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
 import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
 import com.koreatech.thunder.navigation.ThunderDestination.USER_INPUT
+import com.koreatech.thunder.navigation.popAndMoveTo
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
     navController: NavController,
-    splashViewModel: SplashViewModel = hiltViewModel()
+    getSplashStateUseCase: GetSplashStateUseCase
 ) {
     LaunchedEffect(true) {
         delay(2000)
-        when (splashViewModel.getSplashState()) {
-            SplashState.LOGIN -> navController.navigate(LOGIN.name)
-            SplashState.ON_BOARDING -> navController.navigate(ON_BOARDING.name)
-            SplashState.USER_INPUT -> navController.navigate(USER_INPUT.name)
-            SplashState.MAIN -> navController.navigate(THUNDER.name)
+        navController.popBackStack()
+        when (getSplashStateUseCase()) {
+            SplashState.LOGIN -> navController.popAndMoveTo(LOGIN)
+            SplashState.ON_BOARDING -> navController.popAndMoveTo(ON_BOARDING)
+            SplashState.USER_INPUT -> navController.popAndMoveTo(USER_INPUT)
+            SplashState.MAIN -> navController.popAndMoveTo(THUNDER)
         }
     }
     Column(

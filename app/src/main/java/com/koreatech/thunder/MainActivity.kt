@@ -17,15 +17,23 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
+import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.navigation.ThunderBottomBar
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
 import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
 import com.koreatech.thunder.navigation.ThunderNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var getSplashStateUseCase: GetSplashStateUseCase
+
+    @Inject
+    lateinit var setSplashStateUseCase: SetSplashStateUseCase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -57,7 +65,9 @@ class MainActivity : AppCompatActivity() {
                 ThunderTheme {
                     ThunderNavHost(
                         navController = navController,
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding),
+                        getSplashStateUseCase = getSplashStateUseCase,
+                        setSplashStateUseCase = setSplashStateUseCase
                     )
                 }
             }

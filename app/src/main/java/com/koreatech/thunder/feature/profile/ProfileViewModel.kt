@@ -2,18 +2,21 @@ package com.koreatech.thunder.feature.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
+import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getUserProfileUseCase: GetUserProfileUseCase
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val setSplashStateUseCase: SetSplashStateUseCase
 ) : ViewModel() {
     private val _user: MutableStateFlow<User> = MutableStateFlow(
         User(
@@ -40,5 +43,9 @@ class ProfileViewModel @Inject constructor(
                 }
                 .onFailure { Timber.e("error ${it.message}") }
         }
+    }
+
+    fun setSplashState(splashState: SplashState) {
+        setSplashStateUseCase(splashState)
     }
 }

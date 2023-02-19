@@ -32,7 +32,9 @@ import com.koreatech.thunder.designsystem.components.ThunderTextField
 import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.navigation.ThunderDestination
+import com.koreatech.thunder.navigation.popAndMoveTo
 
 @Composable
 fun UserInputScreen(
@@ -95,12 +97,13 @@ fun UserInputScreen(
         ThunderCommonButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable {
-                    /* 통신 API 성공 이후에 */
-                    navController.navigate(ThunderDestination.ON_BOARDING.name)
-                }
                 .clip(RoundedCornerShape(8.dp))
-                .background(if (nickname.value.isNotEmpty()) Orange else Gray),
+                .background(if (nickname.value.isNotEmpty()) Orange else Gray)
+                .clickable(nickname.value.isNotEmpty()) {
+                    /* 통신 API 성공 이후에 */
+                    userInputViewModel.setSplashState(SplashState.ON_BOARDING)
+                    navController.popAndMoveTo(ThunderDestination.ON_BOARDING)
+                },
             buttonText = {
                 Text(
                     text = stringResource(R.string.user_input_btn),

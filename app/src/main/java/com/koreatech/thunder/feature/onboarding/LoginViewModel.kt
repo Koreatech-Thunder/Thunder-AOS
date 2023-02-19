@@ -3,13 +3,16 @@ package com.koreatech.thunder.feature.onboarding
 import androidx.lifecycle.ViewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.koreatech.thunder.data.repository.AuthRepositoryImpl
+import com.koreatech.thunder.domain.model.SplashState
+import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import timber.log.Timber
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepositoryImpl
+    private val authRepository: AuthRepositoryImpl,
+    private val setSplashStateUseCase: SetSplashStateUseCase
 ) : ViewModel() {
     fun handleKakao() {
         // 카카오계정으로 로그인 공통 callback 구성
@@ -22,5 +25,9 @@ class LoginViewModel @Inject constructor(
             }
         }
         authRepository.kakaoLogin(callback)
+    }
+
+    fun setSplashState(splashState: SplashState) {
+        setSplashStateUseCase(splashState)
     }
 }

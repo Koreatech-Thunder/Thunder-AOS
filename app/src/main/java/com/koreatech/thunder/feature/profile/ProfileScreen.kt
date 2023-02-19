@@ -41,9 +41,11 @@ import com.koreatech.thunder.designsystem.style.Gray200
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import com.koreatech.thunder.navigation.ThunderDestination
+import com.koreatech.thunder.navigation.popAndMoveTo
 
 @Composable
 fun ProfileScreen(
@@ -56,14 +58,21 @@ fun ProfileScreen(
 
     if (isLogOutDialogVisible) {
         LogoutAlertDialog(
-            onConfirmRequest = {},
+            onConfirmRequest = {
+                navController.popAndMoveTo(ThunderDestination.LOGIN)
+                profileViewModel.setSplashState(SplashState.LOGIN)
+            },
             onDismissRequest = { isLogOutDialogVisible = false }
         )
     }
     if (isWithDrawDialogVisible) {
         WithDrawDialog(
             userName = user.value.name,
-            onDismissRequest = { isWithDrawDialogVisible = false }
+            onDismissRequest = {
+                navController.popAndMoveTo(ThunderDestination.LOGIN)
+                profileViewModel.setSplashState(SplashState.LOGIN)
+                isWithDrawDialogVisible = false
+            }
         )
     }
     Column(
