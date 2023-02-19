@@ -29,5 +29,7 @@ enum class ThunderDestination(
     ON_BOARDING,
     PROFILE_EDIT,
     THUNDER_RECORD,
-    ALARM_SETTING
+    ALARM_SETTING,
+    LOGIN,
+    SPLASH
 }

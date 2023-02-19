@@ -16,13 +16,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.style.KakaoBrown
 import com.koreatech.thunder.designsystem.style.KakaoYellow
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navController: NavController
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
