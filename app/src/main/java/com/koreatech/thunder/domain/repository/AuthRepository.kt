@@ -14,4 +14,5 @@ interface AuthRepository {
     suspend fun getFCMToken(): Result<String>
     fun getSplashState(): SplashState
     fun setSplashState(splashState: SplashState)
+    fun setTokens(accessToken: String, refreshToken: String)
 }

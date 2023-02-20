@@ -16,6 +16,11 @@ class AuthRepositoryImpl @Inject constructor(
         authLocalDataSource.splashState = splashState.toString()
     }
 
+    override fun setTokens(accessToken: String, refreshToken: String) {
+        authLocalDataSource.accessToken = accessToken
+        authLocalDataSource.refreshToken = refreshToken
+    }
+
     override suspend fun postLogin(
         kakaoToken: String,
         fcmToken: String
