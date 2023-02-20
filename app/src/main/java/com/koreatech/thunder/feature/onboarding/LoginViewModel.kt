@@ -9,6 +9,7 @@ import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -18,16 +19,13 @@ class LoginViewModel @Inject constructor(
     private val setSplashStateUseCase: SetSplashStateUseCase
 ) : ViewModel() {
     private val kakaoToken = MutableStateFlow("")
+    private val fcmToken = MutableStateFlow("")
+
     fun postLogin(context: Context) {
         viewModelScope.launch {
-            authRepository.getKakaoToken(context)
-                .onSuccess { token ->
-                    kakaoToken.value = token.accessToken
-                }
-                .onFailure {
-                    Timber.e("error: ${it.message}")
-                }
-            val fcmToken = ""
+            val job1 = getKakaoToken(context)
+            val job2 = getFCMToken()
+            joinAll(job1, job2)
 //            authRepository.postLogin(
 //                kakaoToken = kakaoToken.value,
 //                fcmToken = fcmToken
@@ -36,6 +34,28 @@ class LoginViewModel @Inject constructor(
 //                .onFailure { }
         }
     }
+
+    fun getKakaoToken(context: Context) =
+        viewModelScope.launch {
+            authRepository.getKakaoToken(context)
+                .onSuccess { token ->
+                    kakaoToken.value = token.accessToken
+                }
+                .onFailure {
+                    Timber.e("kakao error: ${it.message}")
+                }
+        }
+
+    fun getFCMToken() =
+        viewModelScope.launch {
+            authRepository.getFCMToken()
+                .onSuccess { token ->
+                    fcmToken.value = token
+                }
+                .onFailure {
+                    Timber.e("fcm error: ${it.message}")
+                }
+        }
 
     fun setSplashState(splashState: SplashState) {
         setSplashStateUseCase(splashState)

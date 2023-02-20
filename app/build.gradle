@@ -5,6 +5,7 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.20'
     id "org.jlleitschuh.gradle.ktlint" version "10.3.0"
+    id 'com.google.gms.google-services'
 }
 
 Properties properties = new Properties()
@@ -53,6 +54,11 @@ android {
 }
 
 dependencies {
+    // firebase
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
     // view pager
     implementation "com.google.accompanist:accompanist-pager:0.29.1-alpha"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.29.1-alpha"

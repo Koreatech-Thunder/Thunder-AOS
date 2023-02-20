@@ -26,6 +26,9 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getKakaoToken(context: Context): Result<OAuthToken> =
         runCatching { authRemoteDataSource.kakaoLogin(context) }
 
+    override suspend fun getFCMToken(): Result<String> =
+        runCatching { authRemoteDataSource.getFCMToken() }
+
     override fun getSplashState(): SplashState =
         SplashState.valueOf(authLocalDataSource.splashState)
 }

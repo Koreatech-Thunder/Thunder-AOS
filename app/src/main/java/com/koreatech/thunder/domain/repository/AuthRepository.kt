@@ -11,6 +11,7 @@ interface AuthRepository {
     ): Result<Unit>
 
     suspend fun getKakaoToken(context: Context): Result<OAuthToken>
+    suspend fun getFCMToken(): Result<String>
     fun getSplashState(): SplashState
     fun setSplashState(splashState: SplashState)
 }
