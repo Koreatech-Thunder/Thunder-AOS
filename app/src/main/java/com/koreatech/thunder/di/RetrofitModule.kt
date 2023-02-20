@@ -2,7 +2,10 @@ package com.koreatech.thunder.di
 
 import com.google.gson.GsonBuilder
 import com.koreatech.thunder.data.source.local.AuthLocalDataSource
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import okhttp3.Interceptor
@@ -11,6 +14,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@Module
+@InstallIn(SingletonComponent::class)
 object RetrofitModule {
     @Provides
     @Singleton
