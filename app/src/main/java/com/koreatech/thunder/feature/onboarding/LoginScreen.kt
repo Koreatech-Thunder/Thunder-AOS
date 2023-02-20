@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,15 +25,13 @@ import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.style.KakaoBrown
 import com.koreatech.thunder.designsystem.style.KakaoYellow
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.domain.model.SplashState
-import com.koreatech.thunder.navigation.ThunderDestination
-import com.koreatech.thunder.navigation.popAndMoveTo
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,8 +54,9 @@ fun LoginScreen(
                     /*
                     * 로그인 하기 로직 구현
                     * */
-                    loginViewModel.setSplashState(SplashState.USER_INPUT)
-                    navController.popAndMoveTo(ThunderDestination.USER_INPUT)
+                    loginViewModel.postLogin(context)
+//                    loginViewModel.setSplashState(SplashState.USER_INPUT)
+//                    navController.popAndMoveTo(ThunderDestination.USER_INPUT)
                 }
         ) {
             Text(

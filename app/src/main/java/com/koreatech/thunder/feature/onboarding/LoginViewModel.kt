@@ -1,30 +1,40 @@
 package com.koreatech.thunder.feature.onboarding
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.kakao.sdk.auth.model.OAuthToken
-import com.koreatech.thunder.data.repository.AuthRepositoryImpl
+import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SplashState
+import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepositoryImpl,
+    private val authRepository: AuthRepository,
     private val setSplashStateUseCase: SetSplashStateUseCase
 ) : ViewModel() {
-    fun handleKakao() {
-        // 카카오계정으로 로그인 공통 callback 구성
-        // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
-        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-            if (error != null) {
-                Timber.e("카카오계정으로 로그인 실패", error)
-            } else if (token != null) {
-                Timber.i("카카오계정으로 로그인 성공 ${token.accessToken}")
-            }
+    private val kakaoToken = MutableStateFlow("")
+    fun postLogin(context: Context) {
+        viewModelScope.launch {
+            authRepository.getKakaoToken(context)
+                .onSuccess { token ->
+                    kakaoToken.value = token.accessToken
+                }
+                .onFailure {
+                    Timber.e("error: ${it.message}")
+                }
+            val fcmToken = ""
+//            authRepository.postLogin(
+//                kakaoToken = kakaoToken.value,
+//                fcmToken = fcmToken
+//            )
+//                .onSuccess { }
+//                .onFailure { }
         }
-        authRepository.kakaoLogin(callback)
     }
 
     fun setSplashState(splashState: SplashState) {
