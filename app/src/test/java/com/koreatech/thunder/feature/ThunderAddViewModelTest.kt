@@ -3,7 +3,7 @@ package com.koreatech.thunder.feature
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
-import com.koreatech.thunder.feature.thunder_add.ThunderAddViewModel
+import com.koreatech.thunder.feature.thunder.add.ThunderAddViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import com.koreatech.thunder.util.callPrivateFunc
 import java.time.LocalDateTime

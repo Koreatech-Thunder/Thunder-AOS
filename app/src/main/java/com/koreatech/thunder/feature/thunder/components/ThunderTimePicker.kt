@@ -1,4 +1,4 @@
-package com.koreatech.thunder.feature.thunder_add
+package com.koreatech.thunder.feature.thunder.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,6 @@ import com.koreatech.thunder.designsystem.components.ThunderDialogSlot
 import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import java.time.LocalTime
 
 @Composable

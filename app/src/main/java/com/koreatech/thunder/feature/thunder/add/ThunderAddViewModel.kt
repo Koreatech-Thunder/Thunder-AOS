@@ -1,4 +1,4 @@
-package com.koreatech.thunder.feature.thunder_add
+package com.koreatech.thunder.feature.thunder.add
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

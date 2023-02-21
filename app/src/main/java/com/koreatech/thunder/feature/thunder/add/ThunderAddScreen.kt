@@ -1,4 +1,4 @@
-package com.koreatech.thunder.feature.thunder_add
+package com.koreatech.thunder.feature.thunder.add
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.Image
@@ -46,6 +46,7 @@ import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.feature.thunder.components.ThunderTimePicker
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import java.util.Calendar
 

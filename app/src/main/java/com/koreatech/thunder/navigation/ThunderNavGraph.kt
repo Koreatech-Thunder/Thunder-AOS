@@ -18,7 +18,7 @@ import com.koreatech.thunder.feature.profile.ProfileScreen
 import com.koreatech.thunder.feature.profile.ThunderRecordScreen
 import com.koreatech.thunder.feature.splash.SplashScreen
 import com.koreatech.thunder.feature.thunder.ThunderScreen
-import com.koreatech.thunder.feature.thunder_add.ThunderAddScreen
+import com.koreatech.thunder.feature.thunder.add.ThunderAddScreen
 import com.koreatech.thunder.navigation.ThunderDestination.ADD
 import com.koreatech.thunder.navigation.ThunderDestination.ALARM_SETTING
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT
