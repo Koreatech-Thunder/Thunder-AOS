@@ -1,8 +1,10 @@
 package com.koreatech.thunder.feature
 
 import com.koreatech.thunder.domain.model.dummyUsers
+import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.repository.UserRepository
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
+import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.feature.profile.ProfileViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
@@ -19,13 +21,16 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(CoroutinesTestExtension::class)
 class ProfileViewModelTest {
     private val userRepository: UserRepository = mockk()
+    private val authRepository: AuthRepository = mockk()
     private val getUserProfileUseCase = GetUserProfileUseCase(userRepository)
+    private val setSplashStateUseCase = SetSplashStateUseCase(authRepository)
     private lateinit var profileViewModel: ProfileViewModel
 
     @BeforeEach
     fun setUp() {
         profileViewModel = ProfileViewModel(
-            getUserProfileUseCase
+            getUserProfileUseCase,
+            setSplashStateUseCase
         )
     }
 
