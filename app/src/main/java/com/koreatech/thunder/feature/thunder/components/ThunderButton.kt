@@ -17,18 +17,24 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.ThunderState
 
 @Composable
-fun ThunderButton(thunderState: ThunderState) {
+fun ThunderButton(
+    thunderId: String,
+    thunderState: ThunderState,
+    participateThunder: (String) -> Unit,
+    cancelThunder: (String) -> Unit,
+    moveToEdit: (String) -> Unit
+) {
     ThunderCommonButton(
         modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(Orange)
             .clickable {
                 when (thunderState) {
-                    ThunderState.NON_MEMBER -> TODO()
-                    ThunderState.MEMBER -> TODO()
-                    ThunderState.HOST -> TODO()
+                    ThunderState.NON_MEMBER -> participateThunder(thunderId)
+                    ThunderState.MEMBER -> cancelThunder(thunderId)
+                    ThunderState.HOST -> moveToEdit(thunderId)
                 }
-            }
-            .clip(RoundedCornerShape(8.dp))
-            .background(Orange),
+            },
         buttonText = {
             Text(
                 text = when (thunderState) {

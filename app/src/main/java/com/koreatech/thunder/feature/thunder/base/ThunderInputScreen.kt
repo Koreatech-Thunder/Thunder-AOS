@@ -48,6 +48,7 @@ import java.util.Calendar
 
 @Composable
 fun ThunderInputScreen(
+    screenTitle: String,
     uiState: InputUiState,
     navController: NavController,
     thunderInputViewModel: ThunderInputViewModel,
@@ -107,7 +108,7 @@ fun ThunderInputScreen(
             },
             title = {
                 Text(
-                    text = stringResource(R.string.thunder_add_title),
+                    text = screenTitle,
                     style = ThunderTheme.typography.h3
                 )
             },

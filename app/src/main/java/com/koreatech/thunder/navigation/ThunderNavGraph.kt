@@ -50,7 +50,12 @@ fun ThunderNavHost(
         composable(CHAT.name) { ChatScreen(navController = navController) }
         composable(PROFILE.name) { ProfileScreen(navController = navController) }
         composable(ADD.name) { ThunderAddScreen(navController = navController) }
-        composable(EDIT.name) { ThunderEditScreen(navController = navController) }
+        composable("${EDIT.name}/{thunderId}") { backStackEntry ->
+            ThunderEditScreen(
+                thunderId = backStackEntry.arguments?.getString("thunderId") ?: "",
+                navController = navController
+            )
+        }
         composable(USER_INPUT.name) { UserInputScreen(navController = navController) }
         composable(ON_BOARDING.name) {
             OnBoardingScreen(

@@ -19,7 +19,12 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.Thunder
 
 @Composable
-fun ThunderDetailSection(thunder: Thunder) {
+fun ThunderDetailSection(
+    thunder: Thunder,
+    participateThunder: (String) -> Unit,
+    cancelThunder: (String) -> Unit,
+    moveToEdit: (String) -> Unit
+) {
     Column(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
@@ -48,7 +53,13 @@ fun ThunderDetailSection(thunder: Thunder) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
-            ThunderButton(thunder.thunderState)
+            ThunderButton(
+                thunderId = thunder.thunderId,
+                thunderState = thunder.thunderState,
+                participateThunder = participateThunder,
+                cancelThunder = cancelThunder,
+                moveToEdit = moveToEdit
+            )
         }
     }
 }
