@@ -56,15 +56,7 @@ fun ThunderAddScreen(
     thunderAddViewModel: ThunderAddViewModel = hiltViewModel(),
     localFocusManager: FocusManager = LocalFocusManager.current
 ) {
-    val titleText = thunderAddViewModel.titleText.collectAsStateWithLifecycle()
-    val contentText = thunderAddViewModel.contentText.collectAsStateWithLifecycle()
-    val hashtags = thunderAddViewModel.hashtags.collectAsStateWithLifecycle()
-    val selectedHashtagCount =
-        thunderAddViewModel.selectedHashtagCount.collectAsStateWithLifecycle()
-    val limitParticipantsCnt =
-        thunderAddViewModel.limitParticipantsCnt.collectAsStateWithLifecycle()
-    val timeUiText = thunderAddViewModel.timeUiText.collectAsStateWithLifecycle()
-    val dateUiText = thunderAddViewModel.dateUiText.collectAsStateWithLifecycle()
+    val uiState = thunderAddViewModel.uiState.collectAsStateWithLifecycle()
     val buttonState = thunderAddViewModel.buttonState.collectAsStateWithLifecycle()
     val (hour, minute) =
         thunderAddViewModel.hour24FormatTime.collectAsStateWithLifecycle()
@@ -145,14 +137,14 @@ fun ThunderAddScreen(
                     style = ThunderTheme.typography.h4
                 )
                 Text(
-                    text = "${selectedHashtagCount.value}/4",
+                    text = "${uiState.value.selectedHashtagCount}/4",
                     style = ThunderTheme.typography.b4,
                     color = Gray
                 )
             }
             BlankSpace(size = 12.dp)
             ThunderChips(
-                selectableHashtags = hashtags.value,
+                selectableHashtags = uiState.value.hashtags,
                 isClickable = true,
                 selectHashtag = thunderAddViewModel::selectHashtag
             )
@@ -164,7 +156,7 @@ fun ThunderAddScreen(
             BlankSpace(size = 12.dp)
             ThunderTextField(
                 modifier = Modifier,
-                text = titleText.value,
+                text = uiState.value.title,
                 hint = stringResource(R.string.thunder_add_title_hint),
                 isLimitTextCount = true,
                 limitTextCount = 20,
@@ -195,7 +187,7 @@ fun ThunderAddScreen(
                     contentDescription = ""
                 )
                 Text(
-                    text = "${limitParticipantsCnt.value}명",
+                    text = "${uiState.value.limitParticipantsCnt}명",
                     style = ThunderTheme.typography.h4,
                     color = Orange
                 )
@@ -221,7 +213,7 @@ fun ThunderAddScreen(
                                 datePickerDialog.updateDate(year, month - 1, dayOfMonth)
                                 datePickerDialog.show()
                             },
-                        text = dateUiText.value,
+                        text = uiState.value.date,
                         style = ThunderTheme.typography.h4,
                         color = Orange
                     )
@@ -235,7 +227,7 @@ fun ThunderAddScreen(
                     Text(
                         modifier = Modifier
                             .noRippleClickable { isDateVisible = true },
-                        text = timeUiText.value,
+                        text = uiState.value.time,
                         style = ThunderTheme.typography.h4,
                         color = Orange
                     )
@@ -249,7 +241,7 @@ fun ThunderAddScreen(
             BlankSpace(size = 12.dp)
             ThunderTextField(
                 modifier = Modifier,
-                text = contentText.value,
+                text = uiState.value.content,
                 hint = stringResource(R.string.thunder_add_content_hint),
                 isLimitTextCount = true,
                 limitTextCount = 150,
