@@ -68,11 +68,11 @@ fun ProfileScreen(
     if (isWithDrawDialogVisible) {
         WithDrawDialog(
             userName = user.value.name,
-            onDismissRequest = {
+            confirmRequest = {
                 navController.popAndMoveTo(ThunderDestination.LOGIN)
                 profileViewModel.setSplashState(SplashState.LOGIN)
-                isWithDrawDialogVisible = false
-            }
+            },
+            onDismissRequest = { isWithDrawDialogVisible = false }
         )
     }
     Column(

@@ -17,6 +17,7 @@ import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 @Composable
 fun WithDrawDialog(
     userName: String,
+    confirmRequest: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
     ThunderDialogSlot(
@@ -46,7 +47,10 @@ fun WithDrawDialog(
             BlankSpace(size = 36.dp)
             Text(
                 modifier = Modifier
-                    .noRippleClickable { onDismissRequest() }
+                    .noRippleClickable {
+                        confirmRequest()
+                        onDismissRequest()
+                    }
                     .fillMaxWidth(),
                 color = Orange,
                 text = "탈퇴하기",
