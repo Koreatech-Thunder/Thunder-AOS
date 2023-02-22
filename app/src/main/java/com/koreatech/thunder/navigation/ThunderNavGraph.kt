@@ -19,9 +19,11 @@ import com.koreatech.thunder.feature.profile.ThunderRecordScreen
 import com.koreatech.thunder.feature.splash.SplashScreen
 import com.koreatech.thunder.feature.thunder.ThunderScreen
 import com.koreatech.thunder.feature.thunder.add.ThunderAddScreen
+import com.koreatech.thunder.feature.thunder.edit.ThunderEditScreen
 import com.koreatech.thunder.navigation.ThunderDestination.ADD
 import com.koreatech.thunder.navigation.ThunderDestination.ALARM_SETTING
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT
+import com.koreatech.thunder.navigation.ThunderDestination.EDIT
 import com.koreatech.thunder.navigation.ThunderDestination.LOGIN
 import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
@@ -48,6 +50,7 @@ fun ThunderNavHost(
         composable(CHAT.name) { ChatScreen(navController = navController) }
         composable(PROFILE.name) { ProfileScreen(navController = navController) }
         composable(ADD.name) { ThunderAddScreen(navController = navController) }
+        composable(EDIT.name) { ThunderEditScreen(navController = navController) }
         composable(USER_INPUT.name) { UserInputScreen(navController = navController) }
         composable(ON_BOARDING.name) {
             OnBoardingScreen(
