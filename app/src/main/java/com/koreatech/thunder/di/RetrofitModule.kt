@@ -1,6 +1,7 @@
 package com.koreatech.thunder.di
 
 import com.google.gson.GsonBuilder
+import com.koreatech.thunder.BuildConfig.THUNDER_URI
 import com.koreatech.thunder.data.source.local.AuthLocalDataSource
 import dagger.Module
 import dagger.Provides
@@ -57,7 +58,7 @@ object RetrofitModule {
         okHttpClient: OkHttpClient
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl("THUNDER_URL")
+            .baseUrl(THUNDER_URI)
             .client(okHttpClient)
             .addConverterFactory(
                 GsonConverterFactory.create(

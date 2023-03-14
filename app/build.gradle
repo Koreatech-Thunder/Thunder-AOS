@@ -23,6 +23,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "KAKAO_REDIRECT_SCHEME", properties["KAKAO_REDIRECT_SCHEME"]
+        buildConfigField "String", "THUNDER_URI", properties["THUNDER_URI"]
         manifestPlaceholders["KAKAO_REDIRECT_SCHEME"] = properties["KAKAO_REDIRECT_SCHEME"]
     }
 
