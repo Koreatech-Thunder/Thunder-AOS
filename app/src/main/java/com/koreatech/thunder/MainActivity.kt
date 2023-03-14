@@ -20,7 +20,7 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.navigation.ThunderBottomBar
-import com.koreatech.thunder.navigation.ThunderDestination.CHAT
+import com.koreatech.thunder.navigation.ThunderDestination.CHATROOM
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
 import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
 import com.koreatech.thunder.navigation.ThunderNavHost
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
             isShowBottomBar = when (currentDestination?.route) {
                 THUNDER.name -> true
-                CHAT.name -> true
+                CHATROOM.name -> true
                 PROFILE.name -> true
                 else -> false
             }
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private val bottomItems = listOf(
             THUNDER,
-            CHAT,
+            CHATROOM,
             PROFILE
         )
     }

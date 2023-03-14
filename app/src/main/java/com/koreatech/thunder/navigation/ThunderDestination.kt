@@ -14,7 +14,7 @@ enum class ThunderDestination(
         title = R.string.bot_thunder,
         description = R.string.bot_thunder
     ),
-    CHAT(
+    CHATROOM(
         icon = R.drawable.ic_chat,
         title = R.string.bot_chat,
         description = R.string.bot_chat

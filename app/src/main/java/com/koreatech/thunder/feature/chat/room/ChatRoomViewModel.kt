@@ -2,6 +2,7 @@ package com.koreatech.thunder.feature.chat.room
 
 import androidx.lifecycle.ViewModel
 import com.koreatech.thunder.domain.model.ChatRoom
+import com.koreatech.thunder.domain.model.dummyChatRooms
 import com.koreatech.thunder.domain.repository.ChatRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -12,6 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 class ChatRoomViewModel @Inject constructor(
     private val chatRepository: ChatRepository
 ) : ViewModel() {
-    private val _chatRooms: MutableStateFlow<List<ChatRoom>> = MutableStateFlow(emptyList())
+    private val _chatRooms: MutableStateFlow<List<ChatRoom>> = MutableStateFlow(dummyChatRooms)
     val chatRooms = _chatRooms.asStateFlow()
 }

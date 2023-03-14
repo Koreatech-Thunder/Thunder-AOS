@@ -1,9 +1,11 @@
 package com.koreatech.thunder.di
 
 import com.koreatech.thunder.data.repository.AuthRepositoryImpl
+import com.koreatech.thunder.data.repository.ChatRepositoryImpl
 import com.koreatech.thunder.data.repository.ThunderRepositoryImpl
 import com.koreatech.thunder.data.repository.UserRepositoryImpl
 import com.koreatech.thunder.domain.repository.AuthRepository
+import com.koreatech.thunder.domain.repository.ChatRepository
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.repository.UserRepository
 import dagger.Binds
@@ -28,4 +30,9 @@ interface RepositoryModule {
     fun bindsAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
+    @Binds
+    fun bindsChatRepository(
+        chatRepositoryImpl: ChatRepositoryImpl
+    ): ChatRepository
 }
