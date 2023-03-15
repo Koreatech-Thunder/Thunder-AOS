@@ -41,9 +41,7 @@ class ProfileViewModel @Inject constructor(
     fun getUserProfile() {
         viewModelScope.launch {
             getUserProfileUseCase()
-                .onSuccess { user ->
-                    _user.value = user
-                }
+                .onSuccess { user -> _user.value = user }
                 .onFailure { Timber.e("error ${it.message}") }
         }
     }
