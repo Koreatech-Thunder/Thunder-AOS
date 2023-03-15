@@ -14,13 +14,14 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.ThunderCommonButton
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.ThunderState
 
 @Composable
 fun ThunderButton(
-    thunderId: String,
+    thunder: Thunder,
     thunderState: ThunderState,
-    participateThunder: (String) -> Unit,
+    participateThunder: (Thunder) -> Unit,
     cancelThunder: (String) -> Unit,
     moveToEdit: (String) -> Unit
 ) {
@@ -30,9 +31,9 @@ fun ThunderButton(
             .background(Orange)
             .clickable {
                 when (thunderState) {
-                    ThunderState.NON_MEMBER -> participateThunder(thunderId)
-                    ThunderState.MEMBER -> cancelThunder(thunderId)
-                    ThunderState.HOST -> moveToEdit(thunderId)
+                    ThunderState.NON_MEMBER -> participateThunder(thunder)
+                    ThunderState.MEMBER -> cancelThunder(thunder.thunderId)
+                    ThunderState.HOST -> moveToEdit(thunder.thunderId)
                 }
             },
         buttonText = {

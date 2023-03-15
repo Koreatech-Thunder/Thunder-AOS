@@ -152,8 +152,8 @@ fun ThunderScreen(
                         ThunderItem(
                             thunder = thunder,
                             showBottomSheet = showBottomSheet,
-                            participateThunder = { /* 번개 참여하기 */ },
-                            cancelThunder = { /* 번개 취소하기 */ },
+                            participateThunder = thunderViewModel::joinThunder,
+                            cancelThunder = thunderViewModel::outThunder,
                             moveToEdit = { id ->
                                 navController.navigate("${ThunderDestination.EDIT.name}/$id")
                             }

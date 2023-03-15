@@ -21,7 +21,7 @@ import com.koreatech.thunder.domain.model.Thunder
 @Composable
 fun ThunderDetailSection(
     thunder: Thunder,
-    participateThunder: (String) -> Unit,
+    participateThunder: (Thunder) -> Unit,
     cancelThunder: (String) -> Unit,
     moveToEdit: (String) -> Unit
 ) {
@@ -54,7 +54,7 @@ fun ThunderDetailSection(
             horizontalArrangement = Arrangement.End
         ) {
             ThunderButton(
-                thunderId = thunder.thunderId,
+                thunder = thunder,
                 thunderState = thunder.thunderState,
                 participateThunder = participateThunder,
                 cancelThunder = cancelThunder,

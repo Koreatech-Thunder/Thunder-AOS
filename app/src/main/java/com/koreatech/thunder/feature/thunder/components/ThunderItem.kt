@@ -15,7 +15,7 @@ import com.koreatech.thunder.domain.model.User
 fun ThunderItem(
     thunder: Thunder,
     showBottomSheet: (User) -> Unit,
-    participateThunder: (String) -> Unit,
+    participateThunder: (Thunder) -> Unit,
     cancelThunder: (String) -> Unit,
     moveToEdit: (String) -> Unit
 ) {
