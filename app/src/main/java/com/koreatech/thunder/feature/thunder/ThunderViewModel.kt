@@ -9,6 +9,7 @@ import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.GetUserHashtagsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +21,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
     private val thunderRepository: ThunderRepository,
-    private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
+    private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase,
+    private val getUserHashtagsUseCase: GetUserHashtagsUseCase
 ) : ViewModel() {
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
         MutableStateFlow(ThunderUiState.Loading)
@@ -69,7 +71,7 @@ class ThunderViewModel @Inject constructor(
 
     fun getHashtags() {
         viewModelScope.launch {
-            thunderRepository.getHashtags()
+            getUserHashtagsUseCase()
                 .onSuccess { hashtags ->
                     if (hashtags.isEmpty()) {
                         _hashtagUiState.value =

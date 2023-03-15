@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
+import com.koreatech.thunder.domain.usecase.PutUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
     private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase,
-    private val getUserProfileUseCase: GetUserProfileUseCase
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val putUserProfileUseCase: PutUserProfileUseCase
 ) : ViewModel() {
     private val _user: MutableStateFlow<User> = MutableStateFlow(
         User(
@@ -72,5 +74,15 @@ class ProfileEditViewModel @Inject constructor(
 
     fun writeIntroduction(introduction: String) {
         _user.value = _user.value.copy(introduction = introduction)
+    }
+
+    fun putUserProfile() {
+        viewModelScope.launch {
+            putUserProfileUseCase(
+                name = user.value.name,
+                introduction = user.value.introduction,
+                hashtags = user.value.hashtags.map { it.hashtag }
+            )
+        }
     }
 }

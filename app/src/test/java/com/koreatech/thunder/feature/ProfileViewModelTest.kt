@@ -37,7 +37,7 @@ class ProfileViewModelTest {
     @DisplayName("프로필 뷰 진입 시 유저의 프로필 정보를 불러온다.")
     @Test
     fun profileTest() = runTest {
-        coEvery { userRepository.getUserProfile() } returns Result.success(dummyUsers[0])
+        coEvery { userRepository.getProfile() } returns Result.success(dummyUsers[0])
 
         profileViewModel.getUserProfile()
 

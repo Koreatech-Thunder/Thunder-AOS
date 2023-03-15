@@ -42,7 +42,7 @@ class ProfileEditViewModelTest {
     @DisplayName("해시태그를 클릭하면 해당 index 에 있는 해시태그의 isSelected 값을 반전시킨다.")
     @Test
     fun hashtagTest2() {
-        coEvery { userRepository.getUserProfile() } returns Result.success(dummyUsers[0])
+        coEvery { userRepository.getProfile() } returns Result.success(dummyUsers[0])
         profileEditViewModel.getUserProfile()
 
         assertEquals(profileEditViewModel.user.value.hashtags[0].isSelected, true)
@@ -59,7 +59,7 @@ class ProfileEditViewModelTest {
     @DisplayName("프로필 수정 뷰 진입 시 유저의 프로필 정보를 불러온다.")
     @Test
     fun profileTest() = runTest {
-        coEvery { userRepository.getUserProfile() } returns Result.success(dummyUsers[0])
+        coEvery { userRepository.getProfile() } returns Result.success(dummyUsers[0])
 
         profileEditViewModel.getUserProfile()
 
@@ -76,7 +76,7 @@ class ProfileEditViewModelTest {
     @DisplayName("처음 유저의 프로필 정보를 저장하고 있다.")
     @Test
     fun profileTest2() {
-        coEvery { userRepository.getUserProfile() } returns Result.success(dummyUsers[0])
+        coEvery { userRepository.getProfile() } returns Result.success(dummyUsers[0])
 
         profileEditViewModel.getUserProfile()
 
@@ -98,7 +98,7 @@ class ProfileEditViewModelTest {
     fun buttonStateTest() = runTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { profileEditViewModel.buttonState.collect() }
-        coEvery { userRepository.getUserProfile() } returns Result.success(dummyUsers[0])
+        coEvery { userRepository.getProfile() } returns Result.success(dummyUsers[0])
         profileEditViewModel.getUserProfile()
 
         assertEquals(profileEditViewModel.buttonState.value, false)

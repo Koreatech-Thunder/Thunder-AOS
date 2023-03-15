@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,12 +24,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
@@ -46,12 +50,29 @@ import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import com.koreatech.thunder.navigation.ThunderDestination
 import com.koreatech.thunder.navigation.popAndMoveTo
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun ProfileScreen(
     navController: NavController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(true) {
+        profileViewModel.moveDestination
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
+            .onEach { thunderDestination ->
+                when (thunderDestination) {
+                    ThunderDestination.LOGIN -> {
+                        navController.popAndMoveTo(ThunderDestination.LOGIN)
+                        profileViewModel.setSplashState(SplashState.LOGIN)
+                    }
+                    else -> {}
+                }
+            }
+            .launchIn(lifecycleOwner.lifecycleScope)
+    }
     val user = profileViewModel.user.collectAsStateWithLifecycle()
     var isLogOutDialogVisible by remember { mutableStateOf(false) }
     var isWithDrawDialogVisible by remember { mutableStateOf(false) }
@@ -59,8 +80,7 @@ fun ProfileScreen(
     if (isLogOutDialogVisible) {
         LogoutAlertDialog(
             onConfirmRequest = {
-                navController.popAndMoveTo(ThunderDestination.LOGIN)
-                profileViewModel.setSplashState(SplashState.LOGIN)
+                profileViewModel.postLogout()
             },
             onDismissRequest = { isLogOutDialogVisible = false }
         )
@@ -69,8 +89,7 @@ fun ProfileScreen(
         WithDrawDialog(
             userName = user.value.name,
             confirmRequest = {
-                navController.popAndMoveTo(ThunderDestination.LOGIN)
-                profileViewModel.setSplashState(SplashState.LOGIN)
+                profileViewModel.withdrawUser()
             },
             onDismissRequest = { isWithDrawDialogVisible = false }
         )

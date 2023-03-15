@@ -33,7 +33,7 @@ fun ProfileEditScreen(
 ) {
     val user = profileEditViewModel.user.collectAsStateWithLifecycle()
     val buttonState = profileEditViewModel.buttonState.collectAsStateWithLifecycle()
-    
+
     Column {
         ThunderToolBarSlot(
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 18.dp),
@@ -52,9 +52,10 @@ fun ProfileEditScreen(
             },
             action = {
                 Text(
-                    modifier = Modifier.clickable(buttonState.value) {
-                        /* edit profile */
-                    },
+                    modifier = Modifier
+                        .clickable(buttonState.value) {
+                            profileEditViewModel.putUserProfile()
+                        },
                     text = stringResource(R.string.profile_edit_btn),
                     style = ThunderTheme.typography.h5,
                     color = if (buttonState.value) Orange else Orange200

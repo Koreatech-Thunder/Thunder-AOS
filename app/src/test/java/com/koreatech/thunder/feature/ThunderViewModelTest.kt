@@ -3,7 +3,9 @@ package com.koreatech.thunder.feature
 import com.koreatech.thunder.domain.model.dummySelectableHashtag
 import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.domain.repository.ThunderRepository
+import com.koreatech.thunder.domain.repository.UserRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.GetUserHashtagsUseCase
 import com.koreatech.thunder.feature.thunder.HashtagUiState
 import com.koreatech.thunder.feature.thunder.ThunderUiState
 import com.koreatech.thunder.feature.thunder.ThunderViewModel
@@ -24,19 +26,25 @@ import kotlin.test.assertIs
 class ThunderViewModelTest {
 
     private val thunderRepository: ThunderRepository = mockk()
+    private val userRepository: UserRepository = mockk()
     private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
+    private val getUserHashtagsUseCase = GetUserHashtagsUseCase(userRepository)
     private lateinit var thunderViewModel: ThunderViewModel
 
     @BeforeEach
     fun setUp() {
-        thunderViewModel = ThunderViewModel(thunderRepository, getAllSelectableHashtagUseCase)
+        thunderViewModel = ThunderViewModel(
+            thunderRepository,
+            getAllSelectableHashtagUseCase,
+            getUserHashtagsUseCase
+        )
     }
 
     @DisplayName("사용자가 하나 이상 해시태그를 설정했고 통신을 성공했다면 사용자의 해시태그를 보여준다")
     @Test
     fun hashtagTest() = runTest {
         val expectedHashtags = dummySelectableHashtag
-        coEvery { thunderRepository.getHashtags() } returns Result.success(expectedHashtags)
+        coEvery { userRepository.getUserHashtags() } returns Result.success(expectedHashtags)
 
         assertIs<HashtagUiState.Loading>(thunderViewModel.hashtagUiState.value)
         thunderViewModel.getHashtags()
