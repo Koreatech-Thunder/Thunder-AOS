@@ -8,7 +8,6 @@ import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -16,6 +15,7 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -35,48 +35,62 @@ class LoginViewModel @Inject constructor(
             authRepository.postLogin(
                 kakaoToken = kakaoToken.value,
                 fcmToken = fcmToken.value
-            )
-                .onSuccess { tokens ->
-                    authRepository.setTokens(
-                        accessToken = tokens.accessToken,
-                        refreshToken = tokens.refreshToken
-                    )
-                    setSplashStateUseCase(SplashState.USER_INPUT)
-                    _moveDestination.emit(ThunderDestination.USER_INPUT)
-                }
-                .onFailure { throwable ->
-                    if (throwable is HttpException) {
-                        when (throwable.code()) {
-                            USER_CONFLICT -> _moveDestination.emit(ThunderDestination.THUNDER)
-                            USER_INPUT -> _moveDestination.emit(ThunderDestination.USER_INPUT)
+            ).onSuccess { tokens ->
+                authRepository.setTokens(
+                    accessToken = tokens.accessToken,
+                    refreshToken = tokens.refreshToken
+                )
+                setSplashStateUseCase(SplashState.USER_INPUT)
+                _moveDestination.emit(ThunderDestination.USER_INPUT)
+            }.onFailure { throwable ->
+                if (throwable is HttpException) {
+                    when (throwable.code()) {
+                        USER_CONFLICT -> {
+                            authRepository.postExistLogout(
+                                kakaoToken = kakaoToken.value,
+                                fcmToken = fcmToken.value
+                            ).onSuccess { tokens ->
+                                authRepository.setTokens(
+                                    accessToken = tokens.accessToken,
+                                    refreshToken = tokens.refreshToken
+                                )
+                                _moveDestination.emit(ThunderDestination.THUNDER)
+                            }.onFailure { Timber.e("error ${throwable.message}") }
+                        }
+                        USER_INPUT -> {
+                            authRepository.postExistLogout(
+                                kakaoToken = kakaoToken.value,
+                                fcmToken = fcmToken.value
+                            ).onSuccess { tokens ->
+                                authRepository.setTokens(
+                                    accessToken = tokens.accessToken,
+                                    refreshToken = tokens.refreshToken
+                                )
+                                _moveDestination.emit(ThunderDestination.USER_INPUT)
+                            }.onFailure { Timber.e("error ${throwable.message}") }
                         }
                     }
-                    Timber.e("error ${throwable.message}")
                 }
+                Timber.e("error ${throwable.message}")
+            }
         }
     }
 
-    private fun getKakaoToken(context: Context) =
-        viewModelScope.launch {
-            authRepository.getKakaoToken(context)
-                .onSuccess { token ->
-                    kakaoToken.value = token.accessToken
-                }
-                .onFailure {
-                    Timber.e("kakao error: ${it.message}")
-                }
+    private fun getKakaoToken(context: Context) = viewModelScope.launch {
+        authRepository.getKakaoToken(context).onSuccess { token ->
+            kakaoToken.value = token.accessToken
+        }.onFailure {
+            Timber.e("kakao error: ${it.message}")
         }
+    }
 
-    private fun getFCMToken() =
-        viewModelScope.launch {
-            authRepository.getFCMToken()
-                .onSuccess { token ->
-                    fcmToken.value = token
-                }
-                .onFailure {
-                    Timber.e("fcm error: ${it.message}")
-                }
+    private fun getFCMToken() = viewModelScope.launch {
+        authRepository.getFCMToken().onSuccess { token ->
+            fcmToken.value = token
+        }.onFailure {
+            Timber.e("fcm error: ${it.message}")
         }
+    }
 
     companion object {
         const val USER_CONFLICT = 409

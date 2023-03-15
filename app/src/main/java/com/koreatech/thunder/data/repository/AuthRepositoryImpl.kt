@@ -31,6 +31,11 @@ class AuthRepositoryImpl @Inject constructor(
         authRemoteDataSource.postLogin(LoginRequest(kakaoToken, fcmToken)).toTokens()
     }
 
+    override suspend fun postExistLogout(kakaoToken: String, fcmToken: String): Result<Tokens> =
+        runCatching {
+            authRemoteDataSource.postExistLogin(LoginRequest(kakaoToken, fcmToken)).toTokens()
+        }
+
     override suspend fun postLogout(): Result<Unit> =
         runCatching { authRemoteDataSource.postLogout() }
 

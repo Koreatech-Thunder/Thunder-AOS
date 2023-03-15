@@ -11,6 +11,11 @@ interface AuthRepository {
         fcmToken: String
     ): Result<Tokens>
 
+    suspend fun postExistLogout(
+        kakaoToken: String,
+        fcmToken: String
+    ): Result<Tokens>
+
     suspend fun postLogout(): Result<Unit>
     suspend fun postRefreshToken(tokens: Tokens): Result<Tokens>
 

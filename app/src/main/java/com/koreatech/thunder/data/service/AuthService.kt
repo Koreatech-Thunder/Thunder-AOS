@@ -11,6 +11,11 @@ interface AuthService {
         @Body body: LoginRequest
     ): TokenResponse
 
+    @POST("/auth/existLogin")
+    suspend fun postExistLogin(
+        @Body body: LoginRequest
+    ): TokenResponse
+
     @POST("auth/logout")
     suspend fun postLogout()
 
