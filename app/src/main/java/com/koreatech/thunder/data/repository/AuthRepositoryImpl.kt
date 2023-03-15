@@ -6,6 +6,7 @@ import com.koreatech.thunder.data.model.request.LoginRequest
 import com.koreatech.thunder.data.source.local.AuthLocalDataSource
 import com.koreatech.thunder.data.source.remote.AuthRemoteDataSource
 import com.koreatech.thunder.domain.model.SplashState
+import com.koreatech.thunder.domain.model.Tokens
 import com.koreatech.thunder.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -25,9 +26,12 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun postLogin(
         kakaoToken: String,
         fcmToken: String
-    ): Result<Unit> = runCatching {
-        authRemoteDataSource.postLogin(LoginRequest(kakaoToken, fcmToken))
+    ): Result<Tokens> = runCatching {
+        authRemoteDataSource.postLogin(LoginRequest(kakaoToken, fcmToken)).toTokens()
     }
+
+    override suspend fun postLogout(): Result<Unit> =
+        runCatching { authRemoteDataSource.postLogout() }
 
     override suspend fun getKakaoToken(context: Context): Result<OAuthToken> =
         runCatching { authRemoteDataSource.kakaoLogin(context) }

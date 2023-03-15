@@ -11,20 +11,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.style.KakaoBrown
 import com.koreatech.thunder.designsystem.style.KakaoYellow
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.navigation.ThunderDestination
+import com.koreatech.thunder.navigation.popAndMoveTo
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun LoginScreen(
@@ -32,6 +40,21 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(true) {
+        loginViewModel.moveDestination
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
+            .onEach { destination ->
+                when (destination) {
+                    ThunderDestination.USER_INPUT -> navController.popAndMoveTo(ThunderDestination.USER_INPUT)
+                    ThunderDestination.THUNDER -> navController.popAndMoveTo(ThunderDestination.THUNDER)
+                    else -> {}
+                }
+            }
+            .launchIn(lifecycleOwner.lifecycleScope)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,8 +75,6 @@ fun LoginScreen(
                 .background(KakaoYellow)
                 .clickable {
                     loginViewModel.postLogin(context)
-//                    loginViewModel.setSplashState(SplashState.USER_INPUT)
-//                    navController.popAndMoveTo(ThunderDestination.USER_INPUT)
                 }
         ) {
             Text(

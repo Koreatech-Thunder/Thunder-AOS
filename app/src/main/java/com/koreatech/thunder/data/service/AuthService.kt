@@ -10,4 +10,7 @@ interface AuthService {
     suspend fun postLogin(
         @Body body: LoginRequest
     ): TokenResponse
+
+    @POST("auth/logout")
+    suspend fun postLogout()
 }

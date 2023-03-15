@@ -6,11 +6,15 @@ import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
+import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import timber.log.Timber
 
 @HiltViewModel
@@ -20,6 +24,8 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
     private val kakaoToken = MutableStateFlow("")
     private val fcmToken = MutableStateFlow("")
+    private val _moveDestination = MutableSharedFlow<ThunderDestination>()
+    val moveDestination = _moveDestination.asSharedFlow()
 
     fun postLogin(context: Context) {
         viewModelScope.launch {
@@ -30,17 +36,27 @@ class LoginViewModel @Inject constructor(
                 kakaoToken = kakaoToken.value,
                 fcmToken = fcmToken.value
             )
-                .onSuccess {
-                    // 로그인 성공 후 access token, refresh token 저장
-                    // authRepository.setTokens()
+                .onSuccess { tokens ->
+                    authRepository.setTokens(
+                        accessToken = tokens.accessToken,
+                        refreshToken = tokens.refreshToken
+                    )
+                    setSplashStateUseCase(SplashState.USER_INPUT)
+                    _moveDestination.emit(ThunderDestination.USER_INPUT)
                 }
-                .onFailure {
-                    Timber.e("error ${it.message}")
+                .onFailure { throwable ->
+                    if (throwable is HttpException) {
+                        when (throwable.code()) {
+                            USER_CONFLICT -> _moveDestination.emit(ThunderDestination.THUNDER)
+                            USER_INPUT -> _moveDestination.emit(ThunderDestination.USER_INPUT)
+                        }
+                    }
+                    Timber.e("error ${throwable.message}")
                 }
         }
     }
 
-    fun getKakaoToken(context: Context) =
+    private fun getKakaoToken(context: Context) =
         viewModelScope.launch {
             authRepository.getKakaoToken(context)
                 .onSuccess { token ->
@@ -51,7 +67,7 @@ class LoginViewModel @Inject constructor(
                 }
         }
 
-    fun getFCMToken() =
+    private fun getFCMToken() =
         viewModelScope.launch {
             authRepository.getFCMToken()
                 .onSuccess { token ->
@@ -62,7 +78,8 @@ class LoginViewModel @Inject constructor(
                 }
         }
 
-    fun setSplashState(splashState: SplashState) {
-        setSplashStateUseCase(splashState)
+    companion object {
+        const val USER_CONFLICT = 409
+        const val USER_INPUT = 400
     }
 }

@@ -51,4 +51,6 @@ class AuthRemoteDataSource @Inject constructor(
     suspend fun postLogin(
         body: LoginRequest
     ): TokenResponse = authService.postLogin(body)
+
+    suspend fun postLogout() = authService.postLogout()
 }
