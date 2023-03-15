@@ -25,9 +25,6 @@ import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.style.KakaoBrown
 import com.koreatech.thunder.designsystem.style.KakaoYellow
 import com.koreatech.thunder.designsystem.style.ThunderTheme
-import com.koreatech.thunder.domain.model.SplashState
-import com.koreatech.thunder.navigation.ThunderDestination
-import com.koreatech.thunder.navigation.popAndMoveTo
 
 @Composable
 fun LoginScreen(
@@ -54,12 +51,9 @@ fun LoginScreen(
                 .clip(RoundedCornerShape(8.dp))
                 .background(KakaoYellow)
                 .clickable {
-                    /*
-                    * 로그인 하기 로직 구현
-                    * */
-//                    loginViewModel.postLogin(context)
-                    loginViewModel.setSplashState(SplashState.USER_INPUT)
-                    navController.popAndMoveTo(ThunderDestination.USER_INPUT)
+                    loginViewModel.postLogin(context)
+//                    loginViewModel.setSplashState(SplashState.USER_INPUT)
+//                    navController.popAndMoveTo(ThunderDestination.USER_INPUT)
                 }
         ) {
             Text(

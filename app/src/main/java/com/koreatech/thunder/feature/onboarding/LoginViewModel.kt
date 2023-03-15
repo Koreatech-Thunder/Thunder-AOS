@@ -7,11 +7,11 @@ import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -34,7 +34,9 @@ class LoginViewModel @Inject constructor(
                     // 로그인 성공 후 access token, refresh token 저장
                     // authRepository.setTokens()
                 }
-                .onFailure { }
+                .onFailure {
+                    Timber.e("error ${it.message}")
+                }
         }
     }
 

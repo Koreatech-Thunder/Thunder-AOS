@@ -2,6 +2,7 @@ package com.koreatech.thunder.data.repository
 
 import android.content.Context
 import com.kakao.sdk.auth.model.OAuthToken
+import com.koreatech.thunder.data.model.request.LoginRequest
 import com.koreatech.thunder.data.source.local.AuthLocalDataSource
 import com.koreatech.thunder.data.source.remote.AuthRemoteDataSource
 import com.koreatech.thunder.domain.model.SplashState
@@ -24,8 +25,8 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun postLogin(
         kakaoToken: String,
         fcmToken: String
-    ): Result<Unit> {
-        TODO("Not yet implemented")
+    ): Result<Unit> = runCatching {
+        authRemoteDataSource.postLogin(LoginRequest(kakaoToken, fcmToken))
     }
 
     override suspend fun getKakaoToken(context: Context): Result<OAuthToken> =

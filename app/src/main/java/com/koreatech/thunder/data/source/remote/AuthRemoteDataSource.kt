@@ -5,13 +5,18 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import timber.log.Timber
+import com.koreatech.thunder.data.model.request.LoginRequest
+import com.koreatech.thunder.data.model.response.TokenResponse
+import com.koreatech.thunder.data.service.AuthService
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+import timber.log.Timber
 
-class AuthRemoteDataSource @Inject constructor() {
+class AuthRemoteDataSource @Inject constructor(
+    private val authService: AuthService
+) {
     suspend fun kakaoLogin(context: Context): OAuthToken =
         suspendCoroutine { continuation ->
             val kakaoCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -42,4 +47,8 @@ class AuthRemoteDataSource @Inject constructor() {
                 }
             )
         }
+
+    suspend fun postLogin(
+        body: LoginRequest
+    ): TokenResponse = authService.postLogin(body)
 }
