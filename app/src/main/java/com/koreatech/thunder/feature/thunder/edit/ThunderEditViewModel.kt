@@ -1,20 +1,27 @@
 package com.koreatech.thunder.feature.thunder.edit
 
+import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
+import com.koreatech.thunder.domain.usecase.EditThunderUseCase
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.GetThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.InputUiState
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ThunderEditViewModel @Inject constructor(
+    private val getThunderUseCase: GetThunderUseCase,
+    private val editThunderUseCase: EditThunderUseCase,
     private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
 ) : ThunderInputViewModel() {
     private val cacheUiState = MutableStateFlow(InputUiState())
+    private val thunderId = MutableStateFlow("")
 
     init {
         val dummyInputUiState = InputUiState(
@@ -52,5 +59,20 @@ class ThunderEditViewModel @Inject constructor(
             if (cacheUiState.value.hashtags[idx].isSelected != selectableHashtag.isSelected) return true
         }
         return false
+    }
+
+    override fun onClickThunder() {
+        viewModelScope.launch {
+            editThunderUseCase(
+                thunderId = thunderId.value,
+                title = uiState.value.title,
+                content = uiState.value.content,
+                deadline = "",
+                hashtags = uiState.value.hashtags.map { it.hashtag },
+                limitParticipantsCnt = uiState.value.limitParticipantsCnt
+            )
+                .onSuccess { }
+                .onFailure { }
+        }
     }
 }

@@ -1,16 +1,20 @@
 package com.koreatech.thunder.feature.thunder.add
 
+import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.PostThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ThunderAddViewModel @Inject constructor(
-    private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
+    private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase,
+    private val postThunderUseCase: PostThunderUseCase
 ) : ThunderInputViewModel() {
 
     init {
@@ -33,5 +37,19 @@ class ThunderAddViewModel @Inject constructor(
             if (selectableHashtag.isSelected) return true
         }
         return false
+    }
+
+    override fun onClickThunder() {
+        viewModelScope.launch {
+            postThunderUseCase(
+                title = uiState.value.title,
+                content = uiState.value.content,
+                deadline = "",
+                hashtags = uiState.value.hashtags.map { it.hashtag },
+                limitParticipantsCnt = uiState.value.limitParticipantsCnt
+            )
+                .onSuccess { }
+                .onFailure { }
+        }
     }
 }

@@ -10,8 +10,7 @@ data class ThunderResponse(
     val content: String,
     val deadline: String,
     val hashtags: List<String>,
-    val host: UserResponse,
-    val participants: List<UserResponse>,
+    val members: List<UserResponse>,
     val limitParticipantsCnt: Int,
     val thunderState: String
 )
@@ -22,8 +21,7 @@ fun ThunderResponse.toThunder(): Thunder = Thunder(
     content = content,
     deadline = deadline,
     hashtags = hashtags.map { hashtag -> Hashtag.valueOf(hashtag) },
-    host = host.toUser(),
-    participants = participants.map { participant -> participant.toUser() },
+    participants = members.map { participant -> participant.toUser() },
     limitParticipantsCnt = limitParticipantsCnt,
     thunderState = ThunderState.valueOf(thunderState)
 )
@@ -35,8 +33,7 @@ val dummyThunderResponses = listOf(
         content = "수요일에 농구 할 사람",
         deadline = "2023/02/18",
         hashtags = listOf("SPORT"),
-        participants = dummyUserResponses,
-        host = dummyUserResponses[0],
+        members = dummyUserResponses,
         limitParticipantsCnt = 8,
         thunderState = ThunderState.NON_MEMBER.name
     ),
@@ -46,8 +43,7 @@ val dummyThunderResponses = listOf(
         content = "내일 18시에 운동 같이 할 사람",
         deadline = "2023/02/18",
         hashtags = listOf("HEALTH"),
-        participants = dummyUserResponses,
-        host = dummyUserResponses[1],
+        members = dummyUserResponses,
         limitParticipantsCnt = 3,
         thunderState = ThunderState.MEMBER.name
     ),
@@ -57,8 +53,7 @@ val dummyThunderResponses = listOf(
         content = "금요일에 아바타2 보러 갈 사람",
         deadline = "2023/02/18",
         hashtags = listOf("MOVIE"),
-        participants = listOf(dummyUserResponses[2]),
-        host = dummyUserResponses[2],
+        members = listOf(dummyUserResponses[2]),
         limitParticipantsCnt = 4,
         thunderState = ThunderState.HOST.name
     )

@@ -6,7 +6,6 @@ data class Thunder(
     val content: String,
     val deadline: String,
     val hashtags: List<Hashtag>,
-    val host: User,
     val participants: List<User>,
     val limitParticipantsCnt: Int,
     val thunderState: ThunderState
@@ -20,7 +19,6 @@ val dummyThunders = listOf(
         deadline = "2023/02/18",
         hashtags = listOf(Hashtag.SPORT),
         participants = dummyUsers,
-        host = dummyUsers[0],
         limitParticipantsCnt = 8,
         thunderState = ThunderState.NON_MEMBER
     ),
@@ -31,7 +29,6 @@ val dummyThunders = listOf(
         deadline = "2023/02/18",
         hashtags = listOf(Hashtag.HEALTH),
         participants = dummyUsers,
-        host = dummyUsers[1],
         limitParticipantsCnt = 3,
         thunderState = ThunderState.MEMBER
     ),
@@ -42,7 +39,6 @@ val dummyThunders = listOf(
         deadline = "2023/02/18",
         hashtags = listOf(Hashtag.MOVIE),
         participants = listOf(dummyUsers[2]),
-        host = dummyUsers[2],
         limitParticipantsCnt = 4,
         thunderState = ThunderState.HOST
     )

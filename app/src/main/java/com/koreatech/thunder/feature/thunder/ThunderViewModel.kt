@@ -2,6 +2,7 @@ package com.koreatech.thunder.feature.thunder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
@@ -42,21 +43,28 @@ class ThunderViewModel @Inject constructor(
         }
     }
 
-    fun getHashTaggedThunders() {
+    fun getThundersWithHashtag(hashtag: Hashtag) {
+        viewModelScope.launch {
+            thunderRepository.getThundersWithHashtag(hashtag)
+                .onSuccess { thunders ->
+                    _thunderUiState.value = ThunderUiState.Success(thunders)
+                }
+                .onFailure { }
+        }
     }
 
-    fun getUser() {
-    }
-
-    fun enterThunder(thunder: Thunder) {
+    fun joinThunder(thunder: Thunder) {
         viewModelScope.launch {
             if (thunder.participants.size < thunder.limitParticipantsCnt) {
-                thunderRepository.enterThunder(thunder.thunderId)
+                thunderRepository.joinThunder(thunder.thunderId)
             }
         }
     }
 
-    fun cancelThunder(thunderId: String, userId: String) {
+    fun outThunder(thunderId: String) {
+        viewModelScope.launch {
+            thunderRepository.outThunder(thunderId)
+        }
     }
 
     fun getHashtags() {
