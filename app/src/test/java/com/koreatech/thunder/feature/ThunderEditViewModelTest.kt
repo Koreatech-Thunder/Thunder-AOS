@@ -1,10 +1,14 @@
 package com.koreatech.thunder.feature
 
+import com.koreatech.thunder.domain.repository.ThunderRepository
+import com.koreatech.thunder.domain.usecase.EditThunderUseCase
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.GetThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.InputUiState
 import com.koreatech.thunder.feature.thunder.edit.ThunderEditViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import com.koreatech.thunder.util.getPrivateProperty
+import io.mockk.mockk
 import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +24,19 @@ import org.junit.jupiter.api.extension.ExtendWith
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)
 class ThunderEditViewModelTest {
-    private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
     private lateinit var thunderEditViewModel: ThunderEditViewModel
+    private val thunderRepository: ThunderRepository = mockk()
+    private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
+    private val getThunderUseCase = GetThunderUseCase(thunderRepository)
+    private val editThunderUseCase = EditThunderUseCase(thunderRepository)
 
     @BeforeEach
     fun setUp() {
-        thunderEditViewModel = ThunderEditViewModel(getAllSelectableHashtagUseCase)
+        thunderEditViewModel = ThunderEditViewModel(
+            getThunderUseCase,
+            editThunderUseCase,
+            getAllSelectableHashtagUseCase
+        )
     }
 
     @DisplayName("번개 detail 에서 하나라도 수정 사항이 생기면 완료 버튼이 활성화 된다.")

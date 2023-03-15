@@ -2,10 +2,13 @@ package com.koreatech.thunder.feature
 
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
+import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.PostThunderUseCase
 import com.koreatech.thunder.feature.thunder.add.ThunderAddViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import com.koreatech.thunder.util.callPrivateFunc
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -23,12 +26,17 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)
 class ThunderAddViewModelTest {
-    private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
     private lateinit var thunderAddViewModel: ThunderAddViewModel
+    private val thunderRepository: ThunderRepository = mockk()
+    private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
+    private val postThunderUseCase = PostThunderUseCase(thunderRepository)
 
     @BeforeEach
     fun setUp() {
-        thunderAddViewModel = ThunderAddViewModel(getAllSelectableHashtagUseCase)
+        thunderAddViewModel = ThunderAddViewModel(
+            getAllSelectableHashtagUseCase,
+            postThunderUseCase
+        )
     }
 
     @DisplayName("제한 인원은 2명으로 초기화 되어있다.")
@@ -156,7 +164,8 @@ class ThunderAddViewModelTest {
     @DisplayName("번개 생성하기 진입 시 현재 시각으로 초기화 되어 있다.")
     @Test
     fun timeTextTest2() {
-        val compareViewModel = ThunderAddViewModel(getAllSelectableHashtagUseCase)
+        val compareViewModel =
+            ThunderAddViewModel(getAllSelectableHashtagUseCase, postThunderUseCase)
         val currentTime: LocalTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES)
 
         compareViewModel.callPrivateFunc("changeToUiTime", currentTime.toString())
@@ -177,7 +186,8 @@ class ThunderAddViewModelTest {
     @DisplayName("번개 생성하기 진입 시 현재 날짜로 초기화 되어 있다.")
     @Test
     fun dateTextTest2() {
-        val compareViewModel = ThunderAddViewModel(getAllSelectableHashtagUseCase)
+        val compareViewModel =
+            ThunderAddViewModel(getAllSelectableHashtagUseCase, postThunderUseCase)
         val currentDate = LocalDateTime.now()
 
         compareViewModel.setDate(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)

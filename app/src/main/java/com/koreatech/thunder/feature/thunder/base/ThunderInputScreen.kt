@@ -115,7 +115,7 @@ fun ThunderInputScreen(
             action = {
                 Text(
                     modifier = Modifier
-                        .clickable { /* 번개 추가하기 */ },
+                        .clickable { thunderInputViewModel.onClickThunder() },
                     text = stringResource(R.string.thunder_report_complete),
                     style = ThunderTheme.typography.h5,
                     color = if (buttonState.value) Orange else Gray

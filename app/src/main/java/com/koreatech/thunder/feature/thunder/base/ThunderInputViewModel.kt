@@ -28,7 +28,7 @@ abstract class ThunderInputViewModel : ViewModel() {
 
     protected abstract fun isButtonActive(): Boolean
     protected abstract fun isChangeHashtags(): Boolean
-    protected abstract fun onClickThunder()
+    abstract fun onClickThunder()
 
     fun plusLimitParticipantsCnt() {
         _uiState.value = _uiState.value.copy(
