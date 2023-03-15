@@ -12,6 +12,7 @@ interface AuthRepository {
     ): Result<Tokens>
 
     suspend fun postLogout(): Result<Unit>
+    suspend fun postRefreshToken(tokens: Tokens): Result<Tokens>
 
     suspend fun getKakaoToken(context: Context): Result<OAuthToken>
     suspend fun getFCMToken(): Result<String>
