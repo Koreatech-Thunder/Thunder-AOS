@@ -10,11 +10,13 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -22,6 +24,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.R
@@ -35,6 +39,8 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.navigation.ThunderDestination
 import com.koreatech.thunder.navigation.popAndMoveTo
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun UserInputScreen(
@@ -42,8 +48,24 @@ fun UserInputScreen(
     userInputViewModel: UserInputViewModel = hiltViewModel(),
     localFocusManager: FocusManager = LocalFocusManager.current
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
     val hashtags = userInputViewModel.hashtags.collectAsStateWithLifecycle()
     val nickname = userInputViewModel.nickname.collectAsStateWithLifecycle()
+
+    LaunchedEffect(true) {
+        userInputViewModel.moveDestination
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
+            .onEach { destination ->
+                when (destination) {
+                    ThunderDestination.ON_BOARDING -> {
+                        userInputViewModel.setSplashState(SplashState.ON_BOARDING)
+                        navController.popAndMoveTo(ThunderDestination.ON_BOARDING)
+                    }
+                    else -> {}
+                }
+            }
+            .launchIn(lifecycleOwner.lifecycleScope)
+    }
 
     Column(
         modifier = Modifier.padding(horizontal = 18.dp, vertical = 24.dp)
@@ -100,9 +122,7 @@ fun UserInputScreen(
                 .clip(RoundedCornerShape(8.dp))
                 .background(if (nickname.value.isNotEmpty()) Orange else Gray)
                 .clickable(nickname.value.isNotEmpty()) {
-                    /* 통신 API 성공 이후에 */
-                    userInputViewModel.setSplashState(SplashState.ON_BOARDING)
-                    navController.popAndMoveTo(ThunderDestination.ON_BOARDING)
+                    userInputViewModel.putUserProfile()
                 },
             buttonText = {
                 Text(
