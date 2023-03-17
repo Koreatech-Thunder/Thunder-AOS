@@ -32,5 +32,6 @@ enum class ThunderDestination(
     THUNDER_RECORD,
     ALARM_SETTING,
     LOGIN,
-    SPLASH
+    SPLASH,
+    CHAT_DETAIL
 }

@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
+import com.koreatech.thunder.feature.chat.detail.ChatRoomDetail
 import com.koreatech.thunder.feature.chat.room.ChatRoomScreen
 import com.koreatech.thunder.feature.onboarding.LoginScreen
 import com.koreatech.thunder.feature.onboarding.OnBoardingScreen
@@ -23,6 +24,7 @@ import com.koreatech.thunder.feature.thunder.edit.ThunderEditScreen
 import com.koreatech.thunder.navigation.ThunderDestination.ADD
 import com.koreatech.thunder.navigation.ThunderDestination.ALARM_SETTING
 import com.koreatech.thunder.navigation.ThunderDestination.CHATROOM
+import com.koreatech.thunder.navigation.ThunderDestination.CHAT_DETAIL
 import com.koreatech.thunder.navigation.ThunderDestination.EDIT
 import com.koreatech.thunder.navigation.ThunderDestination.LOGIN
 import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
@@ -48,6 +50,7 @@ fun ThunderNavHost(
     ) {
         composable(THUNDER.name) { ThunderScreen(navController = navController) }
         composable(CHATROOM.name) { ChatRoomScreen(navController = navController) }
+        composable("${CHAT_DETAIL.name}/{chatId}") { ChatRoomDetail(navController = navController) }
         composable(PROFILE.name) { ProfileScreen(navController = navController) }
         composable(ADD.name) { ThunderAddScreen(navController = navController) }
         composable("${EDIT.name}/{thunderId}") { backStackEntry ->

@@ -2,6 +2,7 @@ package com.koreatech.thunder.feature.chat.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,10 +25,12 @@ import com.koreatech.thunder.domain.model.ChatRoom
 
 @Composable
 fun ThunderChatRoom(
-    chatRoom: ChatRoom
+    chatRoom: ChatRoom,
+    moveChatDetail: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
+            .clickable { moveChatDetail(chatRoom.id) }
             .fillMaxWidth()
             .clip(RoundedCornerShape(10.dp))
             .background(Orange100)

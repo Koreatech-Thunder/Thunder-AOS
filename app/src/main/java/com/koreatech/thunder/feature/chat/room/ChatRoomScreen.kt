@@ -36,7 +36,12 @@ fun ChatRoomScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(chatRooms.value) { chatRoom ->
-                ThunderChatRoom(chatRoom = chatRoom)
+                ThunderChatRoom(
+                    chatRoom = chatRoom,
+                    moveChatDetail = { chat ->
+                        navController.navigate("chatDetail/$chat")
+                    }
+                )
             }
         }
     }
