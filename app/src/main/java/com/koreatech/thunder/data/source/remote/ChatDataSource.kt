@@ -12,8 +12,8 @@ class ChatDataSource @Inject constructor(
     suspend fun getChatRooms(): List<ChatRoom> =
         chatService.getChatRooms()
 
-    suspend fun getChatRoomDetail(): ChatRoomDetail =
-        chatService.getChatRoomDetail()
+    suspend fun getChatRoomDetail(chatId: String): ChatRoomDetail =
+        chatService.getChatRoomDetail(chatId)
 
     suspend fun setChatRoomAlarm(isAlarm: Boolean) =
         chatService.setChatRoomAlarm(ChatAlarmRequest(isAlarm))
