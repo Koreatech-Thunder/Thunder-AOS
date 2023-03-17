@@ -1,6 +1,7 @@
 package com.koreatech.thunder.di
 
 import com.koreatech.thunder.data.service.AuthService
+import com.koreatech.thunder.data.service.ChatService
 import com.koreatech.thunder.data.service.ThunderService
 import com.koreatech.thunder.data.service.UserService
 import dagger.Module
@@ -27,4 +28,9 @@ object ServiceModule {
     @Singleton
     fun providesUserService(retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesChatService(retrofit: Retrofit): ChatService =
+        retrofit.create(ChatService::class.java)
 }
