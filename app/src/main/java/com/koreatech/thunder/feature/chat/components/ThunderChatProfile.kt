@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.style.Orange
-import com.koreatech.thunder.util.ChatState
+import com.koreatech.thunder.domain.model.ChatState
 
 @Composable
 fun ThunderChatWithProfile(

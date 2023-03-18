@@ -16,9 +16,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.designsystem.style.Orange
-import com.koreatech.thunder.util.ChatState
-import com.koreatech.thunder.util.ChatState.ME
-import com.koreatech.thunder.util.ChatState.OTHER
+import com.koreatech.thunder.domain.model.ChatState
+import com.koreatech.thunder.domain.model.ChatState.ME
+import com.koreatech.thunder.domain.model.ChatState.OTHER
 
 @Composable
 fun ThunderChat(

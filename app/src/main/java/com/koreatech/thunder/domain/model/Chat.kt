@@ -32,6 +32,30 @@ val dummyChats = listOf(
         user = dummyUsers[2],
         message = "영화 뭐 보나요",
         createdAt = "",
+        state = ChatState.ME
+    ),
+    Chat(
+        id = "chat4",
+        thunderId = "thunder1",
+        user = dummyUsers[0],
+        message = "공 누가 들고 가나요",
+        createdAt = "",
         state = ChatState.OTHER
+    ),
+    Chat(
+        id = "chat5",
+        thunderId = "thunder2",
+        user = dummyUsers[2],
+        message = "오늘 어디 하나요",
+        createdAt = "",
+        state = ChatState.ME
+    ),
+    Chat(
+        id = "chat6",
+        thunderId = "thunder3",
+        user = dummyUsers[2],
+        message = "영화 뭐 보나요",
+        createdAt = "",
+        state = ChatState.ME
     )
 )
