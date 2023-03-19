@@ -6,6 +6,7 @@ import com.koreatech.thunder.domain.model.ChatRoomDetail
 import com.koreatech.thunder.domain.model.dummyChats
 import com.koreatech.thunder.domain.repository.ChatRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -16,10 +17,18 @@ import javax.inject.Inject
 class ChatRoomDetailViewModel @Inject constructor(
     private val chatRepository: ChatRepository
 ) : ViewModel() {
-    private val _chatRoomDetail = MutableStateFlow(ChatRoomDetail("농구할 사람", 8, 4, dummyChats, true))
+    private val _chatRoomDetail =
+        MutableStateFlow(ChatRoomDetail("농구할 사람", 8, 4, emptyList(), true))
     private val _chat = MutableStateFlow("")
     val chatRoomDetail = _chatRoomDetail.asStateFlow()
     val chat = _chat.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            delay(100)
+            _chatRoomDetail.value = ChatRoomDetail("농구할 사람", 8, 4, dummyChats, true)
+        }
+    }
 
     fun getChatRoomDetail(chatId: String) {
         viewModelScope.launch {

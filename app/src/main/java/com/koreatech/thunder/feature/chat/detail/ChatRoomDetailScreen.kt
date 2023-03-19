@@ -4,19 +4,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imeNestedScroll
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -34,7 +33,6 @@ import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.chat.components.ChatItem
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChatRoomDetailScreen(
     navController: NavController,
@@ -42,6 +40,11 @@ fun ChatRoomDetailScreen(
 ) {
     val chatRoomDetail = chatRoomDetailViewModel.chatRoomDetail.collectAsStateWithLifecycle()
     val chat = chatRoomDetailViewModel.chat.collectAsStateWithLifecycle()
+    val listState = rememberLazyListState()
+    
+    LaunchedEffect(chatRoomDetail.value.chats.size) {
+        listState.animateScrollToItem(chatRoomDetail.value.chats.size)
+    }
 
     Column {
         ChatRoomDetailToolbar(
@@ -52,9 +55,10 @@ fun ChatRoomDetailScreen(
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .background(Orange100)
-                .padding(horizontal = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+                .background(Orange100),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            contentPadding = PaddingValues(8.dp),
+            state = listState
         ) {
             itemsIndexed(chatRoomDetail.value.chats) { index, chat ->
                 ChatItem(
