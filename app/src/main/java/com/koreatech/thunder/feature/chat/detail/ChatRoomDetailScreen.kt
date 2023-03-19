@@ -4,11 +4,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -30,6 +34,7 @@ import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.chat.components.ChatItem
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChatRoomDetailScreen(
     navController: NavController,
@@ -51,8 +56,11 @@ fun ChatRoomDetailScreen(
                 .padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            items(chatRoomDetail.value.chats) { chat ->
-                ChatItem(chat)
+            itemsIndexed(chatRoomDetail.value.chats) { index, chat ->
+                ChatItem(
+                    beforeUserId = if (index > 0) chatRoomDetail.value.chats[index - 1].user.userId else "",
+                    chat = chat
+                )
             }
         }
         ChatTextField(
@@ -107,11 +115,13 @@ private fun ChatTextField(
     writeChat: (String) -> Unit
 ) {
     Row(
-        modifier = Modifier.padding(horizontal = 12.dp, vertical = 18.dp),
+        modifier = Modifier
+            .padding(horizontal = 12.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ThunderTextField(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f),
             text = chat,
             hint = "",
             onTextChange = writeChat
