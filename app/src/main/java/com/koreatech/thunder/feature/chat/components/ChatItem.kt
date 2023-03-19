@@ -110,7 +110,7 @@ private fun ThunderChatWithNameSlot(
             horizontalAlignment = if (chatState == ChatState.OTHER) Alignment.Start else Alignment.End
         ) {
             chats.forEach { chat ->
-                ThunderChat(text = chat, chatState = chatState)
+                ChatFrame(text = chat, chatState = chatState)
                 Spacer(modifier = Modifier.height(4.dp))
             }
         }

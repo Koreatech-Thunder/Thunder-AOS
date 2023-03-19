@@ -15,7 +15,7 @@ val dummyChats = listOf(
         thunderId = "thunder1",
         user = dummyUsers[0],
         message = "공 누가 들고 가나요",
-        createdAt = "",
+        createdAt = "15:00",
         state = ChatState.OTHER
     ),
     Chat(
@@ -23,7 +23,7 @@ val dummyChats = listOf(
         thunderId = "thunder2",
         user = dummyUsers[1],
         message = "오늘 어디 하나요",
-        createdAt = "",
+        createdAt = "15:00",
         state = ChatState.OTHER
     ),
     Chat(
@@ -31,7 +31,7 @@ val dummyChats = listOf(
         thunderId = "thunder3",
         user = dummyUsers[2],
         message = "영화 뭐 보나요",
-        createdAt = "",
+        createdAt = "15:00",
         state = ChatState.ME
     ),
     Chat(
@@ -39,7 +39,7 @@ val dummyChats = listOf(
         thunderId = "thunder1",
         user = dummyUsers[0],
         message = "공 누가 들고 가나요",
-        createdAt = "",
+        createdAt = "15:00",
         state = ChatState.OTHER
     ),
     Chat(
@@ -47,7 +47,7 @@ val dummyChats = listOf(
         thunderId = "thunder2",
         user = dummyUsers[2],
         message = "오늘 어디 하나요",
-        createdAt = "",
+        createdAt = "15:00",
         state = ChatState.ME
     ),
     Chat(
@@ -55,7 +55,7 @@ val dummyChats = listOf(
         thunderId = "thunder3",
         user = dummyUsers[2],
         message = "영화 뭐 보나요",
-        createdAt = "",
+        createdAt = "15:00",
         state = ChatState.ME
     )
 )

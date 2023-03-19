@@ -1,6 +1,8 @@
 package com.koreatech.thunder.feature.chat.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -24,7 +26,9 @@ import com.koreatech.thunder.designsystem.components.ThunderTextField
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
+import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.feature.chat.components.ChatItem
 
 @Composable
 fun ChatRoomDetailScreen(
@@ -41,9 +45,14 @@ fun ChatRoomDetailScreen(
             isAlarm = chatRoomDetail.value.isAlarm
         )
         LazyColumn(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .background(Orange100)
+                .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            items(chatRoomDetail.value.chats) {
+            items(chatRoomDetail.value.chats) { chat ->
+                ChatItem(chat)
             }
         }
         ChatTextField(
