@@ -21,6 +21,7 @@ import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.chat.components.ThunderChatRoom
+import com.koreatech.thunder.navigation.ThunderDestination
 
 @Composable
 fun ChatRoomScreen(
@@ -38,8 +39,8 @@ fun ChatRoomScreen(
             items(chatRooms.value) { chatRoom ->
                 ThunderChatRoom(
                     chatRoom = chatRoom,
-                    moveChatDetail = { chat ->
-                        navController.navigate("chatDetail/$chat")
+                    moveChatDetail = { thunderId ->
+                        navController.navigate("${ThunderDestination.CHAT_DETAIL.name}/$thunderId")
                     }
                 )
             }

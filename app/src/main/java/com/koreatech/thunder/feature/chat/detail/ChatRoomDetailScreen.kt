@@ -36,6 +36,7 @@ import com.koreatech.thunder.feature.chat.components.ChatItem
 @Composable
 fun ChatRoomDetailScreen(
     navController: NavController,
+    thunderId: String,
     chatRoomDetailViewModel: ChatRoomDetailViewModel = hiltViewModel()
 ) {
     val chatRoomDetail = chatRoomDetailViewModel.chatRoomDetail.collectAsStateWithLifecycle()

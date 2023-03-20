@@ -50,7 +50,12 @@ fun ThunderNavHost(
     ) {
         composable(THUNDER.name) { ThunderScreen(navController = navController) }
         composable(CHATROOM.name) { ChatRoomScreen(navController = navController) }
-        composable("${CHAT_DETAIL.name}/{chatId}") { ChatRoomDetailScreen(navController = navController) }
+        composable("${CHAT_DETAIL.name}/{thunderId}") { backStackEntry ->
+            ChatRoomDetailScreen(
+                thunderId = backStackEntry.arguments?.getString("thunderId") ?: "",
+                navController = navController
+            )
+        }
         composable(PROFILE.name) { ProfileScreen(navController = navController) }
         composable(ADD.name) { ThunderAddScreen(navController = navController) }
         composable("${EDIT.name}/{thunderId}") { backStackEntry ->
