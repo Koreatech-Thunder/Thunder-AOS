@@ -72,4 +72,5 @@
     <string name="withdraw_content">탈퇴하시면,\n- 그동안 모아두었던 매너 온도가 사라집니다.\n- 참여했던 번개 내역이 모두 없어집니다.\n- 탈퇴 후에는 전의 계정을 다시 살리거나 채팅, 피드 등의 데이터를 복구할 수 없습니다.</string>
     <string name="chat_room_title">채팅 목록</string>
     <string name="chat_send">보내기</string>
+    <string name="evaluate_title">매너 평가</string>
 </resources>
