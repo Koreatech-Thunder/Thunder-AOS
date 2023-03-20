@@ -30,7 +30,7 @@ object RetrofitModule {
                         .newBuilder()
                         .addHeader(
                             name = "Authorization",
-                            value = "Bearer" + authLocalDataSource.accessToken
+                            value = authLocalDataSource.accessToken
                         )
                         .build()
                 )

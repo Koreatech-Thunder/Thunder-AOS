@@ -41,7 +41,6 @@ import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.User
-import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.feature.thunder.components.ReportDialog
 import com.koreatech.thunder.feature.thunder.components.ThunderItem
 import com.koreatech.thunder.navigation.ThunderDestination
@@ -148,16 +147,22 @@ fun ThunderScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = PaddingValues(vertical = 8.dp)
                 ) {
-                    items(dummyThunders) { thunder ->
-                        ThunderItem(
-                            thunder = thunder,
-                            showBottomSheet = showBottomSheet,
-                            participateThunder = thunderViewModel::joinThunder,
-                            cancelThunder = thunderViewModel::outThunder,
-                            moveToEdit = { id ->
-                                navController.navigate("${ThunderDestination.EDIT.name}/$id")
+                    when (val state = thunderUiState.value) {
+                        ThunderUiState.Error -> item {}
+                        ThunderUiState.Loading -> item {}
+                        is ThunderUiState.Success -> {
+                            items(state.thunders) { thunder ->
+                                ThunderItem(
+                                    thunder = thunder,
+                                    showBottomSheet = showBottomSheet,
+                                    participateThunder = thunderViewModel::joinThunder,
+                                    cancelThunder = thunderViewModel::outThunder,
+                                    moveToEdit = { id ->
+                                        navController.navigate("${ThunderDestination.EDIT.name}/$id")
+                                    }
+                                )
                             }
-                        )
+                        }
                     }
                 }
             }

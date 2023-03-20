@@ -8,6 +8,7 @@ import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -15,7 +16,6 @@ import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -54,6 +54,7 @@ class LoginViewModel @Inject constructor(
                                     accessToken = tokens.accessToken,
                                     refreshToken = tokens.refreshToken
                                 )
+                                setSplashStateUseCase(SplashState.MAIN)
                                 _moveDestination.emit(ThunderDestination.THUNDER)
                             }.onFailure { Timber.e("error ${throwable.message}") }
                         }
@@ -66,6 +67,7 @@ class LoginViewModel @Inject constructor(
                                     accessToken = tokens.accessToken,
                                     refreshToken = tokens.refreshToken
                                 )
+                                setSplashStateUseCase(SplashState.USER_INPUT)
                                 _moveDestination.emit(ThunderDestination.USER_INPUT)
                             }.onFailure { Timber.e("error ${throwable.message}") }
                         }

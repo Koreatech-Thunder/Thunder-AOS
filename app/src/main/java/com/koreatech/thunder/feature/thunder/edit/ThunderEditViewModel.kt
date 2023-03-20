@@ -9,10 +9,10 @@ import com.koreatech.thunder.domain.usecase.GetThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.InputUiState
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class ThunderEditViewModel @Inject constructor(
@@ -44,6 +44,30 @@ class ThunderEditViewModel @Inject constructor(
         setTime(dummyInputUiState.time)
         setDate(2023, 2, 18)
         cacheUiState.value = _uiState.value.copy()
+    }
+
+    fun getThunder(thunderId: String) {
+        viewModelScope.launch {
+            getThunderUseCase(thunderId)
+                .onSuccess { thunder ->
+                    _uiState.update { uiState ->
+                        uiState.copy(
+                            limitParticipantsCnt = thunder.limitParticipantsCnt,
+                            hashtags = getAllSelectableHashtagUseCase(
+                                thunder.hashtags.map {
+                                    SelectableHashtag(
+                                        it
+                                    )
+                                }
+                            ),
+                            title = thunder.title,
+                            content = thunder.content,
+                            selectedHashtagCount = thunder.hashtags.size
+                        )
+                    }
+                }
+                .onFailure { }
+        }
     }
 
     override fun isButtonActive(): Boolean =

@@ -16,6 +16,7 @@ fun ThunderEditScreen(
     thunderEditViewModel: ThunderEditViewModel = hiltViewModel()
 ) {
     val uiState = thunderEditViewModel.uiState.collectAsStateWithLifecycle()
+    thunderEditViewModel.getThunder(thunderId = thunderId)
     ThunderInputScreen(
         screenTitle = stringResource(R.string.thunder_edit_title),
         uiState = uiState.value,

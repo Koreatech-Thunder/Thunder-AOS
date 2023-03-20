@@ -1,17 +1,18 @@
 package com.koreatech.thunder.data.model
 
+import com.google.gson.annotations.SerializedName
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.ThunderState
 
 data class ThunderResponse(
-    val thunderId: String,
+    @SerializedName("_id") val thunderId: String,
     val title: String,
     val content: String,
     val deadline: String,
     val hashtags: List<String>,
     val members: List<UserResponse>,
-    val limitParticipantsCnt: Int,
+    @SerializedName("limitMembersCnt") val limitParticipantsCnt: Int,
     val thunderState: String
 )
 
