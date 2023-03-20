@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.getValue
@@ -14,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.designsystem.style.ThunderTheme
@@ -36,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var setSplashStateUseCase: SetSplashStateUseCase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -50,6 +54,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             Scaffold(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .navigationBarsPadding(),
                 bottomBar = {
                     AnimatedVisibility(
                         visible = isShowBottomBar,

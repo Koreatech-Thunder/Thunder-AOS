@@ -41,7 +41,7 @@ fun ChatRoomDetailScreen(
     val chatRoomDetail = chatRoomDetailViewModel.chatRoomDetail.collectAsStateWithLifecycle()
     val chat = chatRoomDetailViewModel.chat.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
-    
+
     LaunchedEffect(chatRoomDetail.value.chats.size) {
         listState.animateScrollToItem(chatRoomDetail.value.chats.size)
     }
