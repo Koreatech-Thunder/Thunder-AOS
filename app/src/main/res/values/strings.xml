@@ -73,4 +73,6 @@
     <string name="chat_room_title">채팅 목록</string>
     <string name="chat_send">보내기</string>
     <string name="evaluate_title">매너 평가</string>
+    <string name="evaluate_content">이번 번개는 어떠셨나요?</string>
+    <string name="evaluate_content2">번개는 잘 즐기셨나요?\n이번 번개에 대한 리뷰를 남겨주세요!</string>
 </resources>

@@ -1,15 +1,19 @@
 package com.koreatech.thunder.feature.evaluate
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,14 +26,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.rememberPagerState
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
-import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
+import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun EvaluateThunderScreen(
     navController: NavController,
@@ -37,20 +47,31 @@ fun EvaluateThunderScreen(
     evaluateThunderViewModel: EvaluateThunderViewModel = hiltViewModel()
 ) {
     val uiState = evaluateThunderViewModel.uiState.collectAsStateWithLifecycle()
+    val state = rememberPagerState()
 
     Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         EvaluateThunderToolbar(navController = navController)
         BlankSpace(size = 36.dp)
         EvaluateDescription(uiState.value.title)
-        BlankSpace(size = 32.dp)
-        EvaluateMemberItem(
-            modifier = Modifier,
-            memberIndex = 0,
-            evaluateMember = uiState.value.evaluateMembers[0],
+        EvaluateMembers(
+            state = state,
+            evaluateMembers = uiState.value.evaluateMembers,
             onClick = evaluateThunderViewModel::setMemberRating
         )
+        HorizontalPagerIndicator(
+            pagerState = state,
+            activeColor = Orange,
+            inactiveColor = Orange200
+        )
+        BlankSpace(size = 16.dp)
+        MembersIndex(
+            currentIndex = state.currentPage + 1,
+            totalIndex = state.pageCount
+        )
+        BlankSpace(size = 24.dp)
     }
 }
 
@@ -94,7 +115,7 @@ private fun EvaluateDescription(
     title: String
 ) {
     Text(
-        text = "이번 번개는 어떠셨나요?",
+        text = stringResource(R.string.evaluate_content),
         style = ThunderTheme.typography.h2
     )
     BlankSpace(size = 12.dp)
@@ -104,10 +125,38 @@ private fun EvaluateDescription(
     )
     BlankSpace(size = 12.dp)
     Text(
-        text = "번개는 잘 즐기셨나요?\n이번 번개에 대한 리뷰를 남겨주세요!",
+        text = stringResource(R.string.evaluate_content2),
         textAlign = TextAlign.Center,
         style = ThunderTheme.typography.h5
     )
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+private fun ColumnScope.EvaluateMembers(
+    state: PagerState,
+    evaluateMembers: List<EvaluateMember>,
+    onClick: (Int, Int) -> Unit
+) {
+    HorizontalPager(
+        modifier = Modifier.weight(1f),
+        state = state,
+        count = evaluateMembers.size,
+        contentPadding = PaddingValues(32.dp)
+    ) { page ->
+        Surface(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            elevation = 4.dp,
+            shape = RoundedCornerShape(15.dp)
+        ) {
+            EvaluateMemberItem(
+                modifier = Modifier.fillMaxSize(),
+                memberIndex = page,
+                evaluateMember = evaluateMembers[page],
+                onClick = onClick
+            )
+        }
+    }
 }
 
 @Composable
@@ -120,14 +169,22 @@ private fun EvaluateMemberItem(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(15.dp))
-            .border(1.dp, Gray)
-            .padding(24.dp),
+            .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text(text = evaluateMember.nickname)
-        Image(painter = painterResource(id = R.drawable.ic_person), contentDescription = "")
-        Text(text = "${evaluateMember.rating}")
+        Text(
+            text = evaluateMember.nickname,
+            style = ThunderTheme.typography.b1
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_person),
+            contentDescription = ""
+        )
+        Text(
+            text = "${evaluateMember.rating.toDouble()}",
+            style = ThunderTheme.typography.h3
+        )
         RatingStars(
             memberIndex = memberIndex,
             currentRating = evaluateMember.rating,
@@ -172,5 +229,16 @@ private fun RatingStar(
             else R.drawable.ic_star_fill
         ),
         contentDescription = ""
+    )
+}
+
+@Composable
+private fun MembersIndex(
+    currentIndex: Int,
+    totalIndex: Int
+) {
+    Text(
+        text = "$currentIndex / $totalIndex",
+        style = ThunderTheme.typography.b3
     )
 }
