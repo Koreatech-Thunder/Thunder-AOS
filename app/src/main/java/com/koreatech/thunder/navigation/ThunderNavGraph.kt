@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.feature.chat.detail.ChatRoomDetailScreen
-import com.koreatech.thunder.feature.chat.room.ChatRoomScreen
+import com.koreatech.thunder.feature.evaluate.EvaluateThunderScreen
 import com.koreatech.thunder.feature.onboarding.LoginScreen
 import com.koreatech.thunder.feature.onboarding.OnBoardingScreen
 import com.koreatech.thunder.feature.onboarding.UserInputScreen
@@ -49,7 +49,12 @@ fun ThunderNavHost(
         modifier = modifier
     ) {
         composable(THUNDER.name) { ThunderScreen(navController = navController) }
-        composable(CHATROOM.name) { ChatRoomScreen(navController = navController) }
+        composable(CHATROOM.name) {
+            EvaluateThunderScreen(
+                navController = navController,
+                thunderId = ""
+            )
+        }
         composable("${CHAT_DETAIL.name}/{thunderId}") { backStackEntry ->
             ChatRoomDetailScreen(
                 thunderId = backStackEntry.arguments?.getString("thunderId") ?: "",
