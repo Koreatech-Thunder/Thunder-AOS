@@ -41,6 +41,9 @@ fun ChatRoomScreen(
                     chatRoom = chatRoom,
                     moveChatDetail = { thunderId ->
                         navController.navigate("${ThunderDestination.CHAT_DETAIL.name}/$thunderId")
+                    },
+                    moveEvaluate = { thunderId ->
+                        navController.navigate("${ThunderDestination.EVALUATE.name}/$thunderId")
                     }
                 )
             }

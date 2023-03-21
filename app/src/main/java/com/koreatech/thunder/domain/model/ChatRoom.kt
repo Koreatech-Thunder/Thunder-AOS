@@ -6,8 +6,13 @@ data class ChatRoom(
     val limitMemberCnt: Int,
     val joinMemberCnt: Int,
     val endTime: String,
-    val lastChat: Chat?
+    val lastChat: Chat?,
+    val chatRoomState: ChatRoomState
 )
+
+enum class ChatRoomState {
+    EVALUATE, RUNNING
+}
 
 val dummyChatRooms = listOf(
     ChatRoom(
@@ -16,7 +21,8 @@ val dummyChatRooms = listOf(
         limitMemberCnt = 3,
         joinMemberCnt = 8,
         endTime = "2023/02/18",
-        lastChat = dummyChats[0]
+        lastChat = dummyChats[0],
+        chatRoomState = ChatRoomState.EVALUATE
     ),
     ChatRoom(
         id = "thunder2",
@@ -24,7 +30,8 @@ val dummyChatRooms = listOf(
         limitMemberCnt = 3,
         joinMemberCnt = 3,
         endTime = "2023/02/18",
-        lastChat = dummyChats[1]
+        lastChat = dummyChats[1],
+        chatRoomState = ChatRoomState.RUNNING
     ),
     ChatRoom(
         id = "thunder3",
@@ -32,7 +39,8 @@ val dummyChatRooms = listOf(
         limitMemberCnt = 4,
         joinMemberCnt = 1,
         endTime = "2023/02/18",
-        lastChat = dummyChats[2]
+        lastChat = dummyChats[2],
+        chatRoomState = ChatRoomState.RUNNING
     ),
     ChatRoom(
         id = "thunder4",
@@ -40,6 +48,7 @@ val dummyChatRooms = listOf(
         limitMemberCnt = 2,
         joinMemberCnt = 1,
         endTime = "2023/02/18",
-        lastChat = null
+        lastChat = null,
+        chatRoomState = ChatRoomState.RUNNING
     )
 )

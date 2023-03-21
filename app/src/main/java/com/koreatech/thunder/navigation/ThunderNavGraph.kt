@@ -10,6 +10,7 @@ import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.feature.chat.detail.ChatRoomDetailScreen
 import com.koreatech.thunder.feature.chat.room.ChatRoomScreen
+import com.koreatech.thunder.feature.evaluate.EvaluateThunderScreen
 import com.koreatech.thunder.feature.onboarding.LoginScreen
 import com.koreatech.thunder.feature.onboarding.OnBoardingScreen
 import com.koreatech.thunder.feature.onboarding.UserInputScreen
@@ -26,6 +27,7 @@ import com.koreatech.thunder.navigation.ThunderDestination.ALARM_SETTING
 import com.koreatech.thunder.navigation.ThunderDestination.CHATROOM
 import com.koreatech.thunder.navigation.ThunderDestination.CHAT_DETAIL
 import com.koreatech.thunder.navigation.ThunderDestination.EDIT
+import com.koreatech.thunder.navigation.ThunderDestination.EVALUATE
 import com.koreatech.thunder.navigation.ThunderDestination.LOGIN
 import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
 import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
@@ -52,6 +54,12 @@ fun ThunderNavHost(
         composable(CHATROOM.name) { ChatRoomScreen(navController = navController) }
         composable("${CHAT_DETAIL.name}/{thunderId}") { backStackEntry ->
             ChatRoomDetailScreen(
+                thunderId = backStackEntry.arguments?.getString("thunderId") ?: "",
+                navController = navController
+            )
+        }
+        composable("${EVALUATE.name}/{thunderId}") { backStackEntry ->
+            EvaluateThunderScreen(
                 thunderId = backStackEntry.arguments?.getString("thunderId") ?: "",
                 navController = navController
             )

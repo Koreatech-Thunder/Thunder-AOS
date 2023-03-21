@@ -3,15 +3,20 @@ package com.koreatech.thunder.feature.chat.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -22,19 +27,46 @@ import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.ChatRoom
+import com.koreatech.thunder.domain.model.ChatRoomState
 
 @Composable
 fun ThunderChatRoom(
     chatRoom: ChatRoom,
-    moveChatDetail: (String) -> Unit
+    moveChatDetail: (String) -> Unit,
+    moveEvaluate: (String) -> Unit
 ) {
-    Column(
+    Box(
         modifier = Modifier
-            .clickable { moveChatDetail(chatRoom.id) }
             .fillMaxWidth()
+            .height(IntrinsicSize.Min)
             .clip(RoundedCornerShape(10.dp))
             .background(Orange100)
-            .padding(16.dp)
+            .clickable {
+                when (chatRoom.chatRoomState) {
+                    ChatRoomState.EVALUATE -> moveEvaluate(chatRoom.id)
+                    ChatRoomState.RUNNING -> moveChatDetail(chatRoom.id)
+                }
+            }
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        RunningChatRoom(chatRoom = chatRoom)
+        if (chatRoom.chatRoomState == ChatRoomState.EVALUATE) {
+            Text(
+                text = "평가하기",
+                style = ThunderTheme.typography.h3
+            )
+        }
+    }
+}
+
+@Composable
+private fun RunningChatRoom(chatRoom: ChatRoom) {
+    Column(
+        modifier = Modifier
+            .wrapContentSize()
+            .blur(if (chatRoom.chatRoomState == ChatRoomState.EVALUATE) 4.dp else 0.dp)
+            .background(Orange100)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
