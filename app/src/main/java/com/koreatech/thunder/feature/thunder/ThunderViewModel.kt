@@ -12,12 +12,13 @@ import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserHashtagsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
@@ -47,17 +48,21 @@ class ThunderViewModel @Inject constructor(
                 .onSuccess { thunders ->
                     _thunderUiState.value = ThunderUiState.Success(thunders)
                 }
-                .onFailure { }
+                .onFailure {
+                    Timber.e("error is  ${it.message}")
+                }
         }
     }
 
-    fun getThundersWithHashtag(hashtag: Hashtag) {
+    private fun getThundersWithHashtag(hashtag: Hashtag) {
         viewModelScope.launch {
             thunderRepository.getThundersWithHashtag(hashtag)
                 .onSuccess { thunders ->
                     _thunderUiState.value = ThunderUiState.Success(thunders)
                 }
-                .onFailure { }
+                .onFailure {
+                    Timber.e("error is  ${it.message}")
+                }
         }
     }
 
@@ -86,15 +91,24 @@ class ThunderViewModel @Inject constructor(
                         _hashtagUiState.value = HashtagUiState.Success(hashtags)
                     }
                 }
-                .onFailure { }
+                .onFailure {
+                    Timber.e("error is  ${it.message}")
+                }
         }
     }
 
     fun selectHashtag(index: Int) {
         val afterHashtags =
             (hashtagUiState.value as HashtagUiState.Success).hashtags.mapIndexed { idx, hashtag ->
-                if (idx == index) hashtag.copy(isSelected = !hashtag.isSelected)
-                else if (hashtag.isSelected) hashtag.copy(isSelected = false)
+                if (idx == index) {
+                    if (hashtag.isSelected) {
+                        getThunders()
+                        hashtag.copy(isSelected = false)
+                    } else {
+                        getThundersWithHashtag((hashtagUiState.value as HashtagUiState.Success).hashtags[idx].hashtag)
+                        hashtag.copy(isSelected = true)
+                    }
+                } else if (hashtag.isSelected) hashtag.copy(isSelected = false)
                 else hashtag
             }
         _hashtagUiState.value = HashtagUiState.Success(afterHashtags)
