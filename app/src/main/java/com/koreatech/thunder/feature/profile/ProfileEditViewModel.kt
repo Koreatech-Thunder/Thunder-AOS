@@ -2,14 +2,11 @@ package com.koreatech.thunder.feature.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.koreatech.thunder.domain.model.Hashtag
-import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
 import com.koreatech.thunder.domain.usecase.PutUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,6 +14,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
@@ -26,16 +24,11 @@ class ProfileEditViewModel @Inject constructor(
 ) : ViewModel() {
     private val _user: MutableStateFlow<User> = MutableStateFlow(
         User(
-            userId = "kwy",
-            name = "kwy",
-            introduction = "kwy",
+            userId = "",
+            name = "",
+            introduction = "",
             temperature = 0,
-            hashtags = getAllSelectableHashtagUseCase(
-                listOf(
-                    SelectableHashtag(Hashtag.SPORT),
-                    SelectableHashtag(Hashtag.WALK)
-                )
-            )
+            hashtags = getAllSelectableHashtagUseCase(emptyList())
         )
     )
     private val cacheUser: MutableStateFlow<User> = MutableStateFlow(

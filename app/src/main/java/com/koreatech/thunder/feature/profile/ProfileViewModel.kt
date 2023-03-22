@@ -4,26 +4,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.usecase.DeleteTokensUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
 import com.koreatech.thunder.domain.usecase.PostLogoutUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.domain.usecase.WithdrawUserUseCase
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val setSplashStateUseCase: SetSplashStateUseCase,
     private val withdrawUserUseCase: WithdrawUserUseCase,
-    private val postLogoutUseCase: PostLogoutUseCase
+    private val postLogoutUseCase: PostLogoutUseCase,
+    private val deleteTokensUseCase: DeleteTokensUseCase
 ) : ViewModel() {
     private val _moveDestination = MutableSharedFlow<ThunderDestination>()
     private val _user: MutableStateFlow<User> = MutableStateFlow(
@@ -55,6 +57,7 @@ class ProfileViewModel @Inject constructor(
             withdrawUserUseCase()
                 .onSuccess {
                     _moveDestination.emit(ThunderDestination.LOGIN)
+                    deleteTokensUseCase()
                 }
                 .onFailure {
                     Timber.e("error ${it.message}")
@@ -67,6 +70,7 @@ class ProfileViewModel @Inject constructor(
             postLogoutUseCase()
                 .onSuccess {
                     _moveDestination.emit(ThunderDestination.LOGIN)
+                    deleteTokensUseCase()
                 }
                 .onFailure {
                     Timber.e("error ${it.message}")

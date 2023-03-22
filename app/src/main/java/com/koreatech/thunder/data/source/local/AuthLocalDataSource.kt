@@ -19,6 +19,13 @@ class AuthLocalDataSource @Inject constructor(
         set(value) = prefs.edit { putString(REFRESH_TOKEN, value) }
         get() = prefs.getString(REFRESH_TOKEN, "") ?: ""
 
+    fun deleteTokens() {
+        with(prefs.edit()) {
+            clear()
+            commit()
+        }
+    }
+
     companion object {
         private const val SPLASH_STATE = "splash_state"
         private const val ACCESS_TOKEN = "access_token"

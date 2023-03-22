@@ -24,4 +24,5 @@ interface AuthRepository {
     fun getSplashState(): SplashState
     fun setSplashState(splashState: SplashState)
     fun setTokens(accessToken: String, refreshToken: String)
+    fun deleteTokens()
 }

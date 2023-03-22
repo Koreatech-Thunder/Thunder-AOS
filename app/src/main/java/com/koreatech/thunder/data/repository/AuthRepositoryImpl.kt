@@ -24,6 +24,10 @@ class AuthRepositoryImpl @Inject constructor(
         authLocalDataSource.refreshToken = refreshToken
     }
 
+    override fun deleteTokens() {
+        authLocalDataSource.deleteTokens()
+    }
+
     override suspend fun postLogin(
         kakaoToken: String,
         fcmToken: String

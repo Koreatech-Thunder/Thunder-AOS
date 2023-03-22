@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
+import com.koreatech.thunder.domain.usecase.SetTokensUseCase
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,7 +21,8 @@ import timber.log.Timber
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val setSplashStateUseCase: SetSplashStateUseCase
+    private val setSplashStateUseCase: SetSplashStateUseCase,
+    private val setTokensUseCase: SetTokensUseCase
 ) : ViewModel() {
     private val kakaoToken = MutableStateFlow("")
     private val fcmToken = MutableStateFlow("")
@@ -36,7 +38,7 @@ class LoginViewModel @Inject constructor(
                 kakaoToken = kakaoToken.value,
                 fcmToken = fcmToken.value
             ).onSuccess { tokens ->
-                authRepository.setTokens(
+                setTokensUseCase(
                     accessToken = tokens.accessToken,
                     refreshToken = tokens.refreshToken
                 )
@@ -50,7 +52,7 @@ class LoginViewModel @Inject constructor(
                                 kakaoToken = kakaoToken.value,
                                 fcmToken = fcmToken.value
                             ).onSuccess { tokens ->
-                                authRepository.setTokens(
+                                setTokensUseCase(
                                     accessToken = tokens.accessToken,
                                     refreshToken = tokens.refreshToken
                                 )
@@ -63,7 +65,7 @@ class LoginViewModel @Inject constructor(
                                 kakaoToken = kakaoToken.value,
                                 fcmToken = fcmToken.value
                             ).onSuccess { tokens ->
-                                authRepository.setTokens(
+                                setTokensUseCase(
                                     accessToken = tokens.accessToken,
                                     refreshToken = tokens.refreshToken
                                 )

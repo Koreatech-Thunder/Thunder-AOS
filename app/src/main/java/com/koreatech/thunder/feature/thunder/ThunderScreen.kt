@@ -132,8 +132,8 @@ fun ThunderScreen(
                 )
                 BlankSpace(size = 16.dp)
                 when (val state = hashtagUiState.value) {
-                    HashtagUiState.Error -> TODO()
-                    HashtagUiState.Loading -> TODO()
+                    HashtagUiState.Error -> {}
+                    HashtagUiState.Loading -> {}
                     is HashtagUiState.Success -> {
                         ThunderChips(
                             selectableHashtags = state.hashtags,

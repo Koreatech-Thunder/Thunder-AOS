@@ -44,14 +44,7 @@ class UserInputViewModel @Inject constructor(
         _nickname.value = nickname
     }
 
-    private fun selectedHashtags(): List<String> =
-        mutableListOf<String>().apply {
-            hashtags.value.forEach { selectedHashtag ->
-                if (selectedHashtag.isSelected) add(
-                    selectedHashtag.hashtag.name
-                )
-            }
-        }
+    private fun selectedHashtags() = hashtags.value.filter { it.isSelected }.map { it.hashtag }
 
     fun setSplashState(splashState: SplashState) {
         setSplashStateUseCase(splashState)
@@ -62,7 +55,7 @@ class UserInputViewModel @Inject constructor(
             putUserProfileUseCase(
                 name = nickname.value,
                 introduction = "",
-                hashtags = hashtags.value.map { it.hashtag }
+                hashtags = selectedHashtags()
             ).onSuccess {
                 _moveDestination.emit(ThunderDestination.ON_BOARDING)
             }

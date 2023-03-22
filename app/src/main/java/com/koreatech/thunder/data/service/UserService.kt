@@ -3,8 +3,9 @@ package com.koreatech.thunder.data.service
 import com.koreatech.thunder.data.model.request.AlarmStateRequest
 import com.koreatech.thunder.data.model.request.ReportRequest
 import com.koreatech.thunder.data.model.request.UserRequest
+import com.koreatech.thunder.data.model.response.HashtagsResponse
+import com.koreatech.thunder.data.model.response.UserProfileResponse
 import com.koreatech.thunder.domain.model.Thunder
-import com.koreatech.thunder.domain.model.User
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -14,7 +15,7 @@ import retrofit2.http.PUT
 
 interface UserService {
     @GET("/user/profile")
-    suspend fun getProfile(): User
+    suspend fun getProfile(): UserProfileResponse
 
     @GET("/user/participate")
     suspend fun getThunderRecords(): List<Thunder>
@@ -23,7 +24,7 @@ interface UserService {
     suspend fun getAlarmStates(): List<Boolean>
 
     @GET("/user/hashtags")
-    suspend fun getUserHashtags(): List<String>
+    suspend fun getUserHashtags(): HashtagsResponse
 
     @POST("/user/report")
     suspend fun reportUser(
