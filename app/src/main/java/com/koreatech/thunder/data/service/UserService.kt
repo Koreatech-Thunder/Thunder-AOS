@@ -17,7 +17,7 @@ interface UserService {
     @GET("/user/profile")
     suspend fun getProfile(): UserProfileResponse
 
-    @GET("/user/participate")
+    @GET("/user/record")
     suspend fun getThunderRecords(): List<Thunder>
 
     @GET("/user/alarm")
