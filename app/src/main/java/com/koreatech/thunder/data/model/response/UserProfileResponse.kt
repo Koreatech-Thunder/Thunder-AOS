@@ -8,13 +8,13 @@ data class UserProfileResponse(
     val name: String,
     val introduction: String,
     val hashtags: List<String>,
-    val mannerTemperature: Double
+    val mannerTemperature: Int
 ) {
     fun toUser(): User = User(
         userId = "",
         name = name,
         introduction = introduction,
         hashtags = hashtags.map { SelectableHashtag(Hashtag.valueOf(it)) },
-        temperature = mannerTemperature.toInt()
+        temperature = mannerTemperature / 100f
     )
 }

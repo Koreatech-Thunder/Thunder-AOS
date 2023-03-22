@@ -4,7 +4,7 @@ data class User(
     val userId: String,
     val name: String,
     val introduction: String,
-    val temperature: Int,
+    val temperature: Float,
     val hashtags: List<SelectableHashtag>
 )
 
@@ -13,7 +13,7 @@ val dummyUsers = listOf(
         userId = "KWY",
         name = "KWY",
         introduction = "컴퓨터 공학부",
-        temperature = 36,
+        temperature = 36.5f,
         hashtags = listOf(
             SelectableHashtag(Hashtag.SPORT, true),
             SelectableHashtag(Hashtag.HEALTH, true)
@@ -23,7 +23,7 @@ val dummyUsers = listOf(
         userId = "HSE",
         name = "HSE",
         introduction = "컴퓨터공학부",
-        temperature = 36,
+        temperature = 36.5f,
         hashtags = listOf(
             SelectableHashtag(Hashtag.MOVIE, true),
             SelectableHashtag(Hashtag.WALK, true)
@@ -33,7 +33,7 @@ val dummyUsers = listOf(
         userId = "MSB",
         name = "MSB",
         introduction = "컴퓨터공학부",
-        temperature = 36,
+        temperature = 36.5f,
         hashtags = listOf(
             SelectableHashtag(Hashtag.CALLVAN, true),
             SelectableHashtag(Hashtag.EAT, true)

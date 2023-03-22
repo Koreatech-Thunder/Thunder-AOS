@@ -16,7 +16,7 @@ fun UserResponse.toUser(): User = User(
     userId = userId,
     name = name,
     introduction = introduction,
-    temperature = temperature,
+    temperature = temperature / 100f,
     hashtags = hashtags.map { hashtag -> SelectableHashtag(Hashtag.valueOf(hashtag), true) }
 )
 

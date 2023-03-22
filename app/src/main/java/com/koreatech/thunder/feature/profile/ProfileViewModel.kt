@@ -33,7 +33,7 @@ class ProfileViewModel @Inject constructor(
             userId = "",
             name = "",
             introduction = "",
-            temperature = 0,
+            temperature = 36.0f,
             hashtags = emptyList()
         )
     )

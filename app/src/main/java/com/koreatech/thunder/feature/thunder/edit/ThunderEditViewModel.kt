@@ -92,7 +92,7 @@ class ThunderEditViewModel @Inject constructor(
                 title = uiState.value.title,
                 content = uiState.value.content,
                 deadline = "",
-                hashtags = uiState.value.hashtags.map { it.hashtag },
+                hashtags = uiState.value.hashtags.filter { it.isSelected }.map { it.hashtag },
                 limitParticipantsCnt = uiState.value.limitParticipantsCnt
             )
                 .onSuccess { }

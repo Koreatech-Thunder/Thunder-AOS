@@ -5,11 +5,11 @@ import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.PostThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ThunderAddViewModel @Inject constructor(
@@ -45,7 +45,7 @@ class ThunderAddViewModel @Inject constructor(
                 title = uiState.value.title,
                 content = uiState.value.content,
                 deadline = "",
-                hashtags = uiState.value.hashtags.map { it.hashtag },
+                hashtags = uiState.value.hashtags.filter { it.isSelected }.map { it.hashtag },
                 limitParticipantsCnt = uiState.value.limitParticipantsCnt
             )
                 .onSuccess { }
