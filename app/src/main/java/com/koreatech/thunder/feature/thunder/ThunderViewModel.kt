@@ -6,6 +6,7 @@ import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
@@ -25,7 +26,7 @@ class ThunderViewModel @Inject constructor(
     private val getUserHashtagsUseCase: GetUserHashtagsUseCase
 ) : ViewModel() {
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
-        MutableStateFlow(ThunderUiState.Loading)
+        MutableStateFlow(ThunderUiState.Success(dummyThunders))
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
         MutableStateFlow(HashtagUiState.Success(getAllSelectableHashtagUseCase()))
     private val _userInfo = MutableStateFlow(dummyUsers[0])

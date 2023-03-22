@@ -104,7 +104,8 @@ fun ProfileEditScreen(
         ThunderChips(
             modifier = Modifier.padding(horizontal = 18.dp),
             selectableHashtags = user.value.hashtags,
-            selectHashtag = profileEditViewModel::selectHashtag
+            selectHashtag = profileEditViewModel::selectHashtag,
+            isClickable = true
         )
     }
 }
