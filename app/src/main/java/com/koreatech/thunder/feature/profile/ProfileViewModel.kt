@@ -11,13 +11,13 @@ import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.domain.usecase.WithdrawUserUseCase
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -39,6 +39,10 @@ class ProfileViewModel @Inject constructor(
     )
     val moveDestination = _moveDestination.asSharedFlow()
     val user = _user.asStateFlow()
+
+    init {
+        getUserProfile()
+    }
 
     fun getUserProfile() {
         viewModelScope.launch {
