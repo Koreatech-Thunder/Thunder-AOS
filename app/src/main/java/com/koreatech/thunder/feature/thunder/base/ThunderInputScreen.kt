@@ -63,7 +63,7 @@ fun ThunderInputScreen(
     val (year, month, dayOfMonth) =
         thunderInputViewModel.formattedText.collectAsStateWithLifecycle()
             .value
-            .split("/")
+            .split("-")
             .map { it.toInt() }
     val calendar = Calendar.getInstance()
     val datePickerDialog = DatePickerDialog(

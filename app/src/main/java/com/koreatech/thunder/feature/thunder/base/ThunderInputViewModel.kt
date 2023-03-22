@@ -76,7 +76,7 @@ abstract class ThunderInputViewModel : ViewModel() {
 
     fun setDate(year: Int, month: Int, dayOfMonth: Int) {
         changeToUiDate(year, month, dayOfMonth)
-        _formattedDate.value = "$year/$month/$dayOfMonth"
+        _formattedDate.value = "$year-$month-$dayOfMonth"
     }
 
     fun setTime(time: String) {

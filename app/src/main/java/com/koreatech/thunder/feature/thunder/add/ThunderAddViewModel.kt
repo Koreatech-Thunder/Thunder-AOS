@@ -44,7 +44,7 @@ class ThunderAddViewModel @Inject constructor(
             postThunderUseCase(
                 title = uiState.value.title,
                 content = uiState.value.content,
-                deadline = "",
+                deadline = "${formattedText.value} ${hour24FormatTime.value}",
                 hashtags = uiState.value.hashtags.filter { it.isSelected }.map { it.hashtag },
                 limitParticipantsCnt = uiState.value.limitParticipantsCnt
             )

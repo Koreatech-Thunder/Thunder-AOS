@@ -1,7 +1,6 @@
 package com.koreatech.thunder.feature.thunder.edit
 
 import androidx.lifecycle.viewModelScope
-import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.usecase.EditThunderUseCase
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
@@ -9,10 +8,10 @@ import com.koreatech.thunder.domain.usecase.GetThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.InputUiState
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ThunderEditViewModel @Inject constructor(
@@ -22,29 +21,6 @@ class ThunderEditViewModel @Inject constructor(
 ) : ThunderInputViewModel() {
     private val cacheUiState = MutableStateFlow(InputUiState())
     private val thunderId = MutableStateFlow("")
-
-    init {
-        val dummyInputUiState = InputUiState(
-            limitParticipantsCnt = 5,
-            hashtags = listOf(SelectableHashtag(Hashtag.SPORT, true)),
-            selectedHashtagCount = 1,
-            title = "수정 테스트",
-            content = "수정 테스트 content",
-            time = "21:00"
-        )
-        _uiState.update { uiState ->
-            uiState.copy(
-                limitParticipantsCnt = dummyInputUiState.limitParticipantsCnt,
-                hashtags = getAllSelectableHashtagUseCase(dummyInputUiState.hashtags),
-                title = dummyInputUiState.title,
-                content = dummyInputUiState.content,
-                selectedHashtagCount = dummyInputUiState.hashtags.size
-            )
-        }
-        setTime(dummyInputUiState.time)
-        setDate(2023, 2, 18)
-        cacheUiState.value = _uiState.value.copy()
-    }
 
     fun getThunder(thunderId: String) {
         viewModelScope.launch {
@@ -65,6 +41,11 @@ class ThunderEditViewModel @Inject constructor(
                             selectedHashtagCount = thunder.hashtags.size
                         )
                     }
+                    val date = thunder.deadline.split(" ")[0].split("-").map { it.toInt() }
+                    val time = thunder.deadline.split(" ")[1]
+                    setTime(time)
+                    setDate(date[0], date[1], date[2])
+                    cacheUiState.value = _uiState.value.copy()
                 }
                 .onFailure { }
         }
@@ -91,7 +72,7 @@ class ThunderEditViewModel @Inject constructor(
                 thunderId = thunderId.value,
                 title = uiState.value.title,
                 content = uiState.value.content,
-                deadline = "",
+                deadline = "${formattedText.value} ${hour24FormatTime.value}",
                 hashtags = uiState.value.hashtags.filter { it.isSelected }.map { it.hashtag },
                 limitParticipantsCnt = uiState.value.limitParticipantsCnt
             )
