@@ -6,6 +6,7 @@ import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.UserRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
+import com.koreatech.thunder.domain.usecase.PutUserProfileUseCase
 import com.koreatech.thunder.feature.profile.ProfileEditViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import com.koreatech.thunder.util.getPrivateProperty
@@ -29,13 +30,15 @@ class ProfileEditViewModelTest {
     private val userRepository: UserRepository = mockk()
     private val getUserProfileUseCase = GetUserProfileUseCase(userRepository)
     private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
+    private val putUserProfileUseCase = PutUserProfileUseCase(userRepository)
     private lateinit var profileEditViewModel: ProfileEditViewModel
 
     @BeforeEach
     fun setUp() {
         profileEditViewModel = ProfileEditViewModel(
             getAllSelectableHashtagUseCase,
-            getUserProfileUseCase
+            getUserProfileUseCase,
+            putUserProfileUseCase
         )
     }
 

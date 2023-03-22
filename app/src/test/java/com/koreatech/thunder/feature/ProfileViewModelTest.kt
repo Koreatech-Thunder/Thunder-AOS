@@ -4,7 +4,9 @@ import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.repository.UserRepository
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
+import com.koreatech.thunder.domain.usecase.PostLogoutUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
+import com.koreatech.thunder.domain.usecase.WithdrawUserUseCase
 import com.koreatech.thunder.feature.profile.ProfileViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
@@ -24,13 +26,17 @@ class ProfileViewModelTest {
     private val authRepository: AuthRepository = mockk()
     private val getUserProfileUseCase = GetUserProfileUseCase(userRepository)
     private val setSplashStateUseCase = SetSplashStateUseCase(authRepository)
+    private val withdrawUserUseCase = WithdrawUserUseCase(userRepository)
+    private val postLogoutUseCase = PostLogoutUseCase(authRepository)
     private lateinit var profileViewModel: ProfileViewModel
 
     @BeforeEach
     fun setUp() {
         profileViewModel = ProfileViewModel(
             getUserProfileUseCase,
-            setSplashStateUseCase
+            setSplashStateUseCase,
+            withdrawUserUseCase,
+            postLogoutUseCase
         )
     }
 

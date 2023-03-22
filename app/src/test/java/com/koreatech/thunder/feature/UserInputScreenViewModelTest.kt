@@ -3,7 +3,9 @@ package com.koreatech.thunder.feature
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.repository.AuthRepository
+import com.koreatech.thunder.domain.repository.UserRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
+import com.koreatech.thunder.domain.usecase.PutUserProfileUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.feature.onboarding.UserInputViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
@@ -20,13 +22,15 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(CoroutinesTestExtension::class)
 class UserInputScreenViewModelTest {
     private val authRepository: AuthRepository = mockk()
+    private val userRepository: UserRepository = mockk()
     private val setSplashStateUseCase = SetSplashStateUseCase(authRepository)
     private val getAllSelectableHashtagUseCase = GetAllSelectableHashtagUseCase()
+    private val putUserProfileUseCase = PutUserProfileUseCase(userRepository)
     private lateinit var userInputViewModel: UserInputViewModel
 
     @BeforeEach
     fun setUp() {
-        userInputViewModel = UserInputViewModel(getAllSelectableHashtagUseCase,setSplashStateUseCase)
+        userInputViewModel = UserInputViewModel(getAllSelectableHashtagUseCase,setSplashStateUseCase,putUserProfileUseCase)
     }
 
     @DisplayName("첫 진입 시 모든 해시태그가 들어있고, false 상태이다.")
