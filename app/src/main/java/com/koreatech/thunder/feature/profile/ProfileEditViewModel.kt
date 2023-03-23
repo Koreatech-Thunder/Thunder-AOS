@@ -6,15 +6,18 @@ import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
 import com.koreatech.thunder.domain.usecase.PutUserProfileUseCase
+import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
@@ -34,6 +37,8 @@ class ProfileEditViewModel @Inject constructor(
     private val cacheUser: MutableStateFlow<User> = MutableStateFlow(
         _user.value.copy()
     )
+    private val _moveDestination = MutableSharedFlow<ThunderDestination>()
+    val moveDestination = _moveDestination.asSharedFlow()
     val user = _user.asStateFlow()
     val buttonState = combine(user, cacheUser) { user, cacheUser ->
         user != cacheUser
@@ -87,6 +92,10 @@ class ProfileEditViewModel @Inject constructor(
                 introduction = user.value.introduction,
                 hashtags = user.value.hashtags.filter { it.isSelected }.map { it.hashtag }
             )
+                .onSuccess {
+                    _moveDestination.emit(ThunderDestination.PROFILE)
+                }
+                .onFailure { }
         }
     }
 }

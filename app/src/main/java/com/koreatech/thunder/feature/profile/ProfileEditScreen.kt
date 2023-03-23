@@ -8,12 +8,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.koreatech.thunder.R
@@ -25,6 +29,9 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
+import com.koreatech.thunder.navigation.ThunderDestination
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun ProfileEditScreen(
@@ -33,6 +40,19 @@ fun ProfileEditScreen(
 ) {
     val user = profileEditViewModel.user.collectAsStateWithLifecycle()
     val buttonState = profileEditViewModel.buttonState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(true) {
+        profileEditViewModel.moveDestination
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
+            .onEach { destination ->
+                when (destination) {
+                    ThunderDestination.PROFILE -> navController.popBackStack()
+                    else -> {}
+                }
+            }
+            .launchIn(lifecycleOwner.lifecycleScope)
+    }
 
     Column {
         ThunderToolBarSlot(

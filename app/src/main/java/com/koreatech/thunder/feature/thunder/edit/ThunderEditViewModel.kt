@@ -7,9 +7,12 @@ import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.InputUiState
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
+import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -21,6 +24,8 @@ class ThunderEditViewModel @Inject constructor(
 ) : ThunderInputViewModel() {
     private val cacheUiState = MutableStateFlow(InputUiState())
     private val thunderId = MutableStateFlow("")
+    private val _moveDestination = MutableSharedFlow<ThunderDestination>()
+    val moveDestination = _moveDestination.asSharedFlow()
 
     fun getThunder(thunderId: String) {
         viewModelScope.launch {
@@ -76,7 +81,9 @@ class ThunderEditViewModel @Inject constructor(
                 hashtags = uiState.value.hashtags.filter { it.isSelected }.map { it.hashtag },
                 limitParticipantsCnt = uiState.value.limitParticipantsCnt
             )
-                .onSuccess { }
+                .onSuccess {
+                    _moveDestination.emit(ThunderDestination.THUNDER)
+                }
                 .onFailure { }
         }
     }

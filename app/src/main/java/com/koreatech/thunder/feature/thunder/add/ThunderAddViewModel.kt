@@ -4,18 +4,23 @@ import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.PostThunderUseCase
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
+import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ThunderAddViewModel @Inject constructor(
     private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase,
     private val postThunderUseCase: PostThunderUseCase
 ) : ThunderInputViewModel() {
+    private val _moveDestination = MutableSharedFlow<ThunderDestination>()
+    val moveDestination = _moveDestination.asSharedFlow()
 
     init {
         _uiState.value = _uiState.value.copy(hashtags = getAllSelectableHashtagUseCase())
@@ -48,7 +53,9 @@ class ThunderAddViewModel @Inject constructor(
                 hashtags = uiState.value.hashtags.filter { it.isSelected }.map { it.hashtag },
                 limitParticipantsCnt = uiState.value.limitParticipantsCnt
             )
-                .onSuccess { }
+                .onSuccess {
+                    _moveDestination.emit(ThunderDestination.THUNDER)
+                }
                 .onFailure { }
         }
     }
