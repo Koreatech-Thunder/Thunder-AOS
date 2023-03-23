@@ -5,6 +5,7 @@ import com.koreatech.thunder.domain.model.Chat
 import com.koreatech.thunder.socket.model.NewChat
 import io.socket.client.Socket
 import io.socket.emitter.Emitter.Listener
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,6 +16,7 @@ class SocketHandler @Inject constructor(
 ) {
     fun connectSocket() {
         socket.connect()
+        Timber.e("soccket connect ${socket.connected()}")
     }
 
     fun disConnectSocket() {

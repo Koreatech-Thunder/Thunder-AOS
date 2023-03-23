@@ -13,7 +13,7 @@ interface ThunderService {
     @GET("thunder")
     suspend fun getThunders(): List<ThunderResponse>
 
-    @GET("thunder")
+    @GET("thunder/hashtags")
     suspend fun getThundersWithHashtag(
         @Query("hashtag") hashtag: String
     ): List<ThunderResponse>
