@@ -1,5 +1,6 @@
 package com.koreatech.thunder.di
 
+import com.google.gson.Gson
 import com.koreatech.thunder.BuildConfig.THUNDER_URI
 import com.koreatech.thunder.data.source.local.AuthLocalDataSource
 import dagger.Module
@@ -13,6 +14,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object SocketModule {
+    @Provides
+    @Singleton
+    fun providesGson(): Gson = Gson()
+
     @Provides
     @Singleton
     fun providesIoOption(
