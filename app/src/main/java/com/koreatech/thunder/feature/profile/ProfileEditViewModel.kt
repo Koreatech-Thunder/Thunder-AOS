@@ -7,6 +7,7 @@ import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
 import com.koreatech.thunder.domain.usecase.PutUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class ProfileEditViewModel @Inject constructor(
@@ -27,7 +27,7 @@ class ProfileEditViewModel @Inject constructor(
             userId = "",
             name = "",
             introduction = "",
-            temperature = 36.0f,
+            temperature = 36,
             hashtags = getAllSelectableHashtagUseCase(emptyList())
         )
     )
@@ -85,7 +85,7 @@ class ProfileEditViewModel @Inject constructor(
             putUserProfileUseCase(
                 name = user.value.name,
                 introduction = user.value.introduction,
-                hashtags = user.value.hashtags.map { it.hashtag }
+                hashtags = user.value.hashtags.filter { it.isSelected }.map { it.hashtag }
             )
         }
     }

@@ -201,7 +201,7 @@ private fun UserDetail(
                 .fillMaxWidth()
                 .padding(horizontal = 6.dp)
                 .height(8.dp),
-            progress = 0.60f,
+            progress = user.temperature / 100f,
             trackColor = Orange,
             backgroundColor = Orange200
         )
