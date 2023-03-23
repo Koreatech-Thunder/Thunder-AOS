@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -59,7 +60,13 @@ fun ProfileScreen(
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
+    val user = profileViewModel.user.collectAsStateWithLifecycle()
+    var isLogOutDialogVisible by remember { mutableStateOf(false) }
+    var isWithDrawDialogVisible by remember { mutableStateOf(false) }
+
     LaunchedEffect(true) {
+        profileViewModel.getUserProfile()
+
         profileViewModel.moveDestination
             .flowWithLifecycle(lifecycleOwner.lifecycle)
             .onEach { thunderDestination ->
@@ -73,9 +80,6 @@ fun ProfileScreen(
             }
             .launchIn(lifecycleOwner.lifecycleScope)
     }
-    val user = profileViewModel.user.collectAsStateWithLifecycle()
-    var isLogOutDialogVisible by remember { mutableStateOf(false) }
-    var isWithDrawDialogVisible by remember { mutableStateOf(false) }
 
     if (isLogOutDialogVisible) {
         LogoutAlertDialog(
@@ -94,43 +98,67 @@ fun ProfileScreen(
             onDismissRequest = { isWithDrawDialogVisible = false }
         )
     }
+
     Column(
         verticalArrangement = Arrangement.Center
     ) {
         ProfileToolBar()
-        BlankSpace(size = 12.dp)
-        UserDetail(
+        ProfileContent(
             user = user.value,
-            toProfileEdit = { navController.navigate(ThunderDestination.PROFILE_EDIT.name) }
+            moveProfileEdit = { navController.navigate(ThunderDestination.PROFILE_EDIT.name) },
+            moveAlarmSetting = { navController.navigate(ThunderDestination.ALARM_SETTING.name) },
+            moveThunderRecord = { navController.navigate(ThunderDestination.THUNDER_RECORD.name) },
+            showLogoutDialog = { isLogOutDialogVisible = true },
+            showWithDrawDialog = { isWithDrawDialogVisible = true }
         )
-        BlankSpace(size = 20.dp)
-        ServiceSettings(
-            toAlarmSetting = { navController.navigate(ThunderDestination.ALARM_SETTING.name) },
-            toThunderRecord = { navController.navigate(ThunderDestination.THUNDER_RECORD.name) }
-        )
-        ServiceManages()
-        BlankSpace(size = 20.dp)
-        Text(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .noRippleClickable {
-                    isLogOutDialogVisible = true
-                },
-            text = stringResource(R.string.profile_logout),
-            style = ThunderTheme.typography.b2
-        )
-        BlankSpace(size = 16.dp)
-        Text(
-            modifier = Modifier
-                .padding(start = 16.dp)
-                .noRippleClickable {
-                    isWithDrawDialogVisible = true
-                },
-            text = stringResource(R.string.profile_withdraw),
-            textDecoration = TextDecoration.Underline,
-            color = Gray,
-            style = ThunderTheme.typography.b3
-        )
+    }
+}
+
+@Composable
+private fun ProfileContent(
+    user: User,
+    moveProfileEdit: () -> Unit,
+    moveAlarmSetting: () -> Unit,
+    moveThunderRecord: () -> Unit,
+    showLogoutDialog: () -> Unit,
+    showWithDrawDialog: () -> Unit
+) {
+    LazyColumn {
+        item {
+            BlankSpace(size = 12.dp)
+            UserDetail(
+                user = user,
+                toProfileEdit = { moveProfileEdit() }
+            )
+            BlankSpace(size = 20.dp)
+            ServiceSettings(
+                toAlarmSetting = { moveAlarmSetting() },
+                toThunderRecord = { moveThunderRecord() }
+            )
+            ServiceManages()
+            BlankSpace(size = 20.dp)
+            Text(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .noRippleClickable {
+                        showLogoutDialog()
+                    },
+                text = stringResource(R.string.profile_logout),
+                style = ThunderTheme.typography.b2
+            )
+            BlankSpace(size = 16.dp)
+            Text(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .noRippleClickable {
+                        showWithDrawDialog()
+                    },
+                text = stringResource(R.string.profile_withdraw),
+                textDecoration = TextDecoration.Underline,
+                color = Gray,
+                style = ThunderTheme.typography.b3
+            )
+        }
     }
 }
 

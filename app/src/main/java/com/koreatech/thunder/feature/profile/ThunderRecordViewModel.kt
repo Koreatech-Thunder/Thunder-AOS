@@ -3,7 +3,6 @@ package com.koreatech.thunder.feature.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.Thunder
-import com.koreatech.thunder.domain.model.dummyThunders
 import com.koreatech.thunder.domain.usecase.GetThunderRecordsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -16,7 +15,7 @@ import timber.log.Timber
 class ThunderRecordViewModel @Inject constructor(
     private val getThunderRecordsUseCase: GetThunderRecordsUseCase
 ) : ViewModel() {
-    private val _thunderRecord: MutableStateFlow<List<Thunder>> = MutableStateFlow(dummyThunders)
+    private val _thunderRecord: MutableStateFlow<List<Thunder>> = MutableStateFlow(emptyList())
     val thunderRecord = _thunderRecord.asStateFlow()
 
     init {
