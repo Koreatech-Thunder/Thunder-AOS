@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,12 +68,16 @@ fun ThunderScreen(
     val bottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
-
     val showBottomSheet: (User) -> Unit = { user ->
         coroutineScope.launch {
             thunderViewModel.setUser(user)
             bottomSheetState.show()
         }
+    }
+
+    LaunchedEffect(true) {
+        thunderViewModel.getThunders()
+        thunderViewModel.getHashtags()
     }
 
     if (isReportDialogVisible) {

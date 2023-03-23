@@ -11,13 +11,13 @@ import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserHashtagsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
@@ -35,11 +35,6 @@ class ThunderViewModel @Inject constructor(
     val hashtagUiState = _hashtagUiState.asStateFlow()
     val userInfo = _userInfo.asStateFlow()
     val isError = _isError.asSharedFlow()
-
-    init {
-        getThunders()
-        getHashtags()
-    }
 
     fun getThunders() {
         viewModelScope.launch {
