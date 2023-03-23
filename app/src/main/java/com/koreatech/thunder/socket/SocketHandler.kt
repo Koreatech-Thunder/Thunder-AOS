@@ -1,12 +1,14 @@
 package com.koreatech.thunder.socket
 
 import com.google.gson.Gson
-import com.koreatech.thunder.data.model.response.ChatResponse
+import com.koreatech.thunder.domain.model.Chat
 import com.koreatech.thunder.socket.model.NewChat
 import io.socket.client.Socket
 import io.socket.emitter.Emitter.Listener
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SocketHandler @Inject constructor(
     private val socket: Socket,
     private val gson: Gson
@@ -25,9 +27,9 @@ class SocketHandler @Inject constructor(
         socket.emit("sendMessage", newChat)
     }
 
-    fun subscribeChat(onChat: (ChatResponse) -> Unit) {
+    fun subscribeChat(onChat: (Chat) -> Unit) {
         val listener = Listener { data ->
-            val chat: ChatResponse = gson.fromJson(data[0].toString(), ChatResponse::class.java)
+            val chat: Chat = gson.fromJson(data[0].toString(), Chat::class.java)
             onChat(chat)
         }
         socket.on("newChat", listener)

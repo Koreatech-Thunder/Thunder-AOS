@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,11 @@ fun ChatRoomScreen(
 ) {
     val chatRooms = chatRoomViewModel.chatRooms.collectAsStateWithLifecycle()
 
+    LaunchedEffect(true) {
+        chatRoomViewModel.initSocket()
+        chatRoomViewModel.getChatRooms()
+    }
+
     Column {
         ChatRoomToolBar()
         LazyColumn(
@@ -40,9 +46,11 @@ fun ChatRoomScreen(
                 ThunderChatRoom(
                     chatRoom = chatRoom,
                     moveChatDetail = { thunderId ->
+                        chatRoomViewModel.disconnectSocket()
                         navController.navigate("${ThunderDestination.CHAT_DETAIL.name}/$thunderId")
                     },
                     moveEvaluate = { thunderId ->
+                        chatRoomViewModel.disconnectSocket()
                         navController.navigate("${ThunderDestination.EVALUATE.name}/$thunderId")
                     }
                 )
