@@ -1,5 +1,6 @@
 package com.koreatech.thunder.feature.chat.detail
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,8 +44,18 @@ fun ChatRoomDetailScreen(
     val chat = chatRoomDetailViewModel.chat.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 
+    LaunchedEffect(true) {
+        chatRoomDetailViewModel.getChatRoomDetail(thunderId)
+        chatRoomDetailViewModel.initSocket(thunderId)
+    }
+
     LaunchedEffect(chatRoomDetail.value.chats.size) {
         listState.animateScrollToItem(chatRoomDetail.value.chats.size)
+    }
+
+    BackHandler(true) {
+        chatRoomDetailViewModel.disconnectSocket()
+        navController.popBackStack()
     }
 
     Column {
