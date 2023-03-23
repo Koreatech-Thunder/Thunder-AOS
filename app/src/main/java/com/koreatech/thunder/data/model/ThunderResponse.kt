@@ -6,7 +6,7 @@ import com.koreatech.thunder.domain.model.Thunder
 import com.koreatech.thunder.domain.model.ThunderState
 
 data class ThunderResponse(
-    @SerializedName("_id") val thunderId: String,
+    val thunderId: String,
     val title: String,
     val content: String,
     val deadline: String,

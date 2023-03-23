@@ -4,6 +4,6 @@ data class ThunderRequest(
     val title: String,
     val content: String,
     val hashtags: List<String>,
-    val limitParticipantsCnt: Int,
+    val limitMembersCnt: Int,
     val deadline: String
 )

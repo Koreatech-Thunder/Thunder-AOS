@@ -33,7 +33,7 @@ class ThunderRepositoryImpl @Inject constructor(
                 title = title,
                 content = content,
                 hashtags = hashtags.map { hashtag -> hashtag.toString() },
-                limitParticipantsCnt = limitParticipantsCnt,
+                limitMembersCnt = limitParticipantsCnt,
                 deadline = deadline
             )
         )
@@ -60,7 +60,7 @@ class ThunderRepositoryImpl @Inject constructor(
                 title = title,
                 content = content,
                 hashtags = hashtags.map { hashtag -> hashtag.toString() },
-                limitParticipantsCnt = limitParticipantsCnt,
+                limitMembersCnt = limitParticipantsCnt,
                 deadline = deadline
             )
         )
