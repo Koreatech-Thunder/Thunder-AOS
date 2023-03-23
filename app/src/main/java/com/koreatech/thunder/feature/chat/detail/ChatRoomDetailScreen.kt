@@ -81,7 +81,8 @@ fun ChatRoomDetailScreen(
         }
         ChatTextField(
             chat = chat.value,
-            writeChat = chatRoomDetailViewModel::writeChat
+            writeChat = chatRoomDetailViewModel::writeChat,
+            sendChat = chatRoomDetailViewModel::sendChat
         )
     }
 }
@@ -128,7 +129,8 @@ private fun ChatRoomDetailToolbar(
 @Composable
 private fun ChatTextField(
     chat: String,
-    writeChat: (String) -> Unit
+    writeChat: (String) -> Unit,
+    sendChat: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -145,7 +147,7 @@ private fun ChatTextField(
         Text(
             modifier = Modifier
                 .clickable(chat.isNotEmpty()) {
-                    /* 채팅 보내기 */
+                    sendChat()
                 }
                 .padding(4.dp),
             text = stringResource(R.string.chat_send),

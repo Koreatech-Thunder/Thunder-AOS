@@ -50,6 +50,11 @@ class ChatRoomDetailViewModel @Inject constructor(
         socketHandler.disConnectSocket()
     }
 
+    fun sendChat() {
+        socketHandler.sendChat(chatRoomId.value, chat.value)
+        _chat.value = ""
+    }
+
     fun getChatRoomDetail(chatId: String) {
         viewModelScope.launch {
             chatRepository.getChatRoomDetail(chatId)
