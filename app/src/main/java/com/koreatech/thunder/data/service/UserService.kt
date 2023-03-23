@@ -3,6 +3,7 @@ package com.koreatech.thunder.data.service
 import com.koreatech.thunder.data.model.request.AlarmStateRequest
 import com.koreatech.thunder.data.model.request.ReportRequest
 import com.koreatech.thunder.data.model.request.UserRequest
+import com.koreatech.thunder.data.model.response.AlarmStateResponse
 import com.koreatech.thunder.data.model.response.HashtagsResponse
 import com.koreatech.thunder.data.model.response.UserProfileResponse
 import com.koreatech.thunder.domain.model.Thunder
@@ -21,7 +22,7 @@ interface UserService {
     suspend fun getThunderRecords(): List<Thunder>
 
     @GET("/user/alarm")
-    suspend fun getAlarmStates(): List<Boolean>
+    suspend fun getAlarmStates(): AlarmStateResponse
 
     @GET("/user/hashtags")
     suspend fun getUserHashtags(): HashtagsResponse

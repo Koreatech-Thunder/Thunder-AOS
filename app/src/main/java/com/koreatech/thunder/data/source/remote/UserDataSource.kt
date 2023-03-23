@@ -12,7 +12,7 @@ class UserDataSource @Inject constructor(
 ) {
     suspend fun getProfile() = userService.getProfile().toUser()
     suspend fun getThunderRecords(): List<Thunder> = userService.getThunderRecords()
-    suspend fun getAlarmStates(): List<Boolean> = userService.getAlarmStates()
+    suspend fun getAlarmStates(): List<Boolean> = userService.getAlarmStates().isAlarms
     suspend fun getUserHashtags(): List<String> = userService.getUserHashtags().hashtags
     suspend fun reportUser(body: ReportRequest) = userService.reportUser(body)
     suspend fun putUserProfile(body: UserRequest) = userService.putUserProfile(body)
