@@ -15,6 +15,6 @@ class ChatRepositoryImpl @Inject constructor(
     override suspend fun getChatRoomDetail(chatId: String): Result<ChatRoomDetail> =
         runCatching { chatDataSource.getChatRoomDetail(chatId) }
 
-    override suspend fun setChatRoomAlarm(isAlarm: Boolean): Result<Unit> =
-        runCatching { chatDataSource.setChatRoomAlarm(isAlarm) }
+    override suspend fun setChatRoomAlarm(thunderId: String, isAlarm: Boolean): Result<Unit> =
+        runCatching { chatDataSource.setChatRoomAlarm(thunderId, isAlarm) }
 }

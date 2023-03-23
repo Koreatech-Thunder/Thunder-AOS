@@ -1,6 +1,7 @@
 package com.koreatech.thunder.feature.chat.detail
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.chat.components.ChatItem
+import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 
 @Composable
 fun ChatRoomDetailScreen(
@@ -62,7 +64,14 @@ fun ChatRoomDetailScreen(
         ChatRoomDetailToolbar(
             title = chatRoomDetail.value.title,
             memberStatus = "${chatRoomDetail.value.joinMemberCnt}/${chatRoomDetail.value.limitMemberCnt}",
-            isAlarm = chatRoomDetail.value.isAlarm
+            isAlarm = chatRoomDetail.value.isAlarm,
+            navigationAction = {
+                chatRoomDetailViewModel.disconnectSocket()
+                navController.popBackStack()
+            },
+            postfixAction = {
+                chatRoomDetailViewModel.setAlarmState()
+            }
         )
         LazyColumn(
             modifier = Modifier
@@ -91,36 +100,40 @@ fun ChatRoomDetailScreen(
 private fun ChatRoomDetailToolbar(
     title: String,
     memberStatus: String,
-    isAlarm: Boolean
+    isAlarm: Boolean,
+    navigationAction: () -> Unit,
+    postfixAction: () -> Unit
 ) {
     ThunderToolBarSlot(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 18.dp),
         navigationIcon = {
-            Text(
-                text = title,
-                style = ThunderTheme.typography.h4
+            Image(
+                modifier = Modifier.noRippleClickable { navigationAction() },
+                painter = painterResource(id = R.drawable.ic_back),
+                contentDescription = ""
             )
         },
         title = {
-            Text(
-                text = memberStatus,
-                style = ThunderTheme.typography.b4,
-                color = Gray
-            )
-        },
-        action = {
-            if (isAlarm) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_notifications_on),
-                    contentDescription = ""
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Text(
+                    text = title,
+                    style = ThunderTheme.typography.h4
                 )
-            } else {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_notifications),
-                    contentDescription = ""
+                Text(
+                    text = memberStatus,
+                    style = ThunderTheme.typography.b4,
+                    color = Gray
                 )
             }
+        },
+        action = {
+            Icon(
+                modifier = Modifier.noRippleClickable { postfixAction() },
+                painter = if (isAlarm) painterResource(id = R.drawable.ic_notifications_on)
+                else painterResource(id = R.drawable.ic_notifications),
+                contentDescription = ""
+            )
         }
     )
     Divider(modifier = Modifier.height(1.dp))

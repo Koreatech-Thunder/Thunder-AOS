@@ -19,6 +19,7 @@ interface ChatService {
 
     @PUT("chat/{thunderId}/alarm")
     suspend fun setChatRoomAlarm(
+        @Path("thunderId") thunderId: String,
         @Body body: ChatAlarmRequest
     )
 }

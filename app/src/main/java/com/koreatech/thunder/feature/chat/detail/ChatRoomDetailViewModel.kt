@@ -8,12 +8,12 @@ import com.koreatech.thunder.domain.model.dummyChats
 import com.koreatech.thunder.domain.repository.ChatRepository
 import com.koreatech.thunder.socket.SocketHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ChatRoomDetailViewModel @Inject constructor(
@@ -64,6 +64,20 @@ class ChatRoomDetailViewModel @Inject constructor(
                 .onFailure { throwable ->
                     Timber.e("error ${throwable.message}")
                 }
+        }
+    }
+
+    fun setAlarmState() {
+        viewModelScope.launch {
+            chatRepository.setChatRoomAlarm(
+                thunderId = chatRoomId.value,
+                isAlarm = !chatRoomDetail.value.isAlarm
+            )
+                .onSuccess {
+                    _chatRoomDetail.value =
+                        _chatRoomDetail.value.copy(isAlarm = !chatRoomDetail.value.isAlarm)
+                }
+                .onFailure { Timber.e("error is ${it.message}") }
         }
     }
 
