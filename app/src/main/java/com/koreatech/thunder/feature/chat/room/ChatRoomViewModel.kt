@@ -8,11 +8,11 @@ import com.koreatech.thunder.domain.model.dummyChatRooms
 import com.koreatech.thunder.domain.repository.ChatRepository
 import com.koreatech.thunder.socket.SocketHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 @HiltViewModel
 class ChatRoomViewModel @Inject constructor(
@@ -33,14 +33,15 @@ class ChatRoomViewModel @Inject constructor(
     val chatRooms = _chatRooms.asStateFlow()
 
     fun initSocket() {
-        socketHandler.connectSocket()
+        Timber.e("connect chatRoom socket")
         socketHandler.subscribeChatRooms()
         socketHandler.subscribeChat(onChat)
     }
 
     fun disconnectSocket() {
+        Timber.e("disconnect chatRoom socket")
         socketHandler.unSubscribeChatRooms()
-        socketHandler.disConnectSocket()
+        socketHandler.disconnectSocket()
     }
 
     fun getChatRooms() {

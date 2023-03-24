@@ -1,6 +1,5 @@
 package com.koreatech.thunder.feature.chat.detail
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,13 +16,18 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
@@ -40,24 +44,32 @@ import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 fun ChatRoomDetailScreen(
     navController: NavController,
     thunderId: String,
-    chatRoomDetailViewModel: ChatRoomDetailViewModel = hiltViewModel()
+    chatRoomDetailViewModel: ChatRoomDetailViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     val chatRoomDetail = chatRoomDetailViewModel.chatRoomDetail.collectAsStateWithLifecycle()
     val chat = chatRoomDetailViewModel.chat.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 
-    LaunchedEffect(true) {
-        chatRoomDetailViewModel.getChatRoomDetail(thunderId)
-        chatRoomDetailViewModel.initSocket(thunderId)
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                chatRoomDetailViewModel.getChatRoomDetail(thunderId)
+                chatRoomDetailViewModel.initSocket(thunderId)
+            } else if (event == Lifecycle.Event.ON_STOP) {
+                chatRoomDetailViewModel.disconnectSocket()
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     LaunchedEffect(chatRoomDetail.value.chats.size) {
         listState.animateScrollToItem(chatRoomDetail.value.chats.size)
-    }
-
-    BackHandler(true) {
-        chatRoomDetailViewModel.disconnectSocket()
-        navController.popBackStack()
     }
 
     Column {

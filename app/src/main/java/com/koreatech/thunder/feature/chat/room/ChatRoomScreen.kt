@@ -11,11 +11,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
@@ -27,13 +31,25 @@ import com.koreatech.thunder.navigation.ThunderDestination
 @Composable
 fun ChatRoomScreen(
     navController: NavController,
-    chatRoomViewModel: ChatRoomViewModel = hiltViewModel()
+    chatRoomViewModel: ChatRoomViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     val chatRooms = chatRoomViewModel.chatRooms.collectAsStateWithLifecycle()
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                chatRoomViewModel.initSocket()
+                chatRoomViewModel.getChatRooms()
+            } else if (event == Lifecycle.Event.ON_STOP) {
+                chatRoomViewModel.disconnectSocket()
+            }
+        }
 
-    LaunchedEffect(true) {
-        chatRoomViewModel.initSocket()
-        chatRoomViewModel.getChatRooms()
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     Column {
@@ -46,11 +62,9 @@ fun ChatRoomScreen(
                 ThunderChatRoom(
                     chatRoom = chatRoom,
                     moveChatDetail = { thunderId ->
-                        chatRoomViewModel.disconnectSocket()
                         navController.navigate("${ThunderDestination.CHAT_DETAIL.name}/$thunderId")
                     },
                     moveEvaluate = { thunderId ->
-                        chatRoomViewModel.disconnectSocket()
                         navController.navigate("${ThunderDestination.EVALUATE.name}/$thunderId")
                     }
                 )
