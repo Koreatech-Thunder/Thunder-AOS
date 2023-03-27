@@ -16,6 +16,6 @@ class UserDataSource @Inject constructor(
     suspend fun getUserHashtags(): List<String> = userService.getUserHashtags().hashtags
     suspend fun reportUser(body: ReportRequest) = userService.reportUser(body)
     suspend fun putUserProfile(body: UserRequest) = userService.putUserProfile(body)
-    suspend fun patchAlarmState(body: AlarmStateRequest) = userService.patchAlarmState(body = body)
+    suspend fun putAlarmState(body: AlarmStateRequest) = userService.putAlarmState(body = body)
     suspend fun withdrawUser() = userService.withdrawUser()
 }

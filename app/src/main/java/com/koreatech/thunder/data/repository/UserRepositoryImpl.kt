@@ -47,16 +47,8 @@ class UserRepositoryImpl @Inject constructor(
             )
         }
 
-    override suspend fun patchAlarmState(alarmStates: List<Boolean>): Result<Unit> =
-        runCatching {
-            userDataSource.patchAlarmState(
-                AlarmStateRequest(
-                    alarmStates[0],
-                    alarmStates[1],
-                    alarmStates[2]
-                )
-            )
-        }
+    override suspend fun putAlarmState(alarmStates: List<Boolean>): Result<Unit> =
+        runCatching { userDataSource.putAlarmState(AlarmStateRequest(alarmStates)) }
 
     override suspend fun withdrawUser(): Result<Unit> =
         runCatching { userDataSource.withdrawUser() }

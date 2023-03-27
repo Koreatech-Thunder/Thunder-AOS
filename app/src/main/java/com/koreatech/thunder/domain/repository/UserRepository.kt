@@ -17,6 +17,6 @@ interface UserRepository {
         hashtags: List<Hashtag>
     ): Result<Unit>
 
-    suspend fun patchAlarmState(alarmStates: List<Boolean>): Result<Unit>
+    suspend fun putAlarmState(alarmStates: List<Boolean>): Result<Unit>
     suspend fun withdrawUser(): Result<Unit>
 }

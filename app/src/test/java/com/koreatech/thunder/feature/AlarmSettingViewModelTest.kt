@@ -1,7 +1,7 @@
 package com.koreatech.thunder.feature
 
 import com.koreatech.thunder.domain.repository.UserRepository
-import com.koreatech.thunder.domain.usecase.PatchAlarmStateUseCase
+import com.koreatech.thunder.domain.usecase.PutAlarmStateUseCase
 import com.koreatech.thunder.feature.profile.AlarmSettingViewModel
 import io.mockk.mockk
 import kotlin.test.assertEquals
@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test
 class AlarmSettingViewModelTest {
     private val userRepository: UserRepository = mockk()
     private lateinit var alarmSettingViewModel: AlarmSettingViewModel
-    private val patchAlarmStateUseCase = PatchAlarmStateUseCase(userRepository)
+    private val putAlarmStateUseCase = PutAlarmStateUseCase(userRepository)
 
     @BeforeEach
     fun setUp() {
-        alarmSettingViewModel = AlarmSettingViewModel(patchAlarmStateUseCase)
+        alarmSettingViewModel = AlarmSettingViewModel(putAlarmStateUseCase)
     }
 
     @DisplayName("스위치 버튼을 클릭하면 해당 인덱스의 boolean 을 반전시킨다.")

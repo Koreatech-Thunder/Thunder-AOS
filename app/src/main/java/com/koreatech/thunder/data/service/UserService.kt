@@ -7,12 +7,7 @@ import com.koreatech.thunder.data.model.response.AlarmStateResponse
 import com.koreatech.thunder.data.model.response.HashtagsResponse
 import com.koreatech.thunder.data.model.response.UserProfileResponse
 import com.koreatech.thunder.domain.model.Thunder
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface UserService {
     @GET("/user/profile")
@@ -37,8 +32,8 @@ interface UserService {
         @Body body: UserRequest
     )
 
-    @PATCH("/user/alarm")
-    suspend fun patchAlarmState(
+    @PUT("/user")
+    suspend fun putAlarmState(
         @Body body: AlarmStateRequest
     )
 
