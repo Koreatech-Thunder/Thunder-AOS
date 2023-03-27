@@ -26,7 +26,7 @@ class ChatRoomDetailViewModel @Inject constructor(
     }
     private val chatRoomId = MutableStateFlow("")
     private val _chatRoomDetail =
-        MutableStateFlow(ChatRoomDetail("농구할 사람", 8, 4, emptyList(), true))
+        MutableStateFlow(ChatRoomDetail("", "농구할 사람", 8, 4, emptyList(), true))
     private val _chat = MutableStateFlow("")
     val chatRoomDetail = _chatRoomDetail.asStateFlow()
     val chat = _chat.asStateFlow()
@@ -34,7 +34,7 @@ class ChatRoomDetailViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             delay(100)
-            _chatRoomDetail.value = ChatRoomDetail("농구할 사람", 8, 4, dummyChats, true)
+            _chatRoomDetail.value = ChatRoomDetail("", "농구할 사람", 8, 4, dummyChats, true)
         }
     }
 

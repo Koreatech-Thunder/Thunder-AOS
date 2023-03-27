@@ -10,10 +10,10 @@ class ChatRepositoryImpl @Inject constructor(
     private val chatDataSource: ChatDataSource
 ) : ChatRepository {
     override suspend fun getChatRooms(): Result<List<ChatRoom>> =
-        runCatching { chatDataSource.getChatRooms() }
+        runCatching { chatDataSource.getChatRooms().map { chatRoom -> chatRoom.toChatRoom() } }
 
     override suspend fun getChatRoomDetail(chatId: String): Result<ChatRoomDetail> =
-        runCatching { chatDataSource.getChatRoomDetail(chatId) }
+        runCatching { chatDataSource.getChatRoomDetail(chatId).toChatRoomDetail() }
 
     override suspend fun setChatRoomAlarm(thunderId: String, isAlarm: Boolean): Result<Unit> =
         runCatching { chatDataSource.setChatRoomAlarm(thunderId, isAlarm) }

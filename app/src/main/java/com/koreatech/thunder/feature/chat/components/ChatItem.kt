@@ -2,13 +2,7 @@ package com.koreatech.thunder.feature.chat.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -27,7 +21,7 @@ import com.koreatech.thunder.domain.model.Chat
 import com.koreatech.thunder.domain.model.ChatState
 import com.koreatech.thunder.domain.model.ChatState.ME
 import com.koreatech.thunder.domain.model.ChatState.OTHER
-import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.model.ChatUser
 
 @Composable
 fun ChatItem(
@@ -55,7 +49,7 @@ fun ChatItem(
 
 @Composable
 private fun ChatProfile(
-    user: User,
+    user: ChatUser,
     chatState: ChatState
 ) {
     Row(
