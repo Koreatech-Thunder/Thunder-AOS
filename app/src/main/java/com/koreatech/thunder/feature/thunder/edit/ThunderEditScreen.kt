@@ -41,7 +41,6 @@ fun ThunderEditScreen(
             .launchIn(lifecycleOwner.lifecycleScope)
     }
 
-    thunderEditViewModel.getThunder(thunderId = thunderId)
     ThunderInputScreen(
         screenTitle = stringResource(R.string.thunder_edit_title),
         uiState = uiState.value,

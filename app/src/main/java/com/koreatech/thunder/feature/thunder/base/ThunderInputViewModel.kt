@@ -3,11 +3,7 @@ package com.koreatech.thunder.feature.thunder.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.SelectableHashtag
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -118,6 +114,7 @@ abstract class ThunderInputViewModel : ViewModel() {
 }
 
 data class InputUiState(
+    val thunderId: String = "",
     val limitParticipantsCnt: Int = 2,
     val hashtags: List<SelectableHashtag> = emptyList(),
     val selectedHashtagCount: Int = 0,

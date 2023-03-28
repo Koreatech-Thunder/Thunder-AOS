@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,9 +27,16 @@ class ThunderEditViewModel @Inject constructor(
     private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase
 ) : ThunderInputViewModel() {
     private val cacheUiState = MutableStateFlow(InputUiState())
-    private val thunderId = MutableStateFlow("")
     private val _moveDestination = MutableSharedFlow<ThunderDestination>()
     val moveDestination = _moveDestination.asSharedFlow()
+
+    init {
+        _uiState.value = _uiState.value.copy(hashtags = getAllSelectableHashtagUseCase())
+        val currentTime = LocalTime.now().truncatedTo(ChronoUnit.MINUTES)
+        val currentDate = LocalDateTime.now()
+        setTime(currentTime.toString())
+        setDate(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
+    }
 
     fun getThunder(thunderId: String) {
         viewModelScope.launch {
@@ -34,6 +44,7 @@ class ThunderEditViewModel @Inject constructor(
                 .onSuccess { thunder ->
                     _uiState.update { uiState ->
                         uiState.copy(
+                            thunderId = thunderId,
                             limitParticipantsCnt = thunder.limitParticipantsCnt,
                             hashtags = getAllSelectableHashtagUseCase(
                                 thunder.hashtags.map {
@@ -77,7 +88,7 @@ class ThunderEditViewModel @Inject constructor(
     override fun onClickThunder() {
         viewModelScope.launch {
             editThunderUseCase(
-                thunderId = thunderId.value,
+                thunderId = uiState.value.thunderId,
                 title = uiState.value.title,
                 content = uiState.value.content,
                 deadline = "${formattedText.value} ${hour24FormatTime.value}",

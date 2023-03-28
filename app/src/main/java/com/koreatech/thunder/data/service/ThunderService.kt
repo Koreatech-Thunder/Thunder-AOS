@@ -2,12 +2,8 @@ package com.koreatech.thunder.data.service
 
 import com.koreatech.thunder.data.model.ThunderResponse
 import com.koreatech.thunder.data.model.request.ThunderRequest
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.koreatech.thunder.data.model.response.ThunderDetailResponse
+import retrofit2.http.*
 
 interface ThunderService {
     @GET("thunder")
@@ -21,7 +17,7 @@ interface ThunderService {
     @GET("thunder/{thunderId}")
     suspend fun getThunder(
         @Path("thunderId") thunderId: String
-    ): ThunderResponse
+    ): ThunderDetailResponse
 
     @POST("thunder")
     suspend fun postThunder(
