@@ -2,22 +2,18 @@ package com.koreatech.thunder.feature.thunder
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.koreatech.thunder.domain.model.Hashtag
-import com.koreatech.thunder.domain.model.SelectableHashtag
-import com.koreatech.thunder.domain.model.Thunder
-import com.koreatech.thunder.domain.model.User
-import com.koreatech.thunder.domain.model.dummyUsers
+import com.koreatech.thunder.domain.model.*
 import com.koreatech.thunder.domain.repository.ThunderRepository
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserHashtagsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ThunderViewModel @Inject constructor(
@@ -64,6 +60,16 @@ class ThunderViewModel @Inject constructor(
         viewModelScope.launch {
             if (thunder.participants.size < thunder.limitParticipantsCnt) {
                 thunderRepository.joinThunder(thunder.thunderId)
+                    .onSuccess {
+                        (hashtagUiState.value as HashtagUiState.Success).hashtags.forEach { selectedHashtag ->
+                            if (selectedHashtag.isSelected) {
+                                getThundersWithHashtag(selectedHashtag.hashtag)
+                                return@onSuccess
+                            }
+                        }
+                        getThunders()
+                    }
+                    .onFailure { Timber.e("error is ${it.message}") }
             }
         }
     }
@@ -71,6 +77,16 @@ class ThunderViewModel @Inject constructor(
     fun outThunder(thunderId: String) {
         viewModelScope.launch {
             thunderRepository.outThunder(thunderId)
+                .onSuccess {
+                    (hashtagUiState.value as HashtagUiState.Success).hashtags.forEach { selectedHashtag ->
+                        if (selectedHashtag.isSelected) {
+                            getThundersWithHashtag(selectedHashtag.hashtag)
+                            return@onSuccess
+                        }
+                    }
+                    getThunders()
+                }
+                .onFailure { Timber.e("error is ${it.message}") }
         }
     }
 
