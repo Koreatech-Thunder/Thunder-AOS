@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,9 +21,9 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 fun ThunderAddScreen(
     navController: NavController = rememberNavController(),
-    thunderAddViewModel: ThunderAddViewModel = hiltViewModel()
+    thunderAddViewModel: ThunderAddViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
     val uiState = thunderAddViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {

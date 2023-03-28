@@ -9,12 +9,13 @@ import com.koreatech.thunder.feature.thunder.base.InputUiState
 import com.koreatech.thunder.feature.thunder.base.ThunderInputViewModel
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 @HiltViewModel
 class ThunderEditViewModel @Inject constructor(
@@ -52,17 +53,19 @@ class ThunderEditViewModel @Inject constructor(
                     setDate(date[0], date[1], date[2])
                     cacheUiState.value = _uiState.value.copy()
                 }
-                .onFailure { }
+                .onFailure {
+                    Timber.e("error is ${it.message}")
+                }
         }
     }
 
     override fun isButtonActive(): Boolean =
         uiState.value.title != cacheUiState.value.title ||
-            uiState.value.content != cacheUiState.value.content ||
-            uiState.value.date != cacheUiState.value.date ||
-            uiState.value.time != cacheUiState.value.time ||
-            uiState.value.limitParticipantsCnt != cacheUiState.value.limitParticipantsCnt ||
-            isChangeHashtags()
+                uiState.value.content != cacheUiState.value.content ||
+                uiState.value.date != cacheUiState.value.date ||
+                uiState.value.time != cacheUiState.value.time ||
+                uiState.value.limitParticipantsCnt != cacheUiState.value.limitParticipantsCnt ||
+                isChangeHashtags()
 
     override fun isChangeHashtags(): Boolean {
         uiState.value.hashtags.forEachIndexed { idx, selectableHashtag ->
@@ -84,7 +87,9 @@ class ThunderEditViewModel @Inject constructor(
                 .onSuccess {
                     _moveDestination.emit(ThunderDestination.THUNDER)
                 }
-                .onFailure { }
+                .onFailure {
+                    Timber.e("error is ${it.message}")
+                }
         }
     }
 }

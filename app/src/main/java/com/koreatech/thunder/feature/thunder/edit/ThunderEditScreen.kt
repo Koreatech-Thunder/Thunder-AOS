@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,12 +22,14 @@ import kotlinx.coroutines.flow.onEach
 fun ThunderEditScreen(
     thunderId: String,
     navController: NavController = rememberNavController(),
-    thunderEditViewModel: ThunderEditViewModel = hiltViewModel()
+    thunderEditViewModel: ThunderEditViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     val uiState = thunderEditViewModel.uiState.collectAsStateWithLifecycle()
-    val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(true) {
+        thunderEditViewModel.getThunder(thunderId)
+
         thunderEditViewModel.moveDestination
             .flowWithLifecycle(lifecycleOwner.lifecycle)
             .onEach { destination ->
