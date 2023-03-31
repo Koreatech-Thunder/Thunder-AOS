@@ -36,6 +36,7 @@ class ThunderEditViewModel @Inject constructor(
         val currentDate = LocalDateTime.now()
         setTime(currentTime.toString())
         setDate(currentDate.year, currentDate.monthValue, currentDate.dayOfMonth)
+        cacheUiState.value = _uiState.value.copy()
     }
 
     fun getThunder(thunderId: String) {

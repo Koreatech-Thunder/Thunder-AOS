@@ -3,21 +3,18 @@ package com.koreatech.thunder.feature
 import com.koreatech.thunder.domain.model.dummyUsers
 import com.koreatech.thunder.domain.repository.AuthRepository
 import com.koreatech.thunder.domain.repository.UserRepository
-import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
-import com.koreatech.thunder.domain.usecase.PostLogoutUseCase
-import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
-import com.koreatech.thunder.domain.usecase.WithdrawUserUseCase
+import com.koreatech.thunder.domain.usecase.*
 import com.koreatech.thunder.feature.profile.ProfileViewModel
 import com.koreatech.thunder.util.CoroutinesTestExtension
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @ExtendWith(CoroutinesTestExtension::class)
@@ -28,6 +25,7 @@ class ProfileViewModelTest {
     private val setSplashStateUseCase = SetSplashStateUseCase(authRepository)
     private val withdrawUserUseCase = WithdrawUserUseCase(userRepository)
     private val postLogoutUseCase = PostLogoutUseCase(authRepository)
+    private val deleteTokensUseCase = DeleteTokensUseCase(authRepository)
     private lateinit var profileViewModel: ProfileViewModel
 
     @BeforeEach
@@ -36,7 +34,8 @@ class ProfileViewModelTest {
             getUserProfileUseCase,
             setSplashStateUseCase,
             withdrawUserUseCase,
-            postLogoutUseCase
+            postLogoutUseCase,
+            deleteTokensUseCase
         )
     }
 

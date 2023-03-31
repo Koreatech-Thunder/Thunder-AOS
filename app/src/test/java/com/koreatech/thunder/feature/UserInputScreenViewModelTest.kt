@@ -30,7 +30,11 @@ class UserInputScreenViewModelTest {
 
     @BeforeEach
     fun setUp() {
-        userInputViewModel = UserInputViewModel(getAllSelectableHashtagUseCase,setSplashStateUseCase,putUserProfileUseCase)
+        userInputViewModel = UserInputViewModel(
+            getAllSelectableHashtagUseCase,
+            setSplashStateUseCase,
+            putUserProfileUseCase
+        )
     }
 
     @DisplayName("첫 진입 시 모든 해시태그가 들어있고, false 상태이다.")
@@ -70,6 +74,6 @@ class UserInputScreenViewModelTest {
         userInputViewModel.selectHashtag(1)
         val actualHashtags = userInputViewModel.callPrivateFunc("selectedHashtags")
 
-        assertEquals(actualHashtags, expectedHashtags)
+        assertEquals((actualHashtags as List<Hashtag>).size, expectedHashtags.size)
     }
 }

@@ -58,7 +58,7 @@ class ThunderViewModelTest {
     @Test
     fun hashtagTest2() = runTest {
         val expectedHashtags = getAllSelectableHashtagUseCase()
-        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
+        coEvery { userRepository.getUserHashtags() } returns Result.success(emptyList())
 
         thunderViewModel.getHashtags()
         val data = thunderViewModel.hashtagUiState.value
@@ -70,7 +70,7 @@ class ThunderViewModelTest {
     @DisplayName("해시태그를 선택하면 해당 해시태그의 selectable 을 변경한다")
     @Test
     fun hashtagTest3() = runTest {
-        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
+        coEvery { userRepository.getUserHashtags() } returns Result.success(emptyList())
 
         thunderViewModel.getHashtags()
         var data = thunderViewModel.hashtagUiState.value
@@ -88,7 +88,7 @@ class ThunderViewModelTest {
     @DisplayName("해시태그는 최대 1개까지 선택할 수 있다")
     @Test
     fun hashtagTest4() = runTest {
-        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
+        coEvery { userRepository.getUserHashtags() } returns Result.success(emptyList())
 
         thunderViewModel.getHashtags()
         var data = thunderViewModel.hashtagUiState.value
@@ -113,7 +113,7 @@ class ThunderViewModelTest {
     @DisplayName("선택했던 해시태그를 클릭할 시 true 에서 false 로 변경한다.")
     @Test
     fun hashtagTest5() = runTest {
-        coEvery { thunderRepository.getHashtags() } returns Result.success(emptyList())
+        coEvery { userRepository.getUserHashtags() } returns Result.success(emptyList())
 
         thunderViewModel.getHashtags()
         var data = thunderViewModel.hashtagUiState.value
