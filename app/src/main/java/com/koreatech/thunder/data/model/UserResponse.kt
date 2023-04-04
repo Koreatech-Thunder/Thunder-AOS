@@ -1,5 +1,6 @@
 package com.koreatech.thunder.data.model
 
+import com.google.gson.annotations.SerializedName
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.User
@@ -8,7 +9,7 @@ data class UserResponse(
     val userId: String,
     val name: String,
     val introduction: String,
-    val temperature: Int,
+    @SerializedName("mannerTemperature") val temperature: Int,
     val hashtags: List<String>
 )
 
