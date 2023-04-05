@@ -1,4 +1,4 @@
-package com.koreatech.thunder.data.model
+package com.koreatech.thunder.data.model.response
 
 import com.google.gson.annotations.SerializedName
 import com.koreatech.thunder.domain.model.Hashtag
