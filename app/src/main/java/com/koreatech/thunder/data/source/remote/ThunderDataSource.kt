@@ -1,8 +1,8 @@
 package com.koreatech.thunder.data.source.remote
 
-import com.koreatech.thunder.data.model.ThunderResponse
 import com.koreatech.thunder.data.model.request.ThunderRequest
 import com.koreatech.thunder.data.model.response.ThunderDetailResponse
+import com.koreatech.thunder.data.model.response.ThunderResponse
 import com.koreatech.thunder.data.service.ThunderService
 import javax.inject.Inject
 

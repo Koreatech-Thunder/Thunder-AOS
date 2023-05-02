@@ -1,7 +1,8 @@
 package com.koreatech.thunder.data.repository
 
 import com.koreatech.thunder.data.model.request.ThunderRequest
-import com.koreatech.thunder.data.model.toThunder
+import com.koreatech.thunder.data.model.response.toThunder
+
 import com.koreatech.thunder.data.source.remote.ThunderDataSource
 import com.koreatech.thunder.domain.model.Hashtag
 import com.koreatech.thunder.domain.model.SelectableHashtag
