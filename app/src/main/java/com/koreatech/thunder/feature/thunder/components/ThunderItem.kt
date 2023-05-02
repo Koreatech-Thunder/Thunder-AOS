@@ -17,7 +17,8 @@ fun ThunderItem(
     showBottomSheet: (User) -> Unit,
     participateThunder: (Thunder) -> Unit,
     cancelThunder: (String) -> Unit,
-    moveToEdit: (String) -> Unit
+    moveToEdit: (String) -> Unit,
+    showReportDialog: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -28,7 +29,8 @@ fun ThunderItem(
             thunder = thunder,
             participateThunder = participateThunder,
             cancelThunder = cancelThunder,
-            moveToEdit = moveToEdit
+            moveToEdit = moveToEdit,
+            showReportDialog = showReportDialog
         )
         ThunderParticipantsSection(
             thunder.participants,

@@ -2,7 +2,6 @@ package com.koreatech.thunder.designsystem.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -12,21 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.User
-import com.koreatech.thunder.domain.model.dummyUsers
 
 @Composable
 fun ThunderBottomSheet(
-    user: User,
-    showReportDialog: () -> Unit
+    user: User
 ) {
     Box(
         modifier = Modifier
@@ -39,19 +33,6 @@ fun ThunderBottomSheet(
                 verticalAlignment = Alignment.Top,
                 prefixComponent = {
                     ProfileDetail(user)
-                },
-                postfixComponent = {
-                    Text(
-                        modifier = Modifier
-                            .clickable {
-                                showReportDialog()
-                            }
-                            .padding(4.dp),
-                        text = stringResource(R.string.user_report),
-                        style = ThunderTheme.typography.b5,
-                        textDecoration = TextDecoration.Underline,
-                        color = Color.LightGray
-                    )
                 }
             )
             BlankSpace(size = 12.dp)
@@ -123,13 +104,5 @@ private fun TemperatureDetail(userUi: User) {
             text = "${userUi.temperature}",
             style = ThunderTheme.typography.h6
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun pv1() {
-    ThunderTheme {
-        ThunderBottomSheet(dummyUsers[0], {})
     }
 }

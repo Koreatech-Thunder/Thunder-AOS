@@ -12,7 +12,7 @@ fun ThunderRowSpaceBetweenSlot(
     modifier: Modifier = Modifier,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     prefixComponent: @Composable () -> Unit,
-    postfixComponent: @Composable () -> Unit
+    postfixComponent: @Composable () -> Unit = {}
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),

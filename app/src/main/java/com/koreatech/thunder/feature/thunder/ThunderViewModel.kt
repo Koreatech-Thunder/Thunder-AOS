@@ -21,6 +21,7 @@ class ThunderViewModel @Inject constructor(
     private val getAllSelectableHashtagUseCase: GetAllSelectableHashtagUseCase,
     private val getUserHashtagsUseCase: GetUserHashtagsUseCase
 ) : ViewModel() {
+    private val reportThunder: MutableStateFlow<String> = MutableStateFlow("")
     private val _thunderUiState: MutableStateFlow<ThunderUiState> =
         MutableStateFlow(ThunderUiState.Loading)
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
@@ -128,7 +129,11 @@ class ThunderViewModel @Inject constructor(
         _userInfo.value = user
     }
 
-    fun reportUser(reportCategory: Int) {
+    fun setReportThunder(thunderId: String) {
+        reportThunder.value = thunderId
+    }
+
+    fun reportThunder(reportCategory: Int) {
         /* userInfo.value.userId, reportCategory */
     }
 
