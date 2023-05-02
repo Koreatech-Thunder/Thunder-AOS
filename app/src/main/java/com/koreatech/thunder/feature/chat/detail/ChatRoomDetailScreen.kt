@@ -37,6 +37,7 @@ import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.feature.chat.components.ChatGuideItem
 import com.koreatech.thunder.feature.chat.components.ChatItem
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 
@@ -93,6 +94,7 @@ fun ChatRoomDetailScreen(
             contentPadding = PaddingValues(8.dp),
             state = listState
         ) {
+            item { ChatGuideItem() }
             itemsIndexed(chatRoomDetail.value.chats) { index, chat ->
                 ChatItem(
                     beforeUserId = if (index > 0) chatRoomDetail.value.chats[index - 1].user.userId else "",
