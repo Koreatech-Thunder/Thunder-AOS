@@ -11,10 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
-import com.koreatech.thunder.navigation.ThunderDestination.LOGIN
-import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
-import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
-import com.koreatech.thunder.navigation.ThunderDestination.USER_INPUT
+import com.koreatech.thunder.navigation.ThunderDestination.*
 import com.koreatech.thunder.navigation.popAndMoveTo
 import kotlinx.coroutines.delay
 
@@ -31,6 +28,7 @@ fun SplashScreen(
             SplashState.ON_BOARDING -> navController.popAndMoveTo(ON_BOARDING)
             SplashState.USER_INPUT -> navController.popAndMoveTo(USER_INPUT)
             SplashState.MAIN -> navController.popAndMoveTo(THUNDER)
+            SplashState.WARNING -> navController.popAndMoveTo(WARNING)
         }
     }
     Column(

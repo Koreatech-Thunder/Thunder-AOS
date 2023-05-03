@@ -34,5 +34,6 @@ enum class ThunderDestination(
     LOGIN,
     SPLASH,
     CHAT_DETAIL,
-    EVALUATE
+    EVALUATE,
+    WARNING
 }

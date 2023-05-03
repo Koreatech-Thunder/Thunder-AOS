@@ -22,20 +22,8 @@ import com.koreatech.thunder.feature.splash.SplashScreen
 import com.koreatech.thunder.feature.thunder.ThunderScreen
 import com.koreatech.thunder.feature.thunder.add.ThunderAddScreen
 import com.koreatech.thunder.feature.thunder.edit.ThunderEditScreen
-import com.koreatech.thunder.navigation.ThunderDestination.ADD
-import com.koreatech.thunder.navigation.ThunderDestination.ALARM_SETTING
-import com.koreatech.thunder.navigation.ThunderDestination.CHATROOM
-import com.koreatech.thunder.navigation.ThunderDestination.CHAT_DETAIL
-import com.koreatech.thunder.navigation.ThunderDestination.EDIT
-import com.koreatech.thunder.navigation.ThunderDestination.EVALUATE
-import com.koreatech.thunder.navigation.ThunderDestination.LOGIN
-import com.koreatech.thunder.navigation.ThunderDestination.ON_BOARDING
-import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
-import com.koreatech.thunder.navigation.ThunderDestination.PROFILE_EDIT
-import com.koreatech.thunder.navigation.ThunderDestination.SPLASH
-import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
-import com.koreatech.thunder.navigation.ThunderDestination.THUNDER_RECORD
-import com.koreatech.thunder.navigation.ThunderDestination.USER_INPUT
+import com.koreatech.thunder.feature.warning.WarningScreen
+import com.koreatech.thunder.navigation.ThunderDestination.*
 
 @Composable
 fun ThunderNavHost(
@@ -89,6 +77,7 @@ fun ThunderNavHost(
             )
         }
         composable(LOGIN.name) { LoginScreen(navController = navController) }
+        composable(WARNING.name) { WarningScreen(navController = navController) }
     }
 }
 
