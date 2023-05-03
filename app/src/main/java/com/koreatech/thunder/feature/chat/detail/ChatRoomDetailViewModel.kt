@@ -20,6 +20,7 @@ class ChatRoomDetailViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
     private val socketHandler: SocketHandler
 ) : ViewModel() {
+    private val reportInfo = MutableStateFlow(Report("", ""))
     private val onChat: (Chat) -> Unit = { chat ->
         _chatRoomDetail.value =
             chatRoomDetail.value.copy(chats = chatRoomDetail.value.chats.plus(chat))
@@ -86,4 +87,17 @@ class ChatRoomDetailViewModel @Inject constructor(
     fun writeChat(chat: String) {
         _chat.value = chat
     }
+
+    fun setReportInfo(thunderId: String, userId: String) {
+        reportInfo.value = Report(thunderId, userId)
+    }
+
+    fun reportChat(reportIndex: Int) {
+
+    }
 }
+
+data class Report(
+    val thunderId: String,
+    val userId: String
+)

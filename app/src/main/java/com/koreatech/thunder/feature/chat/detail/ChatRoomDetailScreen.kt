@@ -3,21 +3,14 @@ package com.koreatech.thunder.feature.chat.detail
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -39,6 +32,7 @@ import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.chat.components.ChatGuideItem
 import com.koreatech.thunder.feature.chat.components.ChatItem
+import com.koreatech.thunder.feature.thunder.components.ReportDialog
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 
 @Composable
@@ -51,6 +45,7 @@ fun ChatRoomDetailScreen(
     val chatRoomDetail = chatRoomDetailViewModel.chatRoomDetail.collectAsStateWithLifecycle()
     val chat = chatRoomDetailViewModel.chat.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
+    var isReportDialogVisible by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -67,6 +62,13 @@ fun ChatRoomDetailScreen(
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
+    }
+
+    if (isReportDialogVisible) {
+        ReportDialog(
+            onDismissRequest = { isReportDialogVisible = false },
+            reportUser = chatRoomDetailViewModel::reportChat
+        )
     }
 
     LaunchedEffect(chatRoomDetail.value.chats.size) {
@@ -98,7 +100,11 @@ fun ChatRoomDetailScreen(
             itemsIndexed(chatRoomDetail.value.chats) { index, chat ->
                 ChatItem(
                     beforeUserId = if (index > 0) chatRoomDetail.value.chats[index - 1].user.userId else "",
-                    chat = chat
+                    chat = chat,
+                    showDialog = { thunderId, chatId ->
+                        chatRoomDetailViewModel.setReportInfo(thunderId, chatId)
+                        isReportDialogVisible = true
+                    }
                 )
             }
         }
