@@ -1,17 +1,13 @@
 package com.koreatech.thunder.feature.profile
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -57,10 +53,22 @@ fun ThunderRecordScreen(
             }
         )
         Divider(modifier = Modifier.height(1.dp))
-        LazyColumn {
-            items(thunderRecord.value) {
-                ThunderRecordItem(thunder = it)
-                Divider(modifier = Modifier.height(1.dp))
+        if (thunderRecord.value.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.thunder_record_empty),
+                    style = ThunderTheme.typography.b3
+                )
+            }
+        } else {
+            LazyColumn {
+                items(thunderRecord.value) {
+                    ThunderRecordItem(thunder = it)
+                    Divider(modifier = Modifier.height(1.dp))
+                }
             }
         }
     }
