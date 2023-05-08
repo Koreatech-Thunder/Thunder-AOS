@@ -1,5 +1,6 @@
 package com.koreatech.thunder.feature.thunder.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -19,12 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.commandiron.wheel_picker_compose.WheelTimePicker
 import com.commandiron.wheel_picker_compose.core.TimeFormat
+import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderDialogSlot
-import com.koreatech.thunder.designsystem.style.Gray
-import com.koreatech.thunder.designsystem.style.Orange
-import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.designsystem.style.*
 import java.time.LocalTime
 
 @Composable
@@ -55,7 +55,12 @@ fun ThunderTimePicker(
             WheelTimePicker(
                 startTime = LocalTime.of(hour, minute),
                 modifier = Modifier.padding(horizontal = 64.dp),
-                timeFormat = TimeFormat.AM_PM
+                timeFormat = TimeFormat.AM_PM,
+                selectorProperties = WheelPickerDefaults.selectorProperties(
+                    enabled = true,
+                    color = Orange300,
+                    border = BorderStroke(2.dp, Orange300)
+                )
             ) { snappedTime ->
                 snappedTimeText = snappedTime.toString()
             }
