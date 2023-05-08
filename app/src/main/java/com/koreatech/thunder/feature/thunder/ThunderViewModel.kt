@@ -37,7 +37,8 @@ class ThunderViewModel @Inject constructor(
         viewModelScope.launch {
             thunderRepository.getThunders()
                 .onSuccess { thunders ->
-                    _thunderUiState.value = ThunderUiState.Success(thunders)
+                    if (thunders.isEmpty()) _thunderUiState.value = ThunderUiState.Empty
+                    else _thunderUiState.value = ThunderUiState.Success(thunders)
                 }
                 .onFailure {
                     Timber.e("error is  ${it.message}")
@@ -49,7 +50,8 @@ class ThunderViewModel @Inject constructor(
         viewModelScope.launch {
             thunderRepository.getThundersWithHashtag(hashtag)
                 .onSuccess { thunders ->
-                    _thunderUiState.value = ThunderUiState.Success(thunders)
+                    if (thunders.isEmpty()) _thunderUiState.value = ThunderUiState.Empty
+                    else _thunderUiState.value = ThunderUiState.Success(thunders)
                 }
                 .onFailure {
                     Timber.e("error is  ${it.message}")
@@ -144,7 +146,7 @@ class ThunderViewModel @Inject constructor(
 
 sealed interface ThunderUiState {
     object Loading : ThunderUiState
-    object Error : ThunderUiState
+    object Empty : ThunderUiState
     data class Success(val thunders: List<Thunder>) : ThunderUiState
 }
 

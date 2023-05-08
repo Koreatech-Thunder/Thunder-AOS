@@ -1,17 +1,13 @@
 package com.koreatech.thunder.feature.chat.room
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -54,20 +50,32 @@ fun ChatRoomScreen(
 
     Column {
         ChatRoomToolBar()
-        LazyColumn(
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(chatRooms.value) { chatRoom ->
-                ThunderChatRoom(
-                    chatRoom = chatRoom,
-                    moveChatDetail = { thunderId ->
-                        navController.navigate("${ThunderDestination.CHAT_DETAIL.name}/$thunderId")
-                    },
-                    moveEvaluate = { thunderId ->
-                        navController.navigate("${ThunderDestination.EVALUATE.name}/$thunderId")
-                    }
+        if(chatRooms.value.isEmpty()) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.chatroom_empty),
+                    style = ThunderTheme.typography.b3
                 )
+            }
+        } else{
+            LazyColumn(
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(chatRooms.value) { chatRoom ->
+                    ThunderChatRoom(
+                        chatRoom = chatRoom,
+                        moveChatDetail = { thunderId ->
+                            navController.navigate("${ThunderDestination.CHAT_DETAIL.name}/$thunderId")
+                        },
+                        moveEvaluate = { thunderId ->
+                            navController.navigate("${ThunderDestination.EVALUATE.name}/$thunderId")
+                        }
+                    )
+                }
             }
         }
     }

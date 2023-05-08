@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -134,14 +135,24 @@ fun ThunderScreen(
                     }
                 }
                 BlankSpace(size = 8.dp)
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(vertical = 8.dp)
-                ) {
-                    when (val state = thunderUiState.value) {
-                        ThunderUiState.Error -> item {}
-                        ThunderUiState.Loading -> item {}
-                        is ThunderUiState.Success -> {
+                when (val state = thunderUiState.value) {
+                    ThunderUiState.Empty -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(R.string.thunder_empty),
+                                style = ThunderTheme.typography.b3
+                            )
+                        }
+                    }
+                    ThunderUiState.Loading -> {}
+                    is ThunderUiState.Success -> {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            contentPadding = PaddingValues(vertical = 8.dp)
+                        ) {
                             items(state.thunders) { thunder ->
                                 ThunderItem(
                                     thunder = thunder,
@@ -157,6 +168,7 @@ fun ThunderScreen(
                                     }
                                 )
                             }
+
                         }
                     }
                 }
