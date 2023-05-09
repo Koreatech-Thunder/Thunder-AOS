@@ -1,12 +1,10 @@
 package com.koreatech.thunder.data.service
 
 import com.koreatech.thunder.data.model.request.ChatAlarmRequest
+import com.koreatech.thunder.data.model.request.ChatReportRequest
 import com.koreatech.thunder.data.model.response.ChatRoomDetailResponse
 import com.koreatech.thunder.data.model.response.ChatRoomResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ChatService {
     @GET("/chat")
@@ -21,5 +19,11 @@ interface ChatService {
     suspend fun setChatRoomAlarm(
         @Path("thunderId") thunderId: String,
         @Body body: ChatAlarmRequest
+    )
+
+    @POST("report/chat/{thunderId}")
+    suspend fun reportChat(
+        @Path("thunderId") thunderId: String,
+        @Body body: ChatReportRequest
     )
 }

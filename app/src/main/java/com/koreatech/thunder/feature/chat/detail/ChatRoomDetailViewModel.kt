@@ -93,7 +93,13 @@ class ChatRoomDetailViewModel @Inject constructor(
     }
 
     fun reportChat(reportIndex: Int) {
-
+        viewModelScope.launch {
+            chatRepository.reportChat(
+                reportInfo.value.thunderId,
+                reportInfo.value.userId,
+                reportIndex
+            )
+        }
     }
 }
 

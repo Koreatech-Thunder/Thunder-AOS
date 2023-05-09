@@ -7,4 +7,5 @@ interface ChatRepository {
     suspend fun getChatRooms(): Result<List<ChatRoom>>
     suspend fun getChatRoomDetail(chatId: String): Result<ChatRoomDetail>
     suspend fun setChatRoomAlarm(thunderId: String, isAlarm: Boolean): Result<Unit>
+    suspend fun reportChat(thunderId: String, userId: String, reportIndex: Int): Result<Unit>
 }

@@ -1,6 +1,7 @@
 package com.koreatech.thunder.data.source.remote
 
 import com.koreatech.thunder.data.model.request.ChatAlarmRequest
+import com.koreatech.thunder.data.model.request.ChatReportRequest
 import com.koreatech.thunder.data.model.response.ChatRoomDetailResponse
 import com.koreatech.thunder.data.model.response.ChatRoomResponse
 import com.koreatech.thunder.data.service.ChatService
@@ -17,4 +18,7 @@ class ChatDataSource @Inject constructor(
 
     suspend fun setChatRoomAlarm(thunderId: String, isAlarm: Boolean) =
         chatService.setChatRoomAlarm(thunderId, ChatAlarmRequest(isAlarm))
+
+    suspend fun reportChat(thunderId: String, userId: String, reportIndex: Int) =
+        chatService.reportChat(thunderId, body = ChatReportRequest(userId, reportIndex))
 }
