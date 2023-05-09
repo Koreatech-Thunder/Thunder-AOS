@@ -27,11 +27,11 @@ class ThunderViewModel @Inject constructor(
     private val _hashtagUiState: MutableStateFlow<HashtagUiState> =
         MutableStateFlow(HashtagUiState.Loading)
     private val _userInfo = MutableStateFlow(dummyUsers[0])
-    private val _isError: MutableSharedFlow<Boolean> = MutableSharedFlow()
+    private val _uiEvent: MutableSharedFlow<UiEvent> = MutableSharedFlow()
     val thunderUiState = _thunderUiState.asStateFlow()
     val hashtagUiState = _hashtagUiState.asStateFlow()
     val userInfo = _userInfo.asStateFlow()
-    val isError = _isError.asSharedFlow()
+    val uiEvent = _uiEvent.asSharedFlow()
 
     fun getThunders() {
         viewModelScope.launch {
@@ -42,6 +42,7 @@ class ThunderViewModel @Inject constructor(
                 }
                 .onFailure {
                     Timber.e("error is  ${it.message}")
+                    _uiEvent.emit(UiEvent.NETWORK_FAIL)
                 }
         }
     }
@@ -55,6 +56,7 @@ class ThunderViewModel @Inject constructor(
                 }
                 .onFailure {
                     Timber.e("error is  ${it.message}")
+                    _uiEvent.emit(UiEvent.NETWORK_FAIL)
                 }
         }
     }
@@ -71,8 +73,12 @@ class ThunderViewModel @Inject constructor(
                             }
                         }
                         getThunders()
+                        _uiEvent.emit(UiEvent.JOIN_SUCCESS)
                     }
-                    .onFailure { Timber.e("error is ${it.message}") }
+                    .onFailure {
+                        Timber.e("error is ${it.message}")
+                        _uiEvent.emit(UiEvent.NETWORK_FAIL)
+                    }
             }
         }
     }
@@ -88,8 +94,12 @@ class ThunderViewModel @Inject constructor(
                         }
                     }
                     getThunders()
+                    _uiEvent.emit(UiEvent.OUT_SUCCESS)
                 }
-                .onFailure { Timber.e("error is ${it.message}") }
+                .onFailure {
+                    Timber.e("error is ${it.message}")
+                    _uiEvent.emit(UiEvent.NETWORK_FAIL)
+                }
         }
     }
 
@@ -138,6 +148,12 @@ class ThunderViewModel @Inject constructor(
     fun reportThunder(reportCategory: Int) {
         viewModelScope.launch {
             thunderRepository.reportThunder(reportThunder.value, reportCategory)
+                .onSuccess {
+                    _uiEvent.emit(UiEvent.REPORT_SUCCESS)
+                }
+                .onFailure {
+                    _uiEvent.emit(UiEvent.NETWORK_FAIL)
+                }
         }
     }
 
@@ -156,4 +172,8 @@ sealed interface HashtagUiState {
     object Loading : HashtagUiState
     object Error : HashtagUiState
     data class Success(val hashtags: List<SelectableHashtag>) : HashtagUiState
+}
+
+enum class UiEvent {
+    REPORT_SUCCESS, JOIN_SUCCESS, OUT_SUCCESS, NETWORK_FAIL
 }
