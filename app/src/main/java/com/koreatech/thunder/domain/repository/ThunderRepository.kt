@@ -28,4 +28,6 @@ interface ThunderRepository {
 
     suspend fun joinThunder(thunderId: String): Result<Unit>
     suspend fun outThunder(thunderId: String): Result<Unit>
+
+    suspend fun reportThunder(thunderId: String, reportIndex: Int): Result<Unit>
 }

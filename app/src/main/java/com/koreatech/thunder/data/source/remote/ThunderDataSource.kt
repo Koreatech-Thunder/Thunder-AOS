@@ -1,5 +1,6 @@
 package com.koreatech.thunder.data.source.remote
 
+import com.koreatech.thunder.data.model.request.ThunderReportRequest
 import com.koreatech.thunder.data.model.request.ThunderRequest
 import com.koreatech.thunder.data.model.response.ThunderDetailResponse
 import com.koreatech.thunder.data.model.response.ThunderResponse
@@ -25,8 +26,7 @@ class ThunderDataSource @Inject constructor(
     ) = thunderService.postThunder(body)
 
     suspend fun editThunder(
-        thunderId: String,
-        body: ThunderRequest
+        thunderId: String, body: ThunderRequest
     ) = thunderService.editThunder(thunderId, body)
 
     suspend fun joinThunder(
@@ -36,4 +36,11 @@ class ThunderDataSource @Inject constructor(
     suspend fun outThunder(
         thunderId: String
     ) = thunderService.outThunder(thunderId)
+
+    suspend fun reportThunder(
+        thunderId: String, reportIndex: Int
+    ) = thunderService.reportThunder(
+        thunderId = thunderId,
+        body = ThunderReportRequest(reportIndex)
+    )
 }

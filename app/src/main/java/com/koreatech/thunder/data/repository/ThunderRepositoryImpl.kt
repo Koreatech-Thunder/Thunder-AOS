@@ -72,4 +72,7 @@ class ThunderRepositoryImpl @Inject constructor(
 
     override suspend fun outThunder(thunderId: String) =
         runCatching { thunderDataSource.outThunder(thunderId = thunderId) }
+
+    override suspend fun reportThunder(thunderId: String, reportIndex: Int): Result<Unit> =
+        runCatching { thunderDataSource.reportThunder(thunderId, reportIndex) }
 }

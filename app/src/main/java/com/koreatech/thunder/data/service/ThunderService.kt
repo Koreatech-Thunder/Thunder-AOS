@@ -1,5 +1,6 @@
 package com.koreatech.thunder.data.service
 
+import com.koreatech.thunder.data.model.request.ThunderReportRequest
 import com.koreatech.thunder.data.model.request.ThunderRequest
 import com.koreatech.thunder.data.model.response.ThunderDetailResponse
 import com.koreatech.thunder.data.model.response.ThunderResponse
@@ -38,5 +39,11 @@ interface ThunderService {
     @PUT("thunder/out/{thunderId}")
     suspend fun outThunder(
         @Path("thunderId") thunderId: String
+    )
+
+    @POST("report/thunder/{thunderId}")
+    suspend fun reportThunder(
+        @Path("thunderId") thunderId: String,
+        @Body body: ThunderReportRequest
     )
 }

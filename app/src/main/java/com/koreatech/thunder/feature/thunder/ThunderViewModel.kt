@@ -136,7 +136,9 @@ class ThunderViewModel @Inject constructor(
     }
 
     fun reportThunder(reportCategory: Int) {
-        /* userInfo.value.userId, reportCategory */
+        viewModelScope.launch {
+            thunderRepository.reportThunder(reportThunder.value, reportCategory)
+        }
     }
 
     companion object {
