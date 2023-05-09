@@ -6,10 +6,13 @@ import com.koreatech.thunder.domain.model.Chat
 import com.koreatech.thunder.domain.model.ChatRoomDetail
 import com.koreatech.thunder.domain.model.dummyChats
 import com.koreatech.thunder.domain.repository.ChatRepository
+import com.koreatech.thunder.feature.thunder.UiEvent
 import com.koreatech.thunder.socket.SocketHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,8 +32,10 @@ class ChatRoomDetailViewModel @Inject constructor(
     private val _chatRoomDetail =
         MutableStateFlow(ChatRoomDetail("", "농구할 사람", 8, 4, emptyList(), true))
     private val _chat = MutableStateFlow("")
+    private val _uiEvent: MutableSharedFlow<UiEvent> = MutableSharedFlow()
     val chatRoomDetail = _chatRoomDetail.asStateFlow()
     val chat = _chat.asStateFlow()
+    val uiEvent = _uiEvent.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -99,6 +104,12 @@ class ChatRoomDetailViewModel @Inject constructor(
                 reportInfo.value.userId,
                 reportIndex
             )
+                .onSuccess {
+                    _uiEvent.emit(UiEvent.REPORT_SUCCESS)
+                }
+                .onFailure {
+                    _uiEvent.emit(UiEvent.NETWORK_FAIL)
+                }
         }
     }
 }

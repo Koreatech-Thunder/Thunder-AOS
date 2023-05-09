@@ -1,5 +1,7 @@
 package com.koreatech.thunder.feature.chat.detail
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,14 +15,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
@@ -32,15 +33,19 @@ import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.chat.components.ChatGuideItem
 import com.koreatech.thunder.feature.chat.components.ChatItem
+import com.koreatech.thunder.feature.thunder.UiEvent
 import com.koreatech.thunder.feature.thunder.components.ReportDialog
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun ChatRoomDetailScreen(
     navController: NavController,
     thunderId: String,
     chatRoomDetailViewModel: ChatRoomDetailViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    context: Context = LocalContext.current
 ) {
     val chatRoomDetail = chatRoomDetailViewModel.chatRoomDetail.collectAsStateWithLifecycle()
     val chat = chatRoomDetailViewModel.chat.collectAsStateWithLifecycle()
@@ -62,6 +67,12 @@ fun ChatRoomDetailScreen(
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
+    }
+
+    LaunchedEffect(true) {
+        chatRoomDetailViewModel.uiEvent.flowWithLifecycle(lifecycleOwner.lifecycle).onEach {
+            handleUiEvent(context, it)
+        }.launchIn(lifecycleOwner.lifecycleScope)
     }
 
     if (isReportDialogVisible) {
@@ -188,4 +199,13 @@ private fun ChatTextField(
             color = if (chat.isEmpty()) Gray else Orange
         )
     }
+}
+
+private fun handleUiEvent(context: Context, uiEvent: UiEvent) {
+    val toastText = when (uiEvent) {
+        UiEvent.REPORT_SUCCESS -> context.getString(R.string.chat_report_success)
+        UiEvent.NETWORK_FAIL -> context.getString(R.string.network_fail)
+        else -> ""
+    }
+    Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
 }
