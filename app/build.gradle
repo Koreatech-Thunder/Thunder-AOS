@@ -6,12 +6,22 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.20'
     id "org.jlleitschuh.gradle.ktlint" version "10.3.0"
     id 'com.google.gms.google-services'
+    id 'com.google.android.gms.oss-licenses-plugin'
 }
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     compileSdk 33
+
+    signingConfigs {
+        releaseWithSignedKey {
+            storeFile file(properties.getProperty("STORE_FILE"))
+            keyAlias properties.getProperty("KEY_ALIAS")
+            keyPassword properties.getProperty("KEY_PASSWORD")
+            storePassword properties.getProperty("STORE_PASSWORD")
+        }
+    }
 
     defaultConfig {
         applicationId "com.koreatech.thunder"
@@ -31,6 +41,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseWithSignedKey
         }
     }
     compileOptions {
@@ -55,8 +66,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
     // socket
-    implementation ('io.socket:socket.io-client:2.1.0') {
+    implementation('io.socket:socket.io-client:2.1.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }

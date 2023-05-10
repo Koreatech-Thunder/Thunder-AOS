@@ -1,5 +1,6 @@
 package com.koreatech.thunder
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,13 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.usecase.GetSplashStateUseCase
 import com.koreatech.thunder.domain.usecase.SetSplashStateUseCase
 import com.koreatech.thunder.navigation.ThunderBottomBar
-import com.koreatech.thunder.navigation.ThunderDestination.CHATROOM
-import com.koreatech.thunder.navigation.ThunderDestination.PROFILE
-import com.koreatech.thunder.navigation.ThunderDestination.THUNDER
+import com.koreatech.thunder.navigation.ThunderDestination.*
 import com.koreatech.thunder.navigation.ThunderNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -74,7 +74,10 @@ class MainActivity : AppCompatActivity() {
                         navController = navController,
                         modifier = Modifier.padding(innerPadding),
                         getSplashStateUseCase = getSplashStateUseCase,
-                        setSplashStateUseCase = setSplashStateUseCase
+                        setSplashStateUseCase = setSplashStateUseCase,
+                        moveOpenSourceLicense = {
+                            startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+                        }
                     )
                 }
             }

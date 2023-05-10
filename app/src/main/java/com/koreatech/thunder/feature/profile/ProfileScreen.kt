@@ -3,24 +3,12 @@ package com.koreatech.thunder.feature.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,16 +24,8 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.koreatech.thunder.R
-import com.koreatech.thunder.designsystem.components.BlankSpace
-import com.koreatech.thunder.designsystem.components.RoundedLinearIndicator
-import com.koreatech.thunder.designsystem.components.ThunderChips
-import com.koreatech.thunder.designsystem.components.ThunderRowSpaceBetweenSlot
-import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
-import com.koreatech.thunder.designsystem.style.Gray
-import com.koreatech.thunder.designsystem.style.Gray200
-import com.koreatech.thunder.designsystem.style.Orange
-import com.koreatech.thunder.designsystem.style.Orange200
-import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.designsystem.components.*
+import com.koreatech.thunder.designsystem.style.*
 import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
@@ -57,7 +37,8 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    profileViewModel: ProfileViewModel = hiltViewModel()
+    profileViewModel: ProfileViewModel = hiltViewModel(),
+    moveOpenSourceLicense: () -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val user = profileViewModel.user.collectAsStateWithLifecycle()
@@ -109,7 +90,8 @@ fun ProfileScreen(
             moveAlarmSetting = { navController.navigate(ThunderDestination.ALARM_SETTING.name) },
             moveThunderRecord = { navController.navigate(ThunderDestination.THUNDER_RECORD.name) },
             showLogoutDialog = { isLogOutDialogVisible = true },
-            showWithDrawDialog = { isWithDrawDialogVisible = true }
+            showWithDrawDialog = { isWithDrawDialogVisible = true },
+            moveOpenSourceLicense = moveOpenSourceLicense
         )
     }
 }
@@ -121,7 +103,8 @@ private fun ProfileContent(
     moveAlarmSetting: () -> Unit,
     moveThunderRecord: () -> Unit,
     showLogoutDialog: () -> Unit,
-    showWithDrawDialog: () -> Unit
+    showWithDrawDialog: () -> Unit,
+    moveOpenSourceLicense: () -> Unit
 ) {
     LazyColumn {
         item {
@@ -135,7 +118,7 @@ private fun ProfileContent(
                 toAlarmSetting = { moveAlarmSetting() },
                 toThunderRecord = { moveThunderRecord() }
             )
-            ServiceManages()
+            ServiceManages(moveOpenSourceLicense = moveOpenSourceLicense)
             BlankSpace(size = 20.dp)
             Text(
                 modifier = Modifier
@@ -298,7 +281,9 @@ private fun ServiceSettings(
 }
 
 @Composable
-private fun ServiceManages() {
+private fun ServiceManages(
+    moveOpenSourceLicense: () -> Unit
+) {
     SettingItemSlot(
         settingTitle = stringResource(R.string.profile_service_manage),
         firstSetting = {
@@ -311,7 +296,9 @@ private fun ServiceManages() {
         secondSetting = {
             SettingTextItem(
                 modifier = Modifier
-                    .noRippleClickable { },
+                    .noRippleClickable {
+                        moveOpenSourceLicense()
+                    },
                 settingText = stringResource(R.string.profile_app_information)
             )
         }

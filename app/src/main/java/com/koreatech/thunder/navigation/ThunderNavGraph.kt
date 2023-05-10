@@ -31,7 +31,8 @@ fun ThunderNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = SPLASH.name,
     getSplashStateUseCase: GetSplashStateUseCase,
-    setSplashStateUseCase: SetSplashStateUseCase
+    setSplashStateUseCase: SetSplashStateUseCase,
+    moveOpenSourceLicense: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -52,7 +53,12 @@ fun ThunderNavHost(
                 navController = navController
             )
         }
-        composable(PROFILE.name) { ProfileScreen(navController = navController) }
+        composable(PROFILE.name) {
+            ProfileScreen(
+                navController = navController,
+                moveOpenSourceLicense = moveOpenSourceLicense
+            )
+        }
         composable(ADD.name) { ThunderAddScreen(navController = navController) }
         composable("${EDIT.name}/{thunderId}") { backStackEntry ->
             ThunderEditScreen(
