@@ -4,12 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.Chat
 import com.koreatech.thunder.domain.model.ChatRoomDetail
-import com.koreatech.thunder.domain.model.dummyChats
 import com.koreatech.thunder.domain.repository.ChatRepository
 import com.koreatech.thunder.feature.thunder.UiEvent
 import com.koreatech.thunder.socket.SocketHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -30,19 +28,12 @@ class ChatRoomDetailViewModel @Inject constructor(
     }
     private val chatRoomId = MutableStateFlow("")
     private val _chatRoomDetail =
-        MutableStateFlow(ChatRoomDetail("", "농구할 사람", 8, 4, emptyList(), true))
+        MutableStateFlow(ChatRoomDetail("", "", 0, 0, emptyList(), true))
     private val _chat = MutableStateFlow("")
     private val _uiEvent: MutableSharedFlow<UiEvent> = MutableSharedFlow()
     val chatRoomDetail = _chatRoomDetail.asStateFlow()
     val chat = _chat.asStateFlow()
     val uiEvent = _uiEvent.asSharedFlow()
-
-    init {
-        viewModelScope.launch {
-            delay(100)
-            _chatRoomDetail.value = ChatRoomDetail("", "농구할 사람", 8, 4, dummyChats, true)
-        }
-    }
 
     fun initSocket(thunderId: String) {
         Timber.e("init chat socket")

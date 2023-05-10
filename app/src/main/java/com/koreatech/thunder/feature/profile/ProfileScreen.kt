@@ -305,7 +305,7 @@ private fun ServiceManages() {
             SettingTextItem(
                 modifier = Modifier
                     .noRippleClickable { },
-                settingText = stringResource(R.string.profile_feedback)
+                settingText = stringResource(R.string.profile_privacy)
             )
         },
         secondSetting = {
