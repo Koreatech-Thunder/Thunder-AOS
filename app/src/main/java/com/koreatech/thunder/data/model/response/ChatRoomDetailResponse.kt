@@ -1,9 +1,10 @@
 package com.koreatech.thunder.data.model.response
 
+import com.google.gson.annotations.SerializedName
 import com.koreatech.thunder.domain.model.ChatRoomDetail
 
 data class ChatRoomDetailResponse(
-    val id: String,
+    @SerializedName("thunderId") val id: String,
     val title: String,
     val limitMemberCnt: Int,
     val joinMemberCnt: Int,

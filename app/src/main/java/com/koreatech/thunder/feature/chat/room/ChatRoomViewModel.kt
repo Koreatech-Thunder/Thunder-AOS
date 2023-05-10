@@ -33,6 +33,7 @@ class ChatRoomViewModel @Inject constructor(
 
     fun initSocket() {
         Timber.e("connect chatRoom socket")
+        socketHandler.connectSocket()
         socketHandler.subscribeChatRooms()
         socketHandler.subscribeChat(onChat)
     }

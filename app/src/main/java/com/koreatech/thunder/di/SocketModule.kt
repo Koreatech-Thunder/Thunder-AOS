@@ -35,5 +35,5 @@ object SocketModule {
     fun providesSocket(
         options: IO.Options
     ): Socket =
-        IO.socket("http://10.0.2.2:5500", options)
+        IO.socket(THUNDER_URI, options)
 }
