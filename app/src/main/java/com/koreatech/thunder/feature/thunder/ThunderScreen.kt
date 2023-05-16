@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -112,13 +111,8 @@ fun ThunderScreen(
                             text = stringResource(R.string.thunder_title),
                             style = ThunderTheme.typography.h1
                         )
-                    },
-                    action = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_notifications),
-                            contentDescription = ""
-                        )
-                    })
+                    }
+                )
                 Text(
                     text = stringResource(R.string.entering_thunder),
                     style = ThunderTheme.typography.h3
