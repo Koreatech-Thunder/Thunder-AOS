@@ -1,5 +1,6 @@
 package com.koreatech.thunder.feature.chat.room
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -50,9 +51,14 @@ fun ChatRoomScreen(
 
     Column {
         ChatRoomToolBar()
-        if(chatRooms.value.isEmpty()) {
+        if (chatRooms.value.isEmpty()) {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable {
+                        val thunderId = "thunderId"
+                        navController.navigate("${ThunderDestination.CHAT_DETAIL.name}/$thunderId")
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -60,7 +66,7 @@ fun ChatRoomScreen(
                     style = ThunderTheme.typography.b3
                 )
             }
-        } else{
+        } else {
             LazyColumn(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)

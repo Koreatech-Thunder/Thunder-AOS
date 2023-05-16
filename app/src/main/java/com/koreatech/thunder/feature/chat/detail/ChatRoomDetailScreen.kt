@@ -122,7 +122,8 @@ fun ChatRoomDetailScreen(
         ChatTextField(
             chat = chat.value,
             writeChat = chatRoomDetailViewModel::writeChat,
-            sendChat = chatRoomDetailViewModel::sendChat
+            sendChat = chatRoomDetailViewModel::sendChat,
+            modifier = Modifier.imePadding()
         )
     }
 }
@@ -172,12 +173,13 @@ private fun ChatRoomDetailToolbar(
 
 @Composable
 private fun ChatTextField(
+    modifier: Modifier,
     chat: String,
     writeChat: (String) -> Unit,
     sendChat: () -> Unit
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(horizontal = 12.dp, vertical = 18.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
