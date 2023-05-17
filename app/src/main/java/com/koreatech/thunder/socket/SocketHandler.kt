@@ -5,6 +5,7 @@ import com.koreatech.thunder.domain.model.Chat
 import com.koreatech.thunder.socket.model.NewChat
 import io.socket.client.Socket
 import io.socket.emitter.Emitter.Listener
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,10 +16,12 @@ class SocketHandler @Inject constructor(
 ) {
     fun connectSocket() {
         socket.connect()
+        Timber.e("hanbun connect socket")
     }
 
     fun disconnectSocket() {
         socket.disconnect()
+        Timber.e("hanbun disconnect socket")
     }
 
     fun sendChat(thunderId: String, message: String) {
@@ -27,27 +30,41 @@ class SocketHandler @Inject constructor(
         socket.emit("sendMessage", newChat)
     }
 
-    fun subscribeChat(onChat: (Chat) -> Unit) {
+    fun subscribeChatRooms(onChat: (Chat) -> Unit) {
+        socket.emit("subscribeChatRoom")
+
         val listener = Listener { data ->
             val chat: Chat = gson.fromJson(data[0].toString(), Chat::class.java)
+            Timber.e("hanbun chatId : ${chat}")
             onChat(chat)
         }
-        socket.on("newChat", listener)
-    }
+        Timber.e("hanbun subscribe chat room")
 
-    fun subscribeChatRooms() {
-        socket.emit("subscribeChatRoom")
+        socket.on("newChat", listener)
     }
 
     fun unSubscribeChatRooms() {
         socket.emit("unsubscribeChatRoom")
+        Timber.e("hanbun unsubscribe chat room")
+        socket.off("newChat")
     }
 
-    fun subscribeChatRoom(thunderId: String) {
+    fun subscribeChatRoom(thunderId: String, onChat: (Chat) -> Unit) {
         socket.emit("subscribeChat", thunderId)
+
+        val listener = Listener { data ->
+            val chat: Chat = gson.fromJson(data[0].toString(), Chat::class.java)
+            Timber.e("hanbun chatId : ${chat}")
+            onChat(chat)
+        }
+        Timber.e("hanbun subscribe chat detail")
+
+        socket.on("newChat", listener)
     }
 
     fun unSubscribeChatRoom(thunderId: String) {
         socket.emit("unsubscribeChat", thunderId)
+        Timber.e("hanbun unsubscribe chat detail")
+        socket.off("newChat")
     }
 }

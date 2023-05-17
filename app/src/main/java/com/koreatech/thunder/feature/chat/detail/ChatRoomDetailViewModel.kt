@@ -39,8 +39,7 @@ class ChatRoomDetailViewModel @Inject constructor(
         Timber.e("init chat socket")
         chatRoomId.value = thunderId
         socketHandler.connectSocket()
-        socketHandler.subscribeChatRoom(chatRoomId.value)
-        socketHandler.subscribeChat(onChat)
+        socketHandler.subscribeChatRoom(chatRoomId.value, onChat)
     }
 
     fun disconnectSocket() {
