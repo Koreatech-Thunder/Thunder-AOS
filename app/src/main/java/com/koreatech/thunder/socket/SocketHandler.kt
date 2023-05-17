@@ -45,8 +45,10 @@ class SocketHandler @Inject constructor(
 
     fun unSubscribeChatRooms() {
         socket.emit("unsubscribeChatRoom")
-        Timber.e("hanbun unsubscribe chat room")
+        // listener 해제
         socket.off("newChat")
+
+        Timber.e("hanbun unsubscribe chat room")
     }
 
     fun subscribeChatRoom(thunderId: String, onChat: (Chat) -> Unit) {
@@ -64,7 +66,9 @@ class SocketHandler @Inject constructor(
 
     fun unSubscribeChatRoom(thunderId: String) {
         socket.emit("unsubscribeChat", thunderId)
-        Timber.e("hanbun unsubscribe chat detail")
+        // listener 해제
         socket.off("newChat")
+
+        Timber.e("hanbun unsubscribe chat detail")
     }
 }
