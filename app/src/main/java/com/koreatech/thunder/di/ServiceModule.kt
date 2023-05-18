@@ -1,15 +1,12 @@
 package com.koreatech.thunder.di
 
-import com.koreatech.thunder.data.service.AuthService
-import com.koreatech.thunder.data.service.ChatService
-import com.koreatech.thunder.data.service.ThunderService
-import com.koreatech.thunder.data.service.UserService
+import com.koreatech.thunder.data.service.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,4 +30,9 @@ object ServiceModule {
     @Singleton
     fun providesChatService(retrofit: Retrofit): ChatService =
         retrofit.create(ChatService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesEvaluateService(retrofit: Retrofit): EvaluateService =
+        retrofit.create(EvaluateService::class.java)
 }
