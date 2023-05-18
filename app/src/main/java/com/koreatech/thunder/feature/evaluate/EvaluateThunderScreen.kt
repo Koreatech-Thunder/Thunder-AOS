@@ -13,12 +13,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.google.accompanist.pager.*
 import com.koreatech.thunder.R
@@ -28,26 +32,42 @@ import com.koreatech.thunder.designsystem.style.Orange
 import com.koreatech.thunder.designsystem.style.Orange200
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
+import com.koreatech.thunder.navigation.ThunderDestination
+import com.koreatech.thunder.navigation.popAndMoveTo
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun EvaluateThunderScreen(
     navController: NavController,
     thunderId: String,
-    evaluateThunderViewModel: EvaluateThunderViewModel = hiltViewModel()
+    evaluateThunderViewModel: EvaluateThunderViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     val uiState = evaluateThunderViewModel.uiState.collectAsStateWithLifecycle()
     val state = rememberPagerState()
 
     LaunchedEffect(true) {
         evaluateThunderViewModel.getEvaluateThunder(thunderId)
+
+        evaluateThunderViewModel.moveDestination.flowWithLifecycle(lifecycleOwner.lifecycle)
+            .onEach { destination ->
+                when (destination) {
+                    ThunderDestination.THUNDER -> navController.popAndMoveTo(ThunderDestination.THUNDER)
+                    else -> {}
+                }
+            }.launchIn(lifecycleOwner.lifecycleScope)
     }
 
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        EvaluateThunderToolbar(navController = navController)
+        EvaluateThunderToolbar(
+            navController = navController,
+            onClick = { evaluateThunderViewModel.putEvaluate(thunderId) }
+        )
         BlankSpace(size = 36.dp)
         EvaluateDescription(uiState.value.title)
         EvaluateMembers(
@@ -71,7 +91,8 @@ fun EvaluateThunderScreen(
 
 @Composable
 private fun EvaluateThunderToolbar(
-    navController: NavController
+    navController: NavController,
+    onClick: () -> Unit
 ) {
     ThunderToolBarSlot(
         modifier = Modifier.padding(vertical = 16.dp, horizontal = 18.dp),
@@ -92,9 +113,7 @@ private fun EvaluateThunderToolbar(
         action = {
             Text(
                 modifier = Modifier
-                    .clickable {
-                        /* 평가 완료 API */
-                    },
+                    .clickable { onClick() },
                 text = stringResource(R.string.thunder_report_complete),
                 style = ThunderTheme.typography.h5,
                 color = Orange

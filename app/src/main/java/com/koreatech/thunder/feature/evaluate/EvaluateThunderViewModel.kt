@@ -2,9 +2,13 @@ package com.koreatech.thunder.feature.evaluate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koreatech.thunder.domain.model.EvaluateUser
 import com.koreatech.thunder.domain.repository.EvaluateRepository
+import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -14,6 +18,8 @@ import javax.inject.Inject
 class EvaluateThunderViewModel @Inject constructor(
     private val evaluateRepository: EvaluateRepository
 ) : ViewModel() {
+    private val _moveDestination = MutableSharedFlow<ThunderDestination>()
+    val moveDestination = _moveDestination.asSharedFlow()
     private val _uiState = MutableStateFlow(EvaluateUiState("", emptyList()))
     val uiState = _uiState.asStateFlow()
 
@@ -41,6 +47,24 @@ class EvaluateThunderViewModel @Inject constructor(
                         result.title,
                         evaluateMembers
                     )
+                }
+                .onFailure {
+                    Timber.e("error ${it.message}")
+                }
+        }
+    }
+
+    fun putEvaluate(thunderId: String) {
+        viewModelScope.launch {
+            val evaluate = uiState.value.evaluateMembers.map { user ->
+                EvaluateUser(
+                    userId = user.userId,
+                    score = user.rating
+                )
+            }
+            evaluateRepository.putEvaluate(thunderId = thunderId, evaluateUsers = evaluate)
+                .onSuccess {
+                    _moveDestination.emit(ThunderDestination.THUNDER)
                 }
                 .onFailure {
                     Timber.e("error ${it.message}")
