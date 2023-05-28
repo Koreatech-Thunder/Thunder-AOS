@@ -14,7 +14,7 @@ data class UserProfileResponse(
         userId = "",
         name = name,
         introduction = introduction,
-        hashtags = hashtags.map { SelectableHashtag(Hashtag.valueOf(it)) },
+        hashtags = hashtags.map { SelectableHashtag(Hashtag.valueOf(it), true) },
         temperature = mannerTemperature
     )
 }
