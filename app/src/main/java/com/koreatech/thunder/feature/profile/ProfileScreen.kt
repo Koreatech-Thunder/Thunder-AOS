@@ -31,6 +31,7 @@ import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import com.koreatech.thunder.navigation.ThunderDestination
 import com.koreatech.thunder.navigation.popAndMoveTo
+import com.koreatech.thunder.util.getIcon
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -226,13 +227,11 @@ private fun ProfileDetail(userUi: User) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
-                .size(65.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.LightGray),
+                .size(65.dp),
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_smile_faces),
+                painter = painterResource(id = userUi.profile.getIcon()),
                 contentDescription = ""
             )
         }

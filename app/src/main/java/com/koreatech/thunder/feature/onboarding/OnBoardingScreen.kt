@@ -54,22 +54,22 @@ fun OnBoardingScreen(
         OnBoarding(
             "Welcome to\nHanBun",
             "어디서나 빠르고! 간편하게!\n즉석 모임을 즐기자구~\n모두들 반가워요! ",
-            R.drawable.ic_thunder
+            R.drawable.ic_thunder_cloud
         ),
         OnBoarding(
             "Manner\ntemperature",
             "번개 모임이 끝난 후 방에 대한 평가!\n참가자들에 대한 평가!\n놓치지 마세요!!",
-            R.drawable.ic_thunder
+            R.drawable.ic_thunder_cloud
         ),
         OnBoarding(
             "Manner\ntemperature",
             "번개 모임이 끝난 후\n방에 대한 평가!\n참가자들에 대한 평가!\n놓치지 마세요!!",
-            R.drawable.ic_thunder
+            R.drawable.ic_thunder_cloud
         ),
         OnBoarding(
             "HashTag",
             "HashTag를 통해 관심있는\n번개를 쉽게 찾고\n비슷한 취미를 가진 친구를\n많이 만나보세요~ ",
-            R.drawable.ic_thunder
+            R.drawable.ic_thunder_cloud
         )
     )
     val state: PagerState = rememberPagerState()

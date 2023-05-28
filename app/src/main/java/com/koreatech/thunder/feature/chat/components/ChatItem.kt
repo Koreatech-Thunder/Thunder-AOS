@@ -24,6 +24,7 @@ import com.koreatech.thunder.domain.model.ChatState
 import com.koreatech.thunder.domain.model.ChatState.ME
 import com.koreatech.thunder.domain.model.ChatState.OTHER
 import com.koreatech.thunder.domain.model.ChatUser
+import com.koreatech.thunder.util.getIcon
 
 @Composable
 fun ChatItem(
@@ -79,7 +80,7 @@ private fun ChatProfile(
                 .clip(CircleShape)
                 .background(Color.White)
                 .padding(8.dp),
-            painter = painterResource(id = R.drawable.ic_person),
+            painter = painterResource(user.profile.getIcon()),
             contentDescription = ""
         )
         if (chatState == OTHER) {

@@ -3,14 +3,7 @@ package com.koreatech.thunder.feature.chat.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,13 +14,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.koreatech.thunder.R
 import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.style.Gray
 import com.koreatech.thunder.designsystem.style.Orange100
 import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.domain.model.ChatRoom
 import com.koreatech.thunder.domain.model.ChatRoomState
+import com.koreatech.thunder.util.getIcon
 
 @Composable
 fun ThunderChatRoom(
@@ -86,9 +79,11 @@ private fun RunningChatRoom(chatRoom: ChatRoom) {
         BlankSpace(size = 12.dp)
 
         chatRoom.lastChat?.let { lastChat ->
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_smile_faces),
+                    painter = painterResource(id = lastChat.user.profile.getIcon()),
                     contentDescription = ""
                 )
                 BlankSpace(size = 18.dp)

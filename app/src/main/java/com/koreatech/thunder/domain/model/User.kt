@@ -2,6 +2,7 @@ package com.koreatech.thunder.domain.model
 
 data class User(
     val userId: String,
+    val profile: ProfileType = ProfileType.THUNDER,
     val name: String,
     val introduction: String,
     val temperature: Int,

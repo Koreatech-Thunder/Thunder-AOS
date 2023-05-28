@@ -2,7 +2,8 @@ package com.koreatech.thunder.domain.model
 
 data class ChatUser(
     val userId: String,
-    val name: String
+    val name: String,
+    val profile: ProfileType = ProfileType.THUNDER,
 )
 
 val dummyChatUser = listOf(
