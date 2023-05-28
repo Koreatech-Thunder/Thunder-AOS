@@ -34,6 +34,7 @@ import com.koreatech.thunder.designsystem.style.ThunderTheme
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import com.koreatech.thunder.navigation.ThunderDestination
 import com.koreatech.thunder.navigation.popAndMoveTo
+import com.koreatech.thunder.util.getIcon
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -191,7 +192,7 @@ private fun EvaluateMemberItem(
             style = ThunderTheme.typography.b1
         )
         Image(
-            painter = painterResource(id = R.drawable.ic_person),
+            painter = painterResource(id = evaluateMember.profile.getIcon()),
             contentDescription = ""
         )
         Text(

@@ -3,6 +3,7 @@ package com.koreatech.thunder.feature.evaluate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.koreatech.thunder.domain.model.EvaluateUser
+import com.koreatech.thunder.domain.model.ProfileType
 import com.koreatech.thunder.domain.repository.EvaluateRepository
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,7 +40,7 @@ class EvaluateThunderViewModel @Inject constructor(
                         EvaluateMember(
                             userId = user.userId,
                             nickname = user.name,
-                            profile = "",
+                            profile = user.profile,
                             rating = 3
                         )
                     }
@@ -81,6 +82,6 @@ data class EvaluateUiState(
 data class EvaluateMember(
     val userId: String,
     val nickname: String,
-    val profile: String,
+    val profile: ProfileType = ProfileType.THUNDER,
     val rating: Int
 )
