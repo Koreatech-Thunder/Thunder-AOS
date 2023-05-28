@@ -1,15 +1,21 @@
 package com.koreatech.thunder.feature.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,11 +31,11 @@ import com.koreatech.thunder.designsystem.components.BlankSpace
 import com.koreatech.thunder.designsystem.components.ThunderChips
 import com.koreatech.thunder.designsystem.components.ThunderTextField
 import com.koreatech.thunder.designsystem.components.ThunderToolBarSlot
-import com.koreatech.thunder.designsystem.style.Orange
-import com.koreatech.thunder.designsystem.style.Orange200
-import com.koreatech.thunder.designsystem.style.ThunderTheme
+import com.koreatech.thunder.designsystem.style.*
+import com.koreatech.thunder.domain.model.ProfileType
 import com.koreatech.thunder.feature.thunder.components.noRippleClickable
 import com.koreatech.thunder.navigation.ThunderDestination
+import com.koreatech.thunder.util.getIcon
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -83,6 +89,52 @@ fun ProfileEditScreen(
             }
         )
         Divider(modifier = Modifier.height(1.dp))
+        BlankSpace(size = 24.dp)
+
+        Text(
+            modifier = Modifier.padding(start = 18.dp),
+            text = "대표 이미지 설정",
+            style = ThunderTheme.typography.h3
+        )
+        BlankSpace(size = 16.dp)
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            items(ProfileType.values()) { profile ->
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .border(1.dp, Orange200, RoundedCornerShape(4.dp))
+                        .height(IntrinsicSize.Min)
+                        .width(IntrinsicSize.Min),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .clickable(user.value.profile != profile) {
+                                profileEditViewModel.selectProfile(profile)
+                            }
+                            .padding(8.dp),
+                        painter = painterResource(id = profile.getIcon()),
+                        contentDescription = ""
+                    )
+                    if (user.value.profile == profile) {
+                        Image(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(
+                                    if (user.value.profile == profile) Orange200.copy(alpha = 0.8f)
+                                    else Color.White
+                                ),
+                            painter = painterResource(id = R.drawable.ic_check),
+                            contentDescription = ""
+                        )
+                    }
+                }
+            }
+        }
+
         BlankSpace(size = 24.dp)
 
         Text(

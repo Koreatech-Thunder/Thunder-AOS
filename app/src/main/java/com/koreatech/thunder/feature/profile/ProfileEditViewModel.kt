@@ -2,19 +2,14 @@ package com.koreatech.thunder.feature.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koreatech.thunder.domain.model.ProfileType
 import com.koreatech.thunder.domain.model.User
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
 import com.koreatech.thunder.domain.usecase.GetUserProfileUseCase
 import com.koreatech.thunder.domain.usecase.PutUserProfileUseCase
 import com.koreatech.thunder.navigation.ThunderDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,7 +26,8 @@ class ProfileEditViewModel @Inject constructor(
             name = "",
             introduction = "",
             temperature = 36,
-            hashtags = getAllSelectableHashtagUseCase(emptyList())
+            hashtags = getAllSelectableHashtagUseCase(emptyList()),
+            profile = ProfileType.RAIN
         )
     )
     private val cacheUser: MutableStateFlow<User> = MutableStateFlow(
@@ -61,7 +57,8 @@ class ProfileEditViewModel @Inject constructor(
                         name = user.name,
                         introduction = user.introduction,
                         temperature = user.temperature,
-                        hashtags = getAllSelectableHashtagUseCase(hashtags = user.hashtags)
+                        hashtags = getAllSelectableHashtagUseCase(hashtags = user.hashtags),
+                        profile = user.profile
                     )
                     cacheUser.value = _user.value.copy()
                 }
@@ -83,6 +80,10 @@ class ProfileEditViewModel @Inject constructor(
 
     fun writeIntroduction(introduction: String) {
         _user.value = _user.value.copy(introduction = introduction)
+    }
+
+    fun selectProfile(profileType: ProfileType) {
+        _user.value = _user.value.copy(profile = profileType)
     }
 
     fun putUserProfile() {
