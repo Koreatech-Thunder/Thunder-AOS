@@ -1,9 +1,6 @@
 package com.koreatech.thunder.domain.repository
 
-import com.koreatech.thunder.domain.model.Hashtag
-import com.koreatech.thunder.domain.model.SelectableHashtag
-import com.koreatech.thunder.domain.model.Thunder
-import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.model.*
 
 interface UserRepository {
     suspend fun getProfile(): Result<User>
@@ -14,7 +11,8 @@ interface UserRepository {
     suspend fun putUserProfile(
         name: String,
         introduction: String,
-        hashtags: List<Hashtag>
+        hashtags: List<Hashtag>,
+        profile: ProfileType
     ): Result<Unit>
 
     suspend fun putAlarmState(alarmStates: List<Boolean>): Result<Unit>

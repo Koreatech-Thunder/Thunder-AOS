@@ -91,7 +91,8 @@ class ProfileEditViewModel @Inject constructor(
             putUserProfileUseCase(
                 name = user.value.name,
                 introduction = user.value.introduction,
-                hashtags = user.value.hashtags.filter { it.isSelected }.map { it.hashtag }
+                hashtags = user.value.hashtags.filter { it.isSelected }.map { it.hashtag },
+                profile = user.value.profile
             )
                 .onSuccess {
                     _moveDestination.emit(ThunderDestination.PROFILE)

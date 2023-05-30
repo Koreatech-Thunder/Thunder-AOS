@@ -4,10 +4,7 @@ import com.koreatech.thunder.data.model.request.AlarmStateRequest
 import com.koreatech.thunder.data.model.request.ReportRequest
 import com.koreatech.thunder.data.model.request.UserRequest
 import com.koreatech.thunder.data.source.remote.UserDataSource
-import com.koreatech.thunder.domain.model.Hashtag
-import com.koreatech.thunder.domain.model.SelectableHashtag
-import com.koreatech.thunder.domain.model.Thunder
-import com.koreatech.thunder.domain.model.User
+import com.koreatech.thunder.domain.model.*
 import com.koreatech.thunder.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -35,14 +32,16 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun putUserProfile(
         name: String,
         introduction: String,
-        hashtags: List<Hashtag>
+        hashtags: List<Hashtag>,
+        profile: ProfileType
     ): Result<Unit> =
         runCatching {
             userDataSource.putUserProfile(
                 UserRequest(
                     name,
                     introduction,
-                    hashtags.map { it.toString() }
+                    hashtags.map { it.toString() },
+                    profile.toString()
                 )
             )
         }

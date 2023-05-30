@@ -2,6 +2,7 @@ package com.koreatech.thunder.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.koreatech.thunder.domain.model.ProfileType
 import com.koreatech.thunder.domain.model.SelectableHashtag
 import com.koreatech.thunder.domain.model.SplashState
 import com.koreatech.thunder.domain.usecase.GetAllSelectableHashtagUseCase
@@ -55,7 +56,8 @@ class UserInputViewModel @Inject constructor(
             putUserProfileUseCase(
                 name = nickname.value,
                 introduction = "",
-                hashtags = selectedHashtags()
+                hashtags = selectedHashtags(),
+                profile = ProfileType.RAIN
             ).onSuccess {
                 _moveDestination.emit(ThunderDestination.ON_BOARDING)
             }
