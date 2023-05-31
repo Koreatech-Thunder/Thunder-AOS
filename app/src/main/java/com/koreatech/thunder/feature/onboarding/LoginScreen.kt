@@ -1,5 +1,6 @@
 package com.koreatech.thunder.feature.onboarding
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -62,9 +64,17 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        BlankSpace(size = 80.dp)
+        Image(
+            painter = painterResource(id = R.drawable.ic_thunder_logo),
+            contentDescription = ""
+        )
+        BlankSpace(size = 20.dp)
         Text(
-            modifier = Modifier.weight(1f),
-            text = stringResource(R.string.app_name),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            text = "HANBUN",
             style = ThunderTheme.typography.h1,
             textAlign = TextAlign.Center
         )

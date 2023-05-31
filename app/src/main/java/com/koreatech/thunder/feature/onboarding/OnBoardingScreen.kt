@@ -4,16 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,34 +44,31 @@ fun OnBoardingScreen(
     val onBoardings = listOf(
         OnBoarding(
             "Welcome to\nHanBun",
-            "어디서나 빠르고! 간편하게!\n즉석 모임을 즐기자구~\n모두들 반가워요! ",
-            R.drawable.ic_thunder_cloud
+            "어디서나 빠르고 간편하게\n즉석 모임을 즐기자구~\n모두들 반가워요!",
+            R.drawable.ic_onboarding_thunder
         ),
         OnBoarding(
             "Manner\ntemperature",
-            "번개 모임이 끝난 후 방에 대한 평가!\n참가자들에 대한 평가!\n놓치지 마세요!!",
-            R.drawable.ic_thunder_cloud
-        ),
-        OnBoarding(
-            "Manner\ntemperature",
-            "번개 모임이 끝난 후\n방에 대한 평가!\n참가자들에 대한 평가!\n놓치지 마세요!!",
-            R.drawable.ic_thunder_cloud
+            "번개 모임이 끝난 후\n서로에 대한 평가\n놓치지 마세요!!",
+            R.drawable.ic_onboarding_temp
         ),
         OnBoarding(
             "HashTag",
-            "HashTag를 통해 관심있는\n번개를 쉽게 찾고\n비슷한 취미를 가진 친구를\n많이 만나보세요~ ",
-            R.drawable.ic_thunder_cloud
+            "HashTag를 통해 관심 있는\n번개를 쉽게 찾고\n비슷한 취미를 가진 친구를\n많이 만나보세요~ ",
+            R.drawable.ic_onboarding_hashtag
         )
     )
     val state: PagerState = rememberPagerState()
     Column(
-        modifier = Modifier.fillMaxWidth().padding(16.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HorizontalPager(
             modifier = Modifier.weight(1f),
             state = state,
-            count = 4
+            count = 3
         ) { page ->
             OnBoardingItem(
                 title = onBoardings[page].title,
@@ -89,7 +77,7 @@ fun OnBoardingScreen(
             )
         }
         DotsIndicator(
-            totalDots = 4,
+            totalDots = 3,
             selectedIndex = state.currentPage,
             selectedColor = Orange,
             unSelectedColor = Gray,

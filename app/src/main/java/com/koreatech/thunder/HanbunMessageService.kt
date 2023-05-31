@@ -42,7 +42,7 @@ class HanbunMessageService : FirebaseMessagingService() {
             PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val notificationBuilder = Notification.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
-            .setSmallIcon(R.mipmap.ic_launcher_round)
+            .setSmallIcon(R.drawable.ic_thunder_logo)
             .setContentIntent(pendingIntent)
             .setContentText(body)
             .setAutoCancel(true)
