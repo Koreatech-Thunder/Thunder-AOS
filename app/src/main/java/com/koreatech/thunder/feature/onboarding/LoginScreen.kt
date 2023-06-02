@@ -74,7 +74,7 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            text = "HANBUN",
+            text = stringResource(R.string.login_title),
             style = ThunderTheme.typography.h1,
             textAlign = TextAlign.Center
         )

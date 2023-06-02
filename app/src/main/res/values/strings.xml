@@ -84,4 +84,5 @@
     <string name="thunder_out_success">번개 취소하기 성공!</string>
     <string name="network_fail">네트워크 상태가 원할하지 않습니다.</string>
     <string name="chat_report_success">채팅 신고가 완료되었습니다!</string>
+    <string name="login_title">HANBUN</string>
 </resources>
